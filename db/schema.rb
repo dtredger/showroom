@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324055550) do
+ActiveRecord::Schema.define(version: 20140327045933) do
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -26,6 +26,9 @@ ActiveRecord::Schema.define(version: 20140324055550) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "fb_uid"
+    t.string   "fb_token"
+    t.datetime "fb_token_expiration"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
