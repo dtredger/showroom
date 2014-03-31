@@ -27,8 +27,8 @@ class BasicScraper
         image_bigger = image_bigger[0]
 
         # information to store local file + new url links
-        store_path = "app/assets/images/product_icons/" + item_hash["store_name"] + format_url_to_filename(item_hash["image_source_array"][0])
-        local_url_path = "/assets/product_icons/" + item_hash["store_name"] + format_url_to_filename(item_hash["image_source_array"][0])
+        store_path = "public/scraped_images/product_icons/" + item_hash["store_name"] + format_url_to_filename(item_hash["image_source_array"][0])
+        local_url_path = "/scraped_images/product_icons/" + item_hash["store_name"] + format_url_to_filename(item_hash["image_source_array"][0])
         item_hash["image_source"] = local_url_path
 
         # resize the image to a maximum dimension of 280x400

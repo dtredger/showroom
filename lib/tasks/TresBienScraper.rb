@@ -61,7 +61,7 @@
 							item_link = "http://tres-bien.com" + item_link
 							item_name = item.at_css('.product-name').text.strip
 							item_price = item.at_css('.regular-price').text.strip if item.at_css('.regular-price')
-							item_image = item.at_css('img')['data-src'] # data-src used instead of src because src defaults to blank image
+							item_image = item.at_css('img')['src'] 
 							if item.at_css('.special-price')
 								item_sale_price = item.at_css('.special-price').css('span')[1].text.strip # this dense line grabs the text of the second span tag under the .special-price div -- i.e., gets the price
 							end
@@ -74,18 +74,22 @@
 							product.store("store_name", "Tres Bien Shop")
 							product.store("image_source", item_image)
 							product.store("product_link", item_link)
-							product.store("currency", "EUR")
+							product.store("currency", "USD")
 							product.store("store_name", "Tres Bien Shop")
 							product.store("category1", category1)
 
 							if item_price
 								item_price = item_price.gsub(/\D*/, '') # remove euro sign
+								item_price_in_cents = item_price.to_i * 100
 								puts "Item price: " + item_price
-								product.store("price", item_price)
+								puts "Item price in cents: " + item_price_in_cents.to_s
+								product.store("price", item_price_in_cents)
 							elsif item_sale_price
 								item_sale_price = item_sale_price.gsub(/\D*/, '') # remove euro sign
+								item_price_in_cents = item_sale_price.to_i * 100
 								puts "Item (sale) price: " + item_sale_price
-								product.store("price", item_sale_price)
+								puts "Item (sale) price in cents: " + item_price_in_cents.to_s
+								product.store("price", item_price_in_cents)
 							else # the item is sold out -- or something bizzare is going on
 								next
 							end
@@ -143,11 +147,11 @@
 	            product_name: item["product_name"],
 	            description: item["description"],
 	            designer: item["designer"],
-	            price: item["price"],
+	            price_cents: item["price"],
 	            currency: item["currency"],
 	            store_name: item["store_name"],
 	            image_source: item["image_source"],
-	            display: false,
+	            state: 0,
 	            image_source_array: item["image_source_array"],
 	            product_link: item["product_link"],
 	            category1: item["category1"])
