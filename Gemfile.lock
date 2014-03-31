@@ -154,7 +154,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
-  devise
+  devise (= 3.2.4)
   jquery-rails
   omniauth-facebook
   pg (= 0.15.1)

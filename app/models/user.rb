@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
       :case_sensitive => false
     }
 
+  validates_confirmation_of :password
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -14,11 +16,27 @@ class User < ActiveRecord::Base
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
+  # Override Devise's password_required?
+  # Check if a password is required for the registration process.
+  # A password is not required if the user registers via Facebook.
+  def password_required?
+    # If Devise's super method returns false or nil, fb_uid.blank? is not evaluated.
+    # Otherwise return boolean fb_uid.blank?
+    super && fb_uid.blank?
+  end
+
+  # Update the user's record with the new Facebook info
   def update_facebook_info(auth)
-  	self.fb_token = auth.credentials.fb_token
-  	self.fb_expires_at = Time.at(auth.credentials.expires_at)
-  	self.fb_uid = auth.uid if self.fb_uid.nil?
-  	save
+    fb_token = auth.credentials.token
+    fb_expires_at = Time.at(auth['credentials'].expires_at)
+    save
+  end
+
+  # NOTE:
+  # We could override new_with_session instead of modifying RegistrationsController logic
+  # Currently I favored the more explicit approach. This method could be overridden later.
+  def self.new_with_session(params, session)
+    super
   end
 
   # Added to allow users to signin via username or email

@@ -1,31 +1,33 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
+	# Handle OmniAuth redirect for Facebook
 	def facebook
 		auth = request.env['omniauth.auth']
-		token = auth.credentials.token
-
 		identity = User.where(fb_uid: auth.uid).first
 
 		if identity
-			# then we found a matching user in our system
+			# Then we found a matching user in our system, sign him in.
 			identity.update_facebook_info(auth)
-			sign_in_and_redirect(:user, identity)
+			sign_in_and_redirect identity
 		elsif current_user
-			# A current user is linking facebook to their already established account
+			# Then a user is linking Facebook to their already established account.
 			current_user.update_facebook_info(auth)
-			sign_in_and_redirect(:user, identity)
+			sign_in_and_redirect identity
 		else
+			# A user is registering through Facebook
+			# Store the their Facebook info in a session and redirect them to the registration page
 			set_fb_session(auth)
-			# redirect to facebook page
+			redirect_to new_user_registration_url
 		end
 	end
 
 	protected
 
+	# Store Facebook info in a session
 	def set_fb_session(auth)
 		session[:fb_uid] = auth.uid
 		session[:fb_token] = auth.credentials.token
-		session[:fb_expires_at] = Time.at(auth['credentials'].expires_at)
+		session[:fb_token_expiration] = Time.at(auth['credentials'].expires_at)
 	end
 
 end

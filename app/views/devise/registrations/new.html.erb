@@ -6,8 +6,14 @@
   <div class="form-inputs">
   	<%= f.input :username, required: true, autofocus: true %>	
     <%= f.input :email %>
-    <%= f.input :password, required: true %>
-    <%= f.input :password_confirmation, required: true %>
+
+    <% binding.pry %>
+
+    <% if f.object.password_required? %>
+      <%= f.input :password, required: true %>
+      <%= f.input :password_confirmation, required: true %>
+    <% end %>
+
   </div>
 
   <div class="form-actions">
