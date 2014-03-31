@@ -1,11 +1,17 @@
 class User < ActiveRecord::Base
 
+  has_many :items, through: :closets
+  has_many :closets
+  has_many :likes, :as => :likeable
+
   validates :username,
     :uniqueness => {
       :case_sensitive => false
     }
 
   validates_confirmation_of :password
+
+  after_create :make_a_closet
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -37,6 +43,10 @@ class User < ActiveRecord::Base
   # Currently I favored the more explicit approach. This method could be overridden later.
   def self.new_with_session(params, session)
     super
+  end
+
+  def make_a_closet
+    Closet.create!(user_id: self.id, title: "My Closet", summary: "My first closet")
   end
 
   # Added to allow users to signin via username or email

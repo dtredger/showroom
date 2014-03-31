@@ -11,6 +11,8 @@ gem 'devise', '3.2.4'
 gem 'omniauth-facebook'
 gem 'simple_form'
 
+gem 'money-rails'
+
 gem 'rack-timeout'
 gem 'unicorn'
 

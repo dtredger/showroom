@@ -11,7 +11,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328061423) do
+ActiveRecord::Schema.define(version: 20140331032438) do
+
+  create_table "closets", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "user_id"
+    t.string   "title"
+    t.text     "summary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "closets_items", id: false, force: true do |t|
+    t.integer "closet_id"
+    t.integer "item_id"
+  end
+
+  create_table "items", force: true do |t|
+    t.text     "product_name"
+    t.text     "description"
+    t.text     "designer"
+    t.integer  "price_cents"
+    t.string   "currency"
+    t.string   "store_name"
+    t.text     "image_source"
+    t.text     "image_source_array"
+    t.text     "product_link"
+    t.string   "category1"
+    t.string   "category2"
+    t.string   "category3"
+    t.integer  "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "likes", force: true do |t|
+    t.integer  "likeable_id"
+    t.string   "likeable_type"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
