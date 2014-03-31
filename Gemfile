@@ -12,6 +12,8 @@ gem 'omniauth-facebook'
 gem 'simple_form'
 
 gem 'money-rails'
+gem 'nokogiri'
+gem 'rmagick'
 
 gem 'rack-timeout'
 gem 'unicorn'
