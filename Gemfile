@@ -7,6 +7,8 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 
+gem 'will_paginate', '~> 3.0'
+
 gem 'devise', '3.2.4'
 gem 'omniauth-facebook'
 gem 'simple_form'
