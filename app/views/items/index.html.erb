@@ -1,0 +1,44 @@
+<div class="main-section">
+	<div class="row">
+		<div class="small-11 small-centered columns">
+			<!-- search -->
+			<div class="search">
+				<%= form_tag items_path, class: "custom", method: :get do %>
+					<%= select_tag(:category1, options_for_select([["Category", ""]] + Item.select(:category1).distinct.order(:category1).map {|i| [i.category1, i.category1]}), class: "select"  ) %>
+
+						<%= select_tag(:designer, options_for_select([["Designer", ""]] + Item.select(:designer).distinct.order(:designer).map {|i| [i.designer, i.designer]}), class: "select"  ) %>
+
+						<p>
+						  <label for="amount">Price range:</label>
+						  <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;">
+						</p>
+						
+						<div id="custom-slider-range"></div>
+						<%= hidden_field_tag(:min_price) %>
+						<%= hidden_field_tag(:max_price) %>
+
+					<%= submit_tag "Search", class: "button" %>
+				<% end %>
+
+			</div>
+
+			<!-- items -->
+			<% @items.each_with_index do |item, index| %>
+				<%= link_to item_path(item) do %>
+					<div class="item-picture">
+						<img src="<%=item.image_source%>" />
+						<%= truncate(item.product_name, :length => 30) %>
+						<%= truncate(item.designer, :length => 30) %>
+					</div>
+				<% end %>
+			<% end %>
+
+			<!-- paginate row -->
+			<div class="row">
+				<div class="placeholder">
+					<p><%= will_paginate @items %></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -9,5 +9,12 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require foundation_and_overrides
+ *= require jquery.ui.all
  *= require_tree .
  */
+
+.main-section {
+	/* currently used to offest the top bar */
+	padding: 25px 0 25px 0;
+}

@@ -47,12 +47,17 @@ GEM
     execjs (2.0.2)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    foundation-rails (5.3.0.1)
+      railties (>= 3.1.0)
+      sass (>= 3.2.0)
     hashie (2.0.5)
     hike (1.2.3)
     i18n (0.6.9)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (4.0.5)
+      railties (>= 3.1.0)
     json (1.8.1)
     jwt (0.1.11)
       multi_json (>= 1.5)
@@ -127,6 +132,7 @@ GEM
     raindrops (0.13.0)
     rake (10.2.2)
     rmagick (2.13.2)
+    sass (3.3.8)
     simple_form (3.0.1)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
@@ -168,7 +174,9 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise (= 3.2.4)
+  foundation-rails
   jquery-rails
+  jquery-ui-rails
   money-rails
   nokogiri
   omniauth-facebook
