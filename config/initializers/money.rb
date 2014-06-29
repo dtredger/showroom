@@ -5,6 +5,8 @@ MoneyRails.configure do |config|
   # To set the default currency
   #
   config.default_currency = :usd
+  config.add_rate "USD", "CAD", 1.08
+  config.add_rate "CAD", "USD", 0.93
 
   # Set default bank object
   #

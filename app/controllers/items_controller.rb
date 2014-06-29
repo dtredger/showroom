@@ -37,12 +37,21 @@ class ItemsController < ApplicationController
 
   private
 
+  def value_to_cents(amount_value)
+    return 0 unless amount_value.respond_to?(:to_money)
+    money = amount_value.to_money
+    money.cents
+  end
+
   def handle_search
+    min_price = params[:min_price]
+    max_price = params[:max_price]
+
     products = Item.all
     products = products.where("designer LIKE ?", "%#{params[:designer]}%") if !params[:designer].blank?
     products = products.where("category1 LIKE ?", "%#{params[:category1]}%") if !params[:category1].blank?
-    products = products.where("price >= ?", params[:min_price]) if !params[:min_price].blank?
-    products = products.where("price <= ?", params[:max_price]) if !params[:max_price].blank?
+    products = products.where("price_cents >= ?", value_to_cents(min_price)) if !min_price.blank? && min_price.respond_to?(:to_money)
+    products = products.where("price_cents <= ?", value_to_cents(max_price)) if !max_price.blank? && max_price.respond_to?(:to_money)
     return products
   end
 

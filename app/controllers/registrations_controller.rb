@@ -6,6 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
   # Added custom check for session to apply Omniauth (i.e., Facebook) info
   # GET /resource/sign_up
   def new
+    clear_facebook_session
     build_resource({})
 
     # Check for a Facebook session
@@ -35,12 +36,10 @@ class RegistrationsController < Devise::RegistrationsController
 
     if resource.save
       yield resource if block_given?
+
+      clear_facebook_session
+
       if resource.active_for_authentication?
-
-        binding.pry
-        clear_facebook_session
-
-
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
         respond_with resource, location: after_sign_up_path_for(resource)
@@ -53,6 +52,12 @@ class RegistrationsController < Devise::RegistrationsController
       clean_up_passwords resource
       respond_with resource
     end
+  end
+
+  # Form for Facebook registration confirmation (i.e., ask for username)
+  def facebook_confirmation
+    build_resource({})
+    render 'facebook_confirmation'
   end
 
   # GET /resource/edit

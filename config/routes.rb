@@ -4,15 +4,19 @@ Showspace::Application.routes.draw do
 
   # routes for authenticated users
   authenticated :user do
-    root to: 'users#landing_page', as: :authenticated_root
+    root to: 'items#index', as: :authenticated_root
   end
 
   # routes for non-authenticated users
   devise_scope :user do
-    #root to: 'users#landing_page'
     root to: 'items#index'
+    # handles Facebook confirmation signup
+    match '/users/facebook_confirmation' => 'registrations#facebook_confirmation', :via => :get, :as => :update_user_facebook_confirmation
   end
 
   resources :items
+  resources :likes
+  resources :closets
+  resources :closets_items, only: [:create, :destroy]
 
 end

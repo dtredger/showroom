@@ -17,7 +17,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 			# A user is registering through Facebook
 			# Store the their Facebook info in a session and redirect them to the registration page
 			set_fb_session(auth)
-			redirect_to new_user_registration_url
+			redirect_to update_user_facebook_confirmation_path
 		end
 	end
 

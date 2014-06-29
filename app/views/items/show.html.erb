@@ -16,7 +16,7 @@
 			<ul>
 				<li><%= @item.designer %></li>
 				<li><%= @item.product_name %></li>
-				<li><%= @item.price_cents %></li>
+				<li><%= humanized_money_with_symbol @item.price %></li>
 				<li><%= link_to @item.store_name, @item.product_link %></li>
 				<li><%= @item.description %></li>
 			</ul>
