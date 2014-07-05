@@ -3,6 +3,7 @@
 class ItemsController < ApplicationController
 
   def index
+    @ci = ClosetsItem.new()
     if params.any?
       @items = handle_search
       @items = @items.order("product_name").page(params[:page]).per_page(27)

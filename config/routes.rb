@@ -14,9 +14,20 @@ Showspace::Application.routes.draw do
     match '/users/facebook_confirmation' => 'registrations#facebook_confirmation', :via => :get, :as => :update_user_facebook_confirmation
   end
 
+  # for update password
+  resource :user, only: [:edit] do
+    collection do
+      patch 'update_password'
+    end
+  end
+
+  resources :users
   resources :items
   resources :likes
   resources :closets
-  resources :closets_items, only: [:create, :destroy]
+  
+  resources :closets_items, only: [:create, :destroy] do
+    resources :items
+  end
 
 end

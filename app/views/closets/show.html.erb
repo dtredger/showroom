@@ -1,0 +1,16 @@
+<p><%= @closet.title %></p>
+<p><%= @closet.summary %></p>
+<p><%= link_to "Edit this Closet", edit_closet_path %></p>
+<p><%= link_to "Delete this Closet", closet_path, method: :delete, data: {confirm: "Are you sure you want to get rid of this closet?"} %></p>
+<br>
+<br>
+<br>
+
+<% @closet.items.each do |item| %>
+	<p>
+		<%= link_to item_path(item) do %>
+			<img src="<%=item.image_source%>"/>
+		<% end %>
+		<%= link_to "Delete item", closets_item_path(:closet_id => @closet, :item_id => item.id), method: :delete, confirm: "Are you sure?" %>
+	</p>
+<% end %>

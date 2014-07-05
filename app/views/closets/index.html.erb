@@ -1,0 +1,5 @@
+<h2>Closets Index</h2>
+
+<% @closets.each do |closet| %>
+	<p><%= link_to closet.title, closet_path(closet) %></p>
+<% end %>

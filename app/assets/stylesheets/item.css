@@ -3,9 +3,9 @@ span .spacer {
 }
 
 .item {
+	display: inline-block;
 	width: 280px;
-	float: left;
-	margin-right: 40px;
+	margin: 20px;
 }
 
 .item-picture {

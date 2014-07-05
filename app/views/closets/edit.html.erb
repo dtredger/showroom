@@ -1,0 +1,13 @@
+<h2>Edit Closet</h2>
+
+<%= form_for @closet, html: {class: "custom"}  do |f| %>
+  <%= f.label "Closet Name" %>
+  <%= f.text_field :title %>
+  <br>
+  <%= f.label "Summary" %>
+  <%= f.text_area :summary %>
+  <br>
+
+  <br>
+  <%= f.submit "Update Closet", class: "button" %>
+<% end %>
