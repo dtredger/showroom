@@ -11,10 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331032438) do
+ActiveRecord::Schema.define(version: 20140718014014) do
 
   create_table "closets", force: true do |t|
-    t.integer  "item_id"
     t.integer  "user_id"
     t.string   "title"
     t.text     "summary"

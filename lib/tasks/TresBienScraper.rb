@@ -116,6 +116,10 @@
 	        description = description.gsub('"', '')
 	        description = description.strip
 	        designer = @site.css('.product-info-container h2').text.strip
+
+	        # remove designer name from product name
+	        item["product_name"] = item["product_name"].gsub(designer, "")
+
 	        images = @site.css('.shadowbox')
 	        images = images.css('img')
 	        image_array = Array.new

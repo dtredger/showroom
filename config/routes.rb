@@ -25,9 +25,7 @@ Showspace::Application.routes.draw do
   resources :items
   resources :likes
   resources :closets
-  
-  resources :closets_items, only: [:create, :destroy] do
-    resources :items
-  end
+
+  resources :closets_items, only: [:create, :destroy]
 
 end

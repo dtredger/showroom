@@ -17,7 +17,8 @@ gem 'simple_form'
 
 gem 'money-rails'
 gem 'nokogiri'
-gem 'rmagick'
+# http://stackoverflow.com/questions/3606190/rmagick-warning-while-running-server
+gem 'rmagick', :require => false
 
 gem 'rack-timeout'
 gem 'unicorn'

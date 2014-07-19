@@ -1,16 +1,9 @@
-# Copied from Showroom
-
 class ItemsController < ApplicationController
 
   def index
     @ci = ClosetsItem.new()
-    if params.any?
-      @items = handle_search
-      @items = @items.order("product_name").page(params[:page]).per_page(27)
-    else
-      @items = Item.all.order("product_name").page(params[:page]).per_page(27)
-    end
-
+    @items = handle_search
+    @items = @items.page(params[:page]).per_page(27).order("created_at DESC")
   end
 
   def show
@@ -18,12 +11,11 @@ class ItemsController < ApplicationController
     @like = @item.likes.build
   end
 
-  def new
-  end
+  # def new
+  # end
 
-  def create
-    # @closet = Closet.find(params[:id])
-  end
+  # def create
+  # end
 
   def edit
   end
@@ -44,16 +36,18 @@ class ItemsController < ApplicationController
     money.cents
   end
 
-  def handle_search
-    min_price = params[:min_price]
-    max_price = params[:max_price]
 
-    products = Item.all
-    products = products.where("designer LIKE ?", "%#{params[:designer]}%") if !params[:designer].blank?
-    products = products.where("category1 LIKE ?", "%#{params[:category1]}%") if !params[:category1].blank?
-    products = products.where("price_cents >= ?", value_to_cents(min_price)) if !min_price.blank? && min_price.respond_to?(:to_money)
-    products = products.where("price_cents <= ?", value_to_cents(max_price)) if !max_price.blank? && max_price.respond_to?(:to_money)
-    return products
+  def handle_search
+    # Also see
+    # http://www.justinweiss.com/blog/2014/02/17/search-and-filter-rails-models-without-bloating-your-controller/
+    # http://stackoverflow.com/questions/14219528/activerecord-anonymous-scope
+
+    items = Item.where(nil) # creates an anonymous scope
+    items = items.search_designer(params[:designer]) unless params[:designer].blank?
+    items = items.search_category1(params[:category1]) unless params[:category1].blank?
+    items = items.search_min_price(value_to_cents(params[:min_price])) unless params[:min_price].blank?
+    items = items.search_max_price(value_to_cents(params[:max_price])) unless params[:max_price].blank?
+    return items
   end
 
 end

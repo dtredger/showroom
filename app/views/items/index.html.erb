@@ -53,15 +53,15 @@
 					<!-- save button, closet modal -->
 					<% if current_user %>
 
-<%= form_for @ci do |f| %>
+						<%= form_for @ci do |f| %>
 
-	<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
+							<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
 
-	<%= f.hidden_field :item_id, :value => item.id %>
+							<%= f.hidden_field :item_id, :value => item.id %>
 
-	<%= submit_tag "SAVE ITEM TO CLOSET", class: "search-button" %>
+							<%= submit_tag "SAVE ITEM TO CLOSET", class: "search-button" %>
 
-<% end %>
+						<% end %>
 
 			 		<% end %>
 			 		<!-- end save button, closet modal -->
