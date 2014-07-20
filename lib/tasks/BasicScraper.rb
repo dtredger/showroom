@@ -26,9 +26,12 @@ class BasicScraper
         image_bigger.from_blob(url_bigger.read)
         image_bigger = image_bigger[0]
 
+        # grab format of image
+        image_format_extension = '.' + image.bigger.format.downcase
+
         # information to store local file + new url links
-        store_path = "public/scraped_images/product_icons/" + item_hash["store_name"] + format_url_to_filename(item_hash["image_source_array"][0])
-        local_url_path = "/scraped_images/product_icons/" + item_hash["store_name"] + format_url_to_filename(item_hash["image_source_array"][0])
+        local_url_path = format_item_to_local_url_path(item, image_format_extension)
+        store_path = 'public/' + local_url_path
         item_hash["image_source"] = local_url_path
 
         # resize the image to a maximum dimension of 280x400
@@ -45,9 +48,27 @@ class BasicScraper
         final_image.destroy! # clear image from memory
     end
 
-    def format_url_to_filename(url)
-    	new_url = url.gsub("/", "-").gsub(":", "-").gsub("#", "-").gsub("%20", "-")
-      return new_url
+    def format_item_to_local_url_path(item_hash, image_format_extension)
+        # http://stackoverflow.com/questions/885414/a-concise-explanation-of-nil-v-empty-v-blank-in-ruby-on-rails
+        store_name = item_hash['store_name'].blank? ? 'NA' : item_hash['store_name']
+        designer = item_hash['designer'].blank? ? 'NA' : item_hash['designer']
+        product_name = item_hash['product_name'].blank? ? 'NA' : item_hash['product_name']
+        date = Time.now.strftime("%m%d%y")
+
+        # sanitize strings
+        store_name = store_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_')
+        designer = designer.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_')
+        product_name = product_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_')
+
+        # limit length of strings
+        designer_shortened = designer.truncate(10, omission: '')
+        product_name_shortened = product_name.truncate(10, omission: '')
+
+        # generate 8 char token to avoid collision
+        # http://zh.soup.io/post/36288765/How-to-create-small-unique-tokens-in
+        token = rand(36**8).to_s(36)
+
+        local_url_path = '/img/items/' + store_name + '/' + designer + '/' + date + '/' + designer_shortened + '-' + product_name_shortened + token + image_format_extension
     end
 
 end

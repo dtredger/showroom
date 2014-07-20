@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
 
   has_many :items, through: :closets
-  has_many :closets
-  has_many :likes, :as => :likeable
+  has_many :closets, dependent: :destroy
+  has_many :likes, :as => :likeable, dependent: :destroy
 
   validates :username,
     :uniqueness => {

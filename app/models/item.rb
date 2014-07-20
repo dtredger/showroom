@@ -2,9 +2,9 @@ class Item < ActiveRecord::Base
 
   has_and_belongs_to_many :closets
   has_many :users, through: :closets
-	has_many :likes, as: :likeable
-
-	#after_create :check_for_duplicate
+	has_many :likes, as: :likeable, dependent: :destroy
+  has_many :matches, through: :duplicate_warnings, source: :existing_item
+  has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
 
 	serialize :image_source_array
 
@@ -18,34 +18,32 @@ class Item < ActiveRecord::Base
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
-  # def check_for_duplicate
-  # 	# Psuedo code
+  after_create :check_for_duplicate
 
-  # 	# get items from the same store
-  # 	Items.each do |check_item|
-  		
-  # 		# check for name match
-  # 		if self.designer == check_item.designer && self.product_name == check_item.product_name
-  # 			# create warning of name match
-  # 		end
 
-  # 		# check for image match
-  # 		# create image_hash_checksum on Item model
-  # 		if self.image_hash_checksum == check_item.image_hash_checksum
-  # 			# create warning of image match
-  # 		end
+  #
+  # Also pass in warning text and identical? boolean
+  #
+  def add_duplicate_warning!(other_item, warning_notes)
+    self.duplicate_warnings.create!(existing_item_id: other_item.id, warning_notes: warning_notes)
+  end
 
-  # 		# check for link match
-  # 		if self.product_link == check_item.product_link
-  # 			# create warning of link match
-  # 		end
+  def remove_duplicate_warning!(other_item)
+    self.duplicate_warnings.find_by(existing_item_id: other_item.id).destroy
+  end
 
-  # 		#
-  # 		# If match > 2/3 => create notice of identical item
-  # 		# Otherwise create notice of potential match
-  # 		#
-
-  # 	end
-  # end
+  #
+  # Refactor SQL query & memory management
+  #
+  def check_for_duplicate
+    if self.store_name
+      check_items = Item.where(store_name: self.store_name).where.not(id: self.id)
+      check_items.each do |check_item|
+        if self.designer == check_item.designer && self.product_name == check_item.product_name
+          self.add_duplicate_warning!(check_item, "match: designer & product_name")
+        end
+      end
+    end
+  end
 
 end
