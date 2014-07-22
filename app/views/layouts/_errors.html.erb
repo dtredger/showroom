@@ -1,8 +1,12 @@
-<% flash.each do |key, value| %>
-  <% if value.is_a?(String) %>
-    <div data-alert class="alert-box round <%= key.to_s == 'notice' ? 'success' : 'alert' %>">
-      <%= content_tag :div, value %>
-      <a href="#" class="close">&times;</a>
-    </div>
-  <% end %>
-<% end %>
+<div class="row">
+	<div class="small-12 small-centered columns text-center">
+		<% flash.each do |key, value| %>
+		  <% if value.is_a?(String) %>
+		    <div data-alert class="alert-box radius <%= key.to_s == 'notice' ? 'info' : 'alert' %>">
+		      <%= content_tag :div, value %>
+		      <a href="#" class="close">&times;</a>
+		    </div>
+		  <% end %>
+		<% end %>
+	</div>
+</div>

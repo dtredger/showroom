@@ -13,28 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
-//= require jquery.ui.all
-//= require turbolinks
-$(function(){ $(document).foundation(); });
 
-// For the price-range slider
-// $( document ).ready(function() {
-// 	$("#custom-slider-range").slider({
-// 	  range: true,
-// 	  min: 0,
-// 	  max: 1000,
-// 	  values: [ 0, 1000 ],
-// 	  slide: function( event, ui ) {
-// 	  	// Add a + sign if the amount is 1000, which is the maximum value
-// 	  	if(ui.values[1] == 1000) {
-// 	  		$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] + "+" );
-// 	  		// Set the hidden values on the Rails form
-// 	  		$('#min_price').val(ui.values[0]);
-// 	  	} else {
-// 	  		$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-// 	  		// Set the hidden values on the Rails form
-// 	  		$('#max_price').val(ui.values[1]);
-// 	  	}
-// 	  }
-// 	});
-// });
+$(function() {
+  $(document).foundation();
+});
+
+//= require turbolinks

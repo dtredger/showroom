@@ -1,5 +1,27 @@
-<h2>Closets Index</h2>
+<div class="row">
+	<div class="small-7 small-centered columns">
 
-<% @closets.each do |closet| %>
-	<p><%= link_to closet.title, closet_path(closet) %></p>
-<% end %>
+		<h2>My Closets</h2>
+
+		<table>
+		  <thead>
+		    <tr>
+		      <th width="300">Closet Name</th>
+		      <th width="300">Closet Description</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+				<% @closets.each do |closet| %>
+					<tr>
+						<td><%= link_to closet.title, closet_path(closet) %></td>
+						<td><%= closet.summary %></td>
+					</tr>
+				<% end %>
+		  </tbody>
+		</table>
+
+		<%= link_to('New closet', new_closet_path, class: 'button right') %>
+
+	</div>
+</div>
+

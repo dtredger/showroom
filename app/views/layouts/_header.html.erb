@@ -1,4 +1,6 @@
 <!-- header -->
+
+<!-- top bar -->
 <div class="fixed">
 	<nav class="top-bar" data-topbar>
 	  <ul class="title-area">
@@ -9,33 +11,41 @@
 	    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 	  </ul>
 
-	  <section class="top-bar-section">
-
-	    <!-- Right Nav Section -->
-	    <ul class="right">
-	    	<li class="divider"></li>
-	    	<li class="active"><%= link_to('Join now', new_user_registration_path) %></li>
-	    	<li class="divider"></li>
-	    	<li><a href="#">About</a></li>
-	    	<li class="divider"></li>
-
-	    	<% if user_signed_in? %>
-	    		<li><%= link_to "Closets", closets_path(current_user) %></li>
-					<li><%= link_to "Profile", user_path(current_user) %></li>
-	    		<li><%= link_to('Logout', destroy_user_session_path, :method=>'delete') %></li>
-	    	<% else %>
-	    		<li><a href="#" data-reveal-id="login-modal">Login</a></li>
-	    	<% end %>
-	    </ul>
-
-	  </section>
+    <!-- Right Nav Section -->
+    	<% if user_signed_in? %>
+			  <section class="top-bar-section">
+			    <ul class="right">
+			    	<li class="divider"></li>
+			      <li class="has-dropdown">
+			      	<%= link_to('+ Add Closet', new_closet_path) %>
+			        <ul class="dropdown">
+			          <li><%= link_to "My Closets", closets_path(current_user) %></li>
+			          <li><%= link_to "Profile", user_path(current_user) %></li>
+			          <li><a href="#">About</a></li>
+			          <li><%= link_to('Logout', destroy_user_session_path, :method=>'delete') %></li>
+			        </ul>
+			      </li>
+			    </ul>
+			  </section>
+    	<% else %>
+			  <section class="top-bar-section">
+			    <ul class="right">
+			    	<li class="divider"></li>
+			    	<li class="active"><%= link_to('Join now', new_user_registration_path) %></li>
+			    	<li class="divider"></li>
+			    	<li><a href="#">About</a></li>
+			    	<li class="divider"></li>
+		    		<li><a href="#" data-reveal-id="login-modal">Login</a></li>
+			    </ul>
+			  </section>
+    	<% end %>
 	</nav>
 </div>
 
 <!-- login modal -->
 <% if !user_signed_in? %>
 	<div id="login-modal" class="reveal-modal" data-reveal>
-	  <h2>Awesome. I have it.</h2>
+	  <h2>Welcome back</h2>
 
 		<div class="center-facebook-button">
 			<a href="/users/auth/facebook" class="facebook-login-button">

@@ -1,3 +1,23 @@
+<!-- save modals -->
+<% if current_user %>
+	<div id="closet-modal" class="reveal-modal" data-reveal>
+		<h2>Save item to closet.</h2>
+		<%= form_for @ci do |f| %>
+			<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
+			<%= f.hidden_field :item_id, :value => @item.id %>
+			<%= submit_tag "SAVE", class: "search-button right" %>
+		<% end %>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
+<% else %>
+	<div id="guest-closet-modal" class="reveal-modal small" data-reveal>
+	  <h2>Shop all of Showspace</h2>
+	  <a href="#" class="button expand" id="padding-join-now-btn-modal">Join Now</a>
+	  Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
+<% end %>
+
 <div class="main-section">
 	<div class="row">
 		<div class="small-5 columns">
@@ -5,21 +25,31 @@
 			<img src="<%= @item.image_source_array[0] %>">
 		</div>
 
-		<div class="small-2 columns">
+		<div class="small-3 columns" id="item-thumbnails">
 			<!--- image thumbnails -->
 			<% @item.image_source_array.each do |i| %>
-				  <img class="th" src="<%= i %>"/>
+				  <img class="th th-margin" src="<%= i %>"/>
 			<% end %>
 		</div>
 
-		<div class="small-5 columns">
-			<ul>
-				<li><%= @item.designer %></li>
-				<li><%= @item.product_name %></li>
-				<li><%= humanized_money_with_symbol @item.price %></li>
-				<li><%= link_to @item.store_name, @item.product_link %></li>
-				<li><%= @item.description %></li>
-			</ul>
+		<div class="small-4 columns">
+			<div class="show-designer"><%= @item.designer %></div>
+			<div class="show-product-name"><%= @item.product_name %></div>
+			<div class="show-price"><%= humanized_money_with_symbol @item.price %></div>
+			<div class="show-store">Available from: <%= @item.store_name %></div>
+
+
+
+			<%= link_to 'Buy', @item.product_link, class: 'button expand' %>
+
+			<% if current_user %>
+				<a href="#" class="button expand" data-reveal-id="closet-modal">Save</a>
+			<% else %>
+				<a href="#" class="button expand" data-reveal-id="guest-closet-modal">Save</a>
+			<% end %>
+
+			<div class="show-product-description-header">DETAILS</div>
+			<div class="show-product-description"><%= @item.description %></div>
 		</div>
 
 	</div>

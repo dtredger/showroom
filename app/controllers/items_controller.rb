@@ -7,6 +7,7 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @ci = ClosetsItem.new()
     @item = Item.find(params[:id])
     @like = @item.likes.build
   end

@@ -1,11 +1,17 @@
-<h2>Create Closet</h2>
+<div class="row">
+  <div class="small-5 large-centered columns">
 
-<%= form_for @closet, html: {class: "custom"}  do |f| %>
-	<%= f.label "Closet Name" %>
-	<%= f.text_field :title %>
+		<h2>Create Closet</h2>
 
-	<%= f.label "Summary" %>
-	<%= f.text_area :summary %>
+		<%= form_for @closet, html: {class: "custom"}  do |f| %>
+			<%= f.label "Closet Name" %>
+			<%= f.text_field :title %>
 
-	<%= f.submit "Create Closet", class: "button" %>
-<% end %>
+			<%= f.label "Description" %>
+			<%= f.text_area :summary %>
+
+			<%= f.submit "Create Closet", class: "button right" %>
+		<% end %>
+
+  </div>
+</div>

@@ -1,22 +1,26 @@
+<% if current_user.nil? %>
+	<!-- Guest save item to closet modal -->
+	<div id="guest-closet-modal" class="reveal-modal small" data-reveal>
+	  <h2>Shop all of Showspace</h2>
+	  <a href="#" class="button expand" id="padding-join-now-btn-modal">Join Now</a>
+	  Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
+<% end %>
+
+
 <div class="main-section">
 
 	<!-- search -->
 	<div class="row">
-		<div class="small-12 small-centered columns">
+		<div class="small-12 small-centered columns text-center">
 
-			<div class="text-center">
-
+			<div class="search-bar">
 				<%= form_tag items_path, class: "nothing", method: :get do %>
-
-					<%= select_tag(:category1, options_for_select([["Category", ""]] + Item.select(:category1).distinct.order(:category1).map {|i| [i.category1, i.category1]}), class: "search-selection"  ) %>
-
-					<%= select_tag(:designer, options_for_select([["Designer", ""]] + Item.select(:designer).distinct.order(:designer).map {|i| [i.designer, i.designer]}), class: "search-selection"  ) %>
-
-
+					<%= select_tag(:category1, options_for_select([["Category", ""]] + Item.select(:category1).distinct.map {|i| [i.category1, i.category1]}.sort), class: "search-selection"  ) %>
+					<%= select_tag(:designer, options_for_select([["Designer", ""]] + Item.select(:designer).distinct.map {|i| [i.designer, i.designer]}.sort), class: "search-selection"  ) %>
 					<%= text_field_tag 'min_price', nil, placeholder: 'min price', class: ""  %>
-
 					<%= text_field_tag 'max_price', nil, placeholder: 'max price', class: ""  %>
-
 					<%= submit_tag "Search", class: "search-button" %>
 				<% end %>
 
@@ -32,39 +36,36 @@
 				<div class="item">
 					<div class="item-picture">
 						<%= link_to item_path(item) do %><img src="<%=item.image_source%>" /><% end %>
-	  				<span class="overlaytext">
-	    			<%= truncate(item.product_name, :length => 30) %>
-	    			<span class='spacer'></span><br><br><br><span class='spacer'></span>
-	    			<%= truncate(item.designer, :length => 30) %>
-	    		</span>
-					</div>
-
-					<div class="item-text">
-						<ul class="button-group">
-							<li><a href="<%= item.product_link %>" class="tiny button secondary">Buy</a></li>
-							<li><a href="#" class="tiny button secondary">Like</a></li>
-							<li><a href="#" class="tiny button secondary" data-reveal-id="closetModal<%= index %>">Save</a></li>
-						</ul>
-						<p>
-
-						</p>
-					</div>
-
-					<!-- save button, closet modal -->
-					<% if current_user %>
-
-						<%= form_for @ci do |f| %>
-
-							<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
-
-							<%= f.hidden_field :item_id, :value => item.id %>
-
-							<%= submit_tag "SAVE ITEM TO CLOSET", class: "search-button" %>
-
+						
+						<% if current_user %>
+							<!-- ADD LINK TO CLOSET MODAL -->
+							<a href="#" data-reveal-id="closet-modal-<%= index %>"><div id="special-span">+</div></a>
+						<% else %>
+							<a href="#" data-reveal-id="guest-closet-modal"><div id="special-span">+</div></a>
 						<% end %>
 
+					</div>
+
+					<%= link_to item_path(item) do %>
+						<div class='item-info'>
+							<div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
+							<div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
+							<div class='item-price'><%= humanized_money_with_symbol item.price %></div>
+						</div>
+					<% end %>
+
+					<% if current_user %>
+						<div id="closet-modal-<%= index %>" class="reveal-modal" data-reveal>
+							<h2>Save item to closet.</h2>
+							<%= form_for @ci do |f| %>
+								<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
+								<%= f.hidden_field :item_id, :value => item.id %>
+								<%= submit_tag "SAVE", class: "search-button right" %>
+							<% end %>
+						  <a class="close-reveal-modal">&#215;</a>
+						</div>
 			 		<% end %>
-			 		<!-- end save button, closet modal -->
+
 				</div>
 			<% end %>
 
