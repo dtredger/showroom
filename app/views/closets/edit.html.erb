@@ -1,13 +1,18 @@
-<h2>Edit Closet</h2>
+<div class="row">
+  <div class="small-5 small-centered columns">
 
-<%= form_for @closet, html: {class: "custom"}  do |f| %>
-  <%= f.label "Closet Name" %>
-  <%= f.text_field :title %>
-  <br>
-  <%= f.label "Summary" %>
-  <%= f.text_area :summary %>
-  <br>
+		<h2>Edit Closet</h2>
 
-  <br>
-  <%= f.submit "Update Closet", class: "button" %>
-<% end %>
+		<%= form_for @closet, html: {class: "custom"}  do |f| %>
+		  <%= f.label "Closet Name" %>
+		  <%= f.text_field :title %>
+
+		  <%= f.label "Description" %>
+		  <%= f.text_area :summary %>
+
+		  <%= f.submit "Update Closet", class: "button" %>
+		  <div><%= link_to "Delete this Closet", closet_path, method: :delete, data: {confirm: "Are you sure you want to get rid of this closet?"} %></div>
+		<% end %>
+
+	</div>
+</div>

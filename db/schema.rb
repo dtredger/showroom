@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140720220246) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "closets", force: true do |t|
     t.integer  "user_id"
     t.string   "title"
@@ -35,9 +38,9 @@ ActiveRecord::Schema.define(version: 20140720220246) do
     t.integer  "match_score"
   end
 
-  add_index "duplicate_warnings", ["existing_item_id"], name: "index_duplicate_warnings_on_existing_item_id"
-  add_index "duplicate_warnings", ["pending_item_id", "existing_item_id"], name: "by_pending_existing", unique: true
-  add_index "duplicate_warnings", ["pending_item_id"], name: "index_duplicate_warnings_on_pending_item_id"
+  add_index "duplicate_warnings", ["existing_item_id"], name: "index_duplicate_warnings_on_existing_item_id", using: :btree
+  add_index "duplicate_warnings", ["pending_item_id", "existing_item_id"], name: "by_pending_existing", unique: true, using: :btree
+  add_index "duplicate_warnings", ["pending_item_id"], name: "index_duplicate_warnings_on_pending_item_id", using: :btree
 
   create_table "items", force: true do |t|
     t.text     "product_name"
@@ -84,8 +87,8 @@ ActiveRecord::Schema.define(version: 20140720220246) do
     t.string   "username"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

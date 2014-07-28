@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   def index
     @ci = ClosetsItem.new()
     @items = handle_search
-    @items = @items.page(params[:page]).per_page(27).order("created_at DESC")
+    @items = @items.page(params[:page]).per_page(27)#.order("created_at DESC") -- default scope should handle this
   end
 
   def show
@@ -28,6 +28,19 @@ class ItemsController < ApplicationController
   def delete
   end
 
+  def edit_multiple
+    @items = Item.find(params[:item_ids])
+  end
+
+  def update_multiple
+    @items = Item.update(params[:items].keys, params[:items].values)
+    @items.reject! { |i| i.errors.empty? }
+    if @items.empty?
+      redirect_to :root
+    else
+      render "index"
+    end
+  end
 
   private
 

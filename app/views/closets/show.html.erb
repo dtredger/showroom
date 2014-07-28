@@ -1,16 +1,38 @@
-<p><%= @closet.title %></p>
-<p><%= @closet.summary %></p>
-<p><%= link_to "Edit this Closet", edit_closet_path %></p>
-<p><%= link_to "Delete this Closet", closet_path, method: :delete, data: {confirm: "Are you sure you want to get rid of this closet?"} %></p>
-<br>
-<br>
-<br>
+<div class="row">
+	<div class="small-12 columns text-center">
+		<h2><%= @closet.title %></h2>
+	</div>
 
-<% @closet.items.each do |item| %>
-	<p>
-		<%= link_to item_path(item) do %>
-			<img src="<%=item.image_source%>"/>
+	<div class="small-12 columns text-center">
+		<h3><%= @closet.summary %></h3>
+	</div>
+
+	<div class="small-12 columns text-center panel">
+		<div><p><%= @closet.items.size %> Items</p></div>
+		<%= link_to "Edit this Closet", edit_closet_path, class: 'button tiny' %>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="small-12 columns text-center">
+		<% @closet.items.each do |item| %>
+
+			<div class="item">
+				<div class="item-picture">
+					<%= link_to item_path(item) do %><img src="<%=item.image_source%>" /><% end %>
+				</div>
+
+				<%= link_to item_path(item) do %>
+					<div class='item-info'>
+						<div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
+						<div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
+						<div class='item-price'><%= humanized_money_with_symbol item.price %></div>
+						<%= link_to "Delete item", closets_item_path(:closet_id => @closet, :item_id => item.id), method: :delete, confirm: "Are you sure?" %>
+					</div>
+				<% end %>
+			</div>
+
 		<% end %>
-		<%= link_to "Delete item", closets_item_path(:closet_id => @closet, :item_id => item.id), method: :delete, confirm: "Are you sure?" %>
-	</p>
-<% end %>
+	</div>
+</div>

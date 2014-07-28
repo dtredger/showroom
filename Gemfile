@@ -24,6 +24,8 @@ gem 'rmagick', :require => false
 gem 'rack-timeout'
 gem 'unicorn'
 
+# gem 'pg', '0.15.1'
+
 group :development, :test do
 	gem 'sqlite3'
 	gem 'pry-rails'

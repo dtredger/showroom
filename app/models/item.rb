@@ -19,28 +19,27 @@ class Item < ActiveRecord::Base
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
   after_create :check_for_duplicate
+  before_destroy :delete_associated_images
 
-
-  #
-  # Also pass in warning text and identical? boolean
-  #
-  def add_duplicate_warning!(other_item, warning_notes)
-    self.duplicate_warnings.create!(existing_item_id: other_item.id, warning_notes: warning_notes)
+  def add_duplicate_warning!(other_item, match_score, warning_notes)
+    self.duplicate_warnings.create!(existing_item_id: other_item.id, match_score: match_score, warning_notes: warning_notes)
   end
 
   def remove_duplicate_warning!(other_item)
     self.duplicate_warnings.find_by(existing_item_id: other_item.id).destroy
   end
 
-  #
-  # Refactor SQL query & memory management
-  #
+  def delete_associated_images
+    path_to_image = 'public' + self.image_source
+    File.delete(path_to_image) if File.exist?(path_to_image)
+  end
+
   def check_for_duplicate
     if self.store_name
       check_items = Item.where(store_name: self.store_name).where.not(id: self.id)
       check_items.each do |check_item|
         if self.designer == check_item.designer && self.product_name == check_item.product_name
-          self.add_duplicate_warning!(check_item, "match: designer & product_name")
+          self.add_duplicate_warning!(check_item, 0, "match: designer & product_name")
         end
       end
     end

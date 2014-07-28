@@ -3,6 +3,7 @@ require 'open-uri'
 require 'time'
 require 'RMagick'
 require 'pry'
+require 'fileutils'
 
 class BasicScraper
 
@@ -27,11 +28,11 @@ class BasicScraper
         image_bigger = image_bigger[0]
 
         # grab format of image
-        image_format_extension = '.' + image.bigger.format.downcase
+        image_format_extension = '.' + image_bigger.format.downcase
 
         # information to store local file + new url links
-        local_url_path = format_item_to_local_url_path(item, image_format_extension)
-        store_path = 'public/' + local_url_path
+        local_url_path = format_item_to_local_url_path(item_hash, image_format_extension)
+        store_path = 'public' + local_url_path
         item_hash["image_source"] = local_url_path
 
         # resize the image to a maximum dimension of 280x400
@@ -42,7 +43,7 @@ class BasicScraper
         # insert the above image into the blank image for padding
         final_image = Magick::Image.new(280, 400) # create a blank 'canvas' image
         final_image = final_image.composite(image_bigger, Magick::CenterGravity, Magick::OverCompositeOp) # paste the item into our blank image
-
+        
         final_image.write(store_path)
         image_bigger.destroy! # clear image from memory
         final_image.destroy! # clear image from memory
@@ -68,6 +69,8 @@ class BasicScraper
         # http://zh.soup.io/post/36288765/How-to-create-small-unique-tokens-in
         token = rand(36**8).to_s(36)
 
+        # create directories as needed
+        FileUtils.mkdir_p 'public' + '/img/items/' + store_name + '/' + designer + '/' + date
         local_url_path = '/img/items/' + store_name + '/' + designer + '/' + date + '/' + designer_shortened + '-' + product_name_shortened + token + image_format_extension
     end
 

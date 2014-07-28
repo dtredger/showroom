@@ -22,10 +22,26 @@ Showspace::Application.routes.draw do
   end
 
   resources :users
-  resources :items
+  resources :items do
+    collection do
+      get :edit_multiple, controller: 'items_management'
+      put :update_multiple, controller: 'items_management'
+    end
+  end
   resources :likes
   resources :closets
   resources :closets_items, only: [:create, :destroy]
-  resources :duplicate_warnings
+  #resources :duplicate_warnings
+
+  match 'item_management', to: 'items_management#index', via: [:get, :post]
+
+  # resources :items_managements do
+  #   collection do
+  #     get :edit_multiple
+  #     put :update_multiple
+  #   end
+  # end
+
+
 
 end

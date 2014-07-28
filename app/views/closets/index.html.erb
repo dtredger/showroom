@@ -8,6 +8,7 @@
 		    <tr>
 		      <th width="300">Closet Name</th>
 		      <th width="300">Closet Description</th>
+		      <th>Items</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -15,6 +16,7 @@
 					<tr>
 						<td><%= link_to closet.title, closet_path(closet) %></td>
 						<td><%= closet.summary %></td>
+						<td><%= closet.items.size %></td>						
 					</tr>
 				<% end %>
 		  </tbody>

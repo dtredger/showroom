@@ -140,11 +140,7 @@
 		end
 
 	    def add_items_to_database
-	       #products = Item.all
-	       #products = products.where("store_name LIKE ?", "%#{@items_array[0]['store_name']}%")
-
 	       @items_array.each do |item|
-	       #  next if products.includes("product_link = ?", item['product_link']) # basic check to see if product is in DB
 
 	          puts "Adding item: " + item["product_name"]
 	         Item.create!(

@@ -1,0 +1,63 @@
+<!-- search -->
+<div class="row">
+	<div class="small-12 small-centered columns text-center">
+
+		<div class="search-bar">
+			<%= form_tag item_management_path, class: "nothing", method: :get do %>
+				<%= select_tag(:store_name, options_for_select([["Store", ""]] + Item.select(:store_name).distinct.map {|i| [i.store_name, i.store_name]}.sort), class: "search-selection"  ) %>
+
+				<%= select_tag(:match_status, options_for_select([["Item Status", ""], ['Pending', 'A'], ['Potential Match', 'B'], ['Identical Match', 'C']]), class: "search-selection"  ) %>
+
+				<%= submit_tag "Search", class: "search-button" %>
+			<% end %>
+
+		</div>
+	</div>
+</div>
+
+
+
+<!-- table header -->
+<div class="row">
+	<div class="large-3 columns">Product Image</div>
+	<div class="large-2 columns">Images</div>
+	<div class="large-5 columns">Info</div>
+	<div class="large-2 columns">Update</div>
+</div>
+
+
+<!-- items -->
+<%= form_tag update_multiple_items_path, method: :put do %>
+
+	<% @items.each do |item| %>
+		<%= fields_for "items[]", item do |f| %>
+			<div class="row">
+
+				<!-- product image -->
+				<div class="large-3 columns"><img src="<%=item.image_source%>" /></div>
+				
+				<!-- images (displayed as thumbnails) -->
+				<div class="large-2 columns">
+					<% item.image_source_array.each do |i| %>
+						  <img class="th" src="<%= i %>"/>
+					<% end %>
+				</div>
+
+				<!-- item info -->
+				<div class="large-5 columns">
+					<%= f.label :store_name %><br />
+					<%= f.text_field :store_name %>
+
+					<%= f.label :designer %><br />
+					<%= f.text_field :designer %>
+
+					<%= f.label :product_name %><br />
+					<%= f.text_field :product_name %>
+				</div>
+
+				<div class="large-2 columns">Update</div>
+			</div>
+		<% end %>
+	<% end %>
+	<%= submit_tag "Update Items", class: "button" %>
+<% end %>

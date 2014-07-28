@@ -32,14 +32,14 @@
 	<!-- items -->
 	<div class="row">
 		<div class="small-12 small-centered columns text-center">
-			<% @items.each_with_index do |item, index| %>
+			<% @items.each_with_index do |item| %>
 				<div class="item">
 					<div class="item-picture">
 						<%= link_to item_path(item) do %><img src="<%=item.image_source%>" /><% end %>
 						
 						<% if current_user %>
 							<!-- ADD LINK TO CLOSET MODAL -->
-							<a href="#" data-reveal-id="closet-modal-<%= index %>"><div id="special-span">+</div></a>
+							<a href="#" data-reveal-id="closet-modal-<%= item.id %>"><div id="special-span">+</div></a>
 						<% else %>
 							<a href="#" data-reveal-id="guest-closet-modal"><div id="special-span">+</div></a>
 						<% end %>
@@ -55,7 +55,7 @@
 					<% end %>
 
 					<% if current_user %>
-						<div id="closet-modal-<%= index %>" class="reveal-modal" data-reveal>
+						<div id="closet-modal-<%= item.id %>" class="reveal-modal" data-reveal>
 							<h2>Save item to closet.</h2>
 							<%= form_for @ci do |f| %>
 								<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
