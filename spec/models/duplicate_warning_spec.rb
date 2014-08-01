@@ -11,10 +11,8 @@
 #  match_score      :integer
 #
 
-require 'test_helper'
+require 'rails_helper'
 
-class DuplicateWarningTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+RSpec.describe DuplicateWarning, :type => :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

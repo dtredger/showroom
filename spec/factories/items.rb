@@ -20,10 +20,9 @@
 #  updated_at         :datetime
 #
 
-require 'test_helper'
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-class ItemTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+FactoryGirl.define do
+  factory :item do
+  end
 end

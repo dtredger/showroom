@@ -11,10 +11,9 @@
 #  match_score      :integer
 #
 
-require 'test_helper'
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-class DuplicateWarningTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+FactoryGirl.define do
+  factory :duplicate_warning do
+  end
 end

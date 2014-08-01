@@ -28,6 +28,12 @@ gem 'pg'
 
 group :development, :test do
 	gem 'pry-rails'
+  gem 'annotate'
+  
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'guard'
+  gem 'guard-rspec'
 end
 
 group :production, :staging do

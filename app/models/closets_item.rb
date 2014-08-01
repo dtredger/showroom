@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: closets_items
+#
+#  closet_id :integer
+#  item_id   :integer
+#
+
 class ClosetsItem < ActiveRecord::Base
 	belongs_to :closet
 	belongs_to :item

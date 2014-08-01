@@ -21,10 +21,9 @@
 #  username               :string(255)
 #
 
-require 'test_helper'
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+FactoryGirl.define do
+  factory :user do
+  end
 end

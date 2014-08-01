@@ -10,14 +10,9 @@
 #  updated_at    :datetime
 #
 
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-one:
-  likeable_id: 1
-  likeable_type: MyString
-  user_id: 1
-
-two:
-  likeable_id: 1
-  likeable_type: MyString
-  user_id: 1
+FactoryGirl.define do
+  factory :like do
+  end
+end

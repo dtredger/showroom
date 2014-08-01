@@ -10,14 +10,8 @@
 #  updated_at    :datetime
 #
 
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+require 'rails_helper'
 
-one:
-  likeable_id: 1
-  likeable_type: MyString
-  user_id: 1
-
-two:
-  likeable_id: 1
-  likeable_type: MyString
-  user_id: 1
+RSpec.describe Like, :type => :model do
+  pending "add some examples to (or delete) #{__FILE__}"
+end
