@@ -24,14 +24,12 @@ gem 'rmagick', :require => false
 gem 'rack-timeout'
 gem 'unicorn'
 
-# gem 'pg', '0.15.1'
+gem 'pg'
 
 group :development, :test do
-	gem 'sqlite3'
 	gem 'pry-rails'
 end
 
 group :production, :staging do
-  gem 'pg', '0.15.1'
   gem 'rails_12factor'
 end
