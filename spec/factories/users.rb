@@ -26,4 +26,11 @@
 FactoryGirl.define do
   factory :user do
   end
+
+  factory :base_user, class: User do
+    username "base_user"
+    email "base_user@email.com"
+    password "base_user password"
+  end
+
 end
