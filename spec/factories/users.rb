@@ -30,7 +30,7 @@ FactoryGirl.define do
   factory :base_user, class: User do
     username "base_user"
     email "base_user@email.com"
-    password "base_user password"
+    password "base_user_password"
   end
 
 end

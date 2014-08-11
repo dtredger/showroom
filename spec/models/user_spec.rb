@@ -25,20 +25,51 @@ require 'rails_helper'
 
 describe User do
   
-  before do
-    @base_user = FactoryGirl.build(:base_user)
-  end
+  let(:user) { create(:base_user) }
 
 
   context "model" do
-    subject { @base_user }
-    it { should respond_to(:username) }
-    it { should respond_to(:email) }
+    it { is_expected.to respond_to(:username) }
+    it { is_expected.to respond_to(:email) }
 
-    it { should respond_to(:password) }
-    it { should respond_to(:encrypted_password) }
+    it { is_expected.to respond_to(:password) }
+    it { is_expected.to respond_to(:encrypted_password) }
   end
 
+
+  context "password" do
+    describe "is blank" do
+      before { user.password = user.password_confirmation = "" }
+      it { is_expected.not_to be_valid }
+    end
+
+    describe "does not match confirmation" do
+      before { user.password_confirmation = "different!" }
+      it { is_expected.not_to be_valid }
+    end
+  end
+
+
+  context "username" do
+    describe "already exists" do
+      let(:username_copy) { build(:base_user, email: 'something_else@email.co') }
+      it { is_expected.not_to be_valid } 
+      # it { is_expected.to have(1).errors_on(:username) }
+    end
+
+    describe "already exists in upper-case" do
+      let(:upcase_username) { build(:base_user, username: base_user.username.upcase) }
+      it { is_expected.not_to be_valid }
+    end
+  end
+
+
+  context "email" do    
+    describe "already taken" do
+      let(:duplicate_user) { build(:base_user) }
+      it { is_expected.not_to be_valid }
+    end
+  end
 
 
 end
