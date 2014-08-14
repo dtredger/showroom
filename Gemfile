@@ -29,7 +29,11 @@ gem 'pg'
 group :development, :test do
 	gem 'pry-rails'
   gem 'annotate'
-  
+  gem 'ruby-debug-ide'
+  gem 'debase'
+  # gem 'debugger', '~> 1.6.8'
+  # gem 'debugger-xml'
+
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'guard'
