@@ -24,8 +24,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :user do
-  end
 
   factory :base_user, class: User do
     username "base_user"
@@ -33,4 +31,25 @@ FactoryGirl.define do
     password "base_user_password"
   end
 
+  factory :user do
+    username "username"
+    email "user@email.com"
+    password "user_password"
+    # confirmed_at Time.now()
+
+    factory :invalid_user do
+
+
+    end
+  end
+
+  factory :admin, class: User do
+    email "admin@email.com"
+    password "admin_password"
+    username "admin"
+  end
+
+
+
 end
+

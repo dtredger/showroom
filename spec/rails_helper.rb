@@ -1,5 +1,22 @@
+require 'simplecov'
+
+SimpleCov.coverage_dir 'spec/coverage'
+SimpleCov.start do
+  add_group 'Models', 'app/models'
+  add_group 'Controllers', 'app/controllers'
+
+  add_filter 'spec'
+  add_filter '/bin/'
+  add_filter '/config/'
+  add_filter '/db/'
+  add_filter '/spec/'
+  add_filter 'config.ru'
+  add_filter 'Gemfile'
+  add_filter 'Guardfile'
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
@@ -26,7 +43,7 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  # If you do not include FactoryGirl::Syntax::Methods in your test suite, then 
+  # If you do not include FactoryGirl::Syntax::Methods in your test suite, then
   # all factory_girl methods will need to be prefaced with FactoryGirl.
   config.include FactoryGirl::Syntax::Methods
 
@@ -44,4 +61,13 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  # include Devise in specs
+  # https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-%28and-RSpec%29
+  config.include Devise::TestHelpers, :type => :controller
+
+  # use utility methods from support/controller_macros
+  config.extend ControllerMacros, :type => :controller
+
+
 end

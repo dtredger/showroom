@@ -63,7 +63,7 @@
 #
 
 Showspace::Application.routes.draw do
-  
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", registrations: 'registrations' }
 
   # routes for authenticated users
@@ -106,6 +106,7 @@ Showspace::Application.routes.draw do
   #   end
   # end
 
+  get '*path' => redirect('/')  unless Rails.env.development?
 
 
 end

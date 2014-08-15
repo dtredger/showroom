@@ -31,8 +31,7 @@ group :development, :test do
   gem 'annotate'
   gem 'ruby-debug-ide'
   gem 'debase'
-  # gem 'debugger', '~> 1.6.8'
-  # gem 'debugger-xml'
+  gem 'simplecov'
 
   gem 'rspec-rails'
   gem 'factory_girl_rails'

@@ -21,3 +21,6 @@
 
 # ignore rubymine config
 /.idea
+
+# ignore coverage reports
+/coverage

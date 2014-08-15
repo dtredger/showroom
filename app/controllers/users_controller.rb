@@ -19,12 +19,21 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       render "edit"
+      flash_errors @user
     end
   end
+
 
   private
 
   def user_params
     params.required(:user).permit(:password, :password_confirmation, :current_password)
   end
+
+  def flash_errors(user)
+    user.errors.full_messages.each do |message|
+      flash[:alert] = message
+    end
+  end
+
 end
