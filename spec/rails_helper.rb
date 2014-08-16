@@ -1,19 +1,19 @@
-require 'simplecov'
-
-SimpleCov.coverage_dir 'spec/coverage'
-SimpleCov.start do
-  add_group 'Models', 'app/models'
-  add_group 'Controllers', 'app/controllers'
-
-  add_filter 'spec'
-  add_filter '/bin/'
-  add_filter '/config/'
-  add_filter '/db/'
-  add_filter '/spec/'
-  add_filter 'config.ru'
-  add_filter 'Gemfile'
-  add_filter 'Guardfile'
-end
+# require 'simplecov'
+#
+# SimpleCov.coverage_dir 'spec/coverage'
+# SimpleCov.start do
+#   add_group 'Models', 'app/models'
+#   add_group 'Controllers', 'app/controllers'
+#
+#   add_filter 'spec'
+#   add_filter '/bin/'
+#   add_filter '/config/'
+#   add_filter '/db/'
+#   add_filter '/spec/'
+#   add_filter 'config.ru'
+#   add_filter 'Gemfile'
+#   add_filter 'Guardfile'
+# end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
@@ -28,7 +28,11 @@ require 'rspec/rails'
 # run twice. It is recommended that you do not name files matching this glob to
 # end with _spec.rb. You can configure this pattern with with the --pattern
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
+
+# -- commented out because I require ControllerMacros specifically, only for controllers below --
+# -- not commenting out causes circular dependency? --
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -36,7 +40,7 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -63,11 +67,10 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   # include Devise in specs
-  # https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-%28and-RSpec%29
-  config.include Devise::TestHelpers, :type => :controller
-
-  # use utility methods from support/controller_macros
-  config.extend ControllerMacros, :type => :controller
-
+  # # https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-%28and-RSpec%29
+  # config.include Devise::TestHelpers, :type => :controller
+  #
+  # # use utility methods from support/controller_macros
+  # config.extend ControllerMacros, :type => :controller
 
 end

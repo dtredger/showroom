@@ -29,10 +29,10 @@ gem 'pg'
 group :development, :test do
 	gem 'pry-rails'
   gem 'annotate'
-  gem 'ruby-debug-ide'
-  gem 'debase'
-  gem 'simplecov'
-
+  gem 'ruby-debug-ide' #for Rubymine
+  gem 'debase'         #for Rubymine
+  gem 'simplecov'      #test coverage reports
+  gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'guard'
