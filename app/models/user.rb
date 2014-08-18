@@ -25,11 +25,11 @@ class User < ActiveRecord::Base
 
   has_many :items, through: :closets
   has_many :closets, dependent: :destroy
-  has_many :likes, :as => :likeable, dependent: :destroy
+  has_many :likes, as: :likeable, dependent: :destroy
 
   validates :username,
-    :uniqueness => {
-      :case_sensitive => false
+    uniqueness: {
+      case_sensitive: false
     }
 
   validates_confirmation_of :password

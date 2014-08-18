@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
 	before_filter :authenticate_user!
 
 	def show
@@ -18,7 +17,7 @@ class UsersController < ApplicationController
       sign_in @user, :bypass => true
       redirect_to root_path
     else
-      render "edit"
+      render :edit
       flash_errors @user
     end
   end
