@@ -31,6 +31,11 @@ FactoryGirl.define do
     password "user_password"
     # confirmed_at Time.now()
 
+    factory :user_2 do
+      username "username_2"
+      email "user_2@email.com"
+      password "user2_password"
+    end
 
   end
 
