@@ -14,6 +14,10 @@ require 'rails_helper'
 
 RSpec.describe Closet, :type => :model do
 
+  before(:all) do
+    User.delete_all
+  end
+
   let(:user) { create(:user) }
 
   context "model" do
@@ -33,24 +37,15 @@ RSpec.describe Closet, :type => :model do
         duplicate_closet_title = Closet.create(user_id: user.id, title: "My Closet", summary: "new closet summary")
         expect(duplicate_closet_title).not_to be_valid
       end
-
-      it "rejects duplicate summary" do
-        duplicate_closet_summary = Closet.create(user_id: user.id, title: "New Title", summary: "My first closet")
-        expect(duplicate_closet_summary).not_to be_valid
-      end
     end
 
     describe "different user" do
       it "accepts duplicate title" do
-        duplicate_closet_title = Closet.create(user_id: user.id, title: "My Closet", summary: "new closet summary")
+        duplicate_closet_title = Closet.create(user_id: 1000, title: "My Closet", summary: "new closet summary")
         expect(duplicate_closet_title).to be_valid
       end
-
-      it "accepts duplicate summary" do
-        duplicate_closet_summary = Closet.create(user_id: user.id, title: "New Title", summary: "My first closet")
-        expect(duplicate_closet_summary).to be_valid
-      end
     end
+
   end
 
 

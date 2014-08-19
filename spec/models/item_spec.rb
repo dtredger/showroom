@@ -23,5 +23,21 @@
 require 'rails_helper'
 
 RSpec.describe Item, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  context "model" do
+    it { is_expected.to respond_to(:product_name) }
+    it { is_expected.to respond_to(:description) }
+    it { is_expected.to respond_to(:designer) }
+    it { is_expected.to respond_to(:price_cents) }
+    it { is_expected.to respond_to(:currency) }
+    it { is_expected.to respond_to(:store_name) }
+    it { is_expected.to respond_to(:image_source) }
+    it { is_expected.to respond_to(:image_source_array) }
+    it { is_expected.to respond_to(:product_link) }
+    it { is_expected.to respond_to(:category1) }
+    it { is_expected.to respond_to(:category2) }
+    it { is_expected.to respond_to(:category3) }
+    it { is_expected.to respond_to(:state) }
+  end
+
 end

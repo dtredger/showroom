@@ -12,4 +12,7 @@
 
 class Like < ActiveRecord::Base
 	belongs_to :likeable, polymorphic: :true
+
+  validates_presence_of :likeable_id
+  validates_presence_of :likeable_type
 end

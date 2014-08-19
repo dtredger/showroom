@@ -26,6 +26,7 @@ require 'rails_helper'
 describe User do
 
   before(:all) do
+    User.delete_all
     @user = FactoryGirl.create(:user)
   end
 
