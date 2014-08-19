@@ -37,6 +37,23 @@ FactoryGirl.define do
     category2 nil
     category3 nil
     state 0
+
+    factory :blurberry do
+      product_name "not Black Relaxed-Fit Wool Suit Trousers"
+      description "different description"
+      designer "not BURBERRY LONDON"
+      price_cents 10101
+      currency "USD"
+      store_name "not Mr. Porter"
+      image_source "/img/items/not_Mr._Porter/BURBERRY_LONDON/073014/BURBERRY_L-Black_Relat4svr58f.jpeg"
+      image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
+      product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
+      category1 "Suits"
+      category2 nil
+      category3 nil
+      state 0
+    end
+
   end
 
 end

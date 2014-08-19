@@ -24,6 +24,12 @@ require 'rails_helper'
 
 RSpec.describe Item, :type => :model do
 
+  before(:all) do
+    Item.delete_all
+  end
+
+  # let(:item) { create(:item) }
+
   context "model" do
     it { is_expected.to respond_to(:product_name) }
     it { is_expected.to respond_to(:description) }
@@ -38,6 +44,25 @@ RSpec.describe Item, :type => :model do
     it { is_expected.to respond_to(:category2) }
     it { is_expected.to respond_to(:category3) }
     it { is_expected.to respond_to(:state) }
+  end
+
+  context "matches" do
+    describe "store, designer and name" do
+      item_1 = FactoryGirl.create(:item)
+      item_2 = FactoryGirl.create(:blurberry,
+        designer: "BURBERRY LONDON",
+        store_name: "Mr. Porter",
+        product_name: "Black Relaxed-Fit Wool Suit Trousers")
+
+      it "creates warning" do
+        expect(item_2.duplicate_warnings.length).to eq(1)
+      end
+
+      it "attaches to new product" do
+        expect(item_2.duplicate_warnings[0].pending_item_id).to eq(item_2.id)
+      end
+    end
+
   end
 
 end
