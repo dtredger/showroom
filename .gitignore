@@ -18,3 +18,9 @@
 # ignore scraped things
 /public/img/*
 /public/scraped_images/*
+
+# ignore rubymine config
+/.idea
+
+# ignore coverage reports
+/coverage

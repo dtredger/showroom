@@ -10,12 +10,9 @@
 #  updated_at :datetime
 #
 
-class Closet < ActiveRecord::Base
-  has_and_belongs_to_many :items
-  belongs_to :user
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-	validates_presence_of :title
-  validates_uniqueness_of :title, scope: :user_id
-
-
+FactoryGirl.define do
+  factory :closet do
+  end
 end

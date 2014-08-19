@@ -11,10 +11,8 @@
 #  match_score      :integer
 #
 
-class DuplicateWarning < ActiveRecord::Base
-	belongs_to :pending_item, class_name: "Item"
-	belongs_to :existing_item, class_name: "Item"
+require 'rails_helper'
 
-  validates :pending_item_id, presence: true
-  validates :existing_item_id, presence: true
+RSpec.describe DuplicateWarning, :type => :model do
+  pending "creation of a duplicate_warning is handled in the item_spec"
 end

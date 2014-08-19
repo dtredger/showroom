@@ -10,9 +10,9 @@
 #  updated_at    :datetime
 #
 
-class Like < ActiveRecord::Base
-	belongs_to :likeable, polymorphic: :true
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-  validates_presence_of :likeable_id
-  validates_presence_of :likeable_type
+FactoryGirl.define do
+  factory :like do
+  end
 end

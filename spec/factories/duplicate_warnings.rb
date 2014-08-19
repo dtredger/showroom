@@ -11,10 +11,9 @@
 #  match_score      :integer
 #
 
-class DuplicateWarning < ActiveRecord::Base
-	belongs_to :pending_item, class_name: "Item"
-	belongs_to :existing_item, class_name: "Item"
+# Read about factories at https://github.com/thoughtbot/factory_girl
 
-  validates :pending_item_id, presence: true
-  validates :existing_item_id, presence: true
+FactoryGirl.define do
+  factory :duplicate_warning do
+  end
 end
