@@ -21,7 +21,7 @@ RSpec.describe Like, :type => :model do
 
   context "user" do
     describe "" do
-      Like.
+      pending("should this be polymorphic at all? what about a join table?")
     end
   end
 

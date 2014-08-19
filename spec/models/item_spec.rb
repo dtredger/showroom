@@ -61,8 +61,12 @@ RSpec.describe Item, :type => :model do
       it "attaches to new product" do
         expect(item_2.duplicate_warnings[0].pending_item_id).to eq(item_2.id)
       end
-    end
 
+      it "refers to original" do
+        expect(item_2.duplicate_warnings[0].existing_item_id).to eq(item_1.id)
+      end
+    end
+    
   end
 
 end

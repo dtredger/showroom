@@ -14,5 +14,5 @@
 require 'rails_helper'
 
 RSpec.describe DuplicateWarning, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  pending "creation of a duplicate_warning is handled in the item_spec"
 end
