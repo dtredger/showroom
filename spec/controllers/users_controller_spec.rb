@@ -9,69 +9,86 @@ RSpec.describe UsersController, :type => :controller do
   end
 
   let(:user) { create(:user) }
+  let(:user2) { create(:user_2) }
 
   context "#show" do
-    describe "authenticated user" do
+    describe "authorized user" do
       before do
         sign_in user
         get :show, id: user.id
       end
 
-      it "returns users#show" do
-        expect(response.status).to eq(200)
-      end
+      it { expect(response.status).to eq(200) }
 
       it "sets correct user" do
+        expect(subject.current_user.id).to eq(user.id)
+      end
+    end
+
+    describe "unauthorized user" do
+      before do
+        sign_in user2
         get :show, id: user.id
-        expect(current_user.id).to eq(user.id)
       end
 
-      it "returns welcome message" do
-        expect(request.response.flash).to eq("Welcome to Showspace")
+      it "redirects to their #show" do
+        expect(response).to redirect_to(user_path user2)
+      end
+
+      it "flashes login notice" do
+        expect(flash[:alert]).to eq("Please log in")
       end
     end
 
     describe "un-authenticated user" do
-      it "redirects" do
-        expect(response).to redirect_to(user_session_path)
+      before { get :show, id: user.id }
+
+      it "redirects to login" do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it "flashes login notice" do
+        expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
       end
     end
+
+
 
   end
 
 
-  context "#edit" do
-    describe "username" do
-      it "updates username" do
-        pending('soon...')
-      end
-    end
+  # context "#edit" do
+  #   describe "username" do
+  #     it "updates username" do
+  #       pending('soon...')
+  #     end
+  #   end
+  #
+  #   describe "password" do
+  #     it "updates password" do
+  #       pending('soon')
+  #     end
+  #   end
+  #
+  # end
 
-    describe "password" do
-      it "updates password" do
-        pending('soon')
-      end
-    end
 
-  end
-
-
-  context "#delete" do
-    before(:each) do
-
-    end
-
-    describe "authenticated user" do
-
-    end
-
-    describe "un-authenticated user" do
-      it "redirects" do
-        expect(response).to redirect_to(user_session_path)
-      end
-    end
-
-  end
+  # context "#delete" do
+  #   before(:each) do
+  #
+  #   end
+  #
+  #   describe "authenticated user" do
+  #
+  #   end
+  #
+  #   describe "un-authenticated user" do
+  #     it "redirects" do
+  #       expect(response).to redirect_to(user_session_path)
+  #     end
+  #   end
+  #
+  # end
 
 
 

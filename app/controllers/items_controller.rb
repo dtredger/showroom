@@ -12,11 +12,11 @@ class ItemsController < ApplicationController
     @like = @item.likes.build
   end
 
-  # def new
-  # end
+  def new
+  end
 
-  # def create
-  # end
+  def create
+  end
 
   def edit
   end

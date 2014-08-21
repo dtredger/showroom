@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
-	before_filter :authenticate_user!
+  before_filter :authenticate_user!
+  before_filter :correct_user
+
+  # def index
+  #   # no index of all users
+  # end
 
 	def show
 		@user = User.find(params[:id])
@@ -7,7 +12,11 @@ class UsersController < ApplicationController
 
 	def edit
 		@user = current_user
-	end
+  end
+
+  ## implemented by devise in registrations_controller
+  # def update
+  # end
 
 	# https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-password
   def update_password
@@ -22,6 +31,12 @@ class UsersController < ApplicationController
     end
   end
 
+  ## implemented by devise in registrations_controller
+  # def destroy
+  #   User.find(params[:id]).destroy
+  #   redirect_to root_path
+  # end
+
 
   private
 
@@ -33,6 +48,11 @@ class UsersController < ApplicationController
     user.errors.full_messages.each do |message|
       flash[:alert] = message
     end
+  end
+
+  def correct_user
+    redirect_to(user_path current_user) unless current_user == User.find_by_id(params[:id])
+    flash[:alert] = "Please log in" unless current_user == User.find(params[:id])
   end
 
 end
