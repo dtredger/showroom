@@ -1,6 +1,10 @@
 Showspace::Application.routes.draw do
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", registrations: 'registrations' }
+  devise_for :users, controllers: {
+      omniauth_callbacks: "users/omniauth_callbacks",
+      registrations: 'registrations'
+  }
+
 
   # routes for authenticated users
   authenticated :user do
@@ -11,8 +15,11 @@ Showspace::Application.routes.draw do
   devise_scope :user do
     root to: 'items#index'
     # handles Facebook confirmation signup
-    match '/users/facebook_confirmation' => 'registrations#facebook_confirmation', :via => :get, :as => :update_user_facebook_confirmation
+    match '/users/facebook_confirmation' => 'registrations#facebook_confirmation',
+          :via => :get,
+          :as => :update_user_facebook_confirmation
   end
+
 
   # for update password
   resource :user, only: [:edit] do
@@ -28,7 +35,7 @@ Showspace::Application.routes.draw do
       put :update_multiple, controller: 'items_management'
     end
   end
-  resources :likes
+  # resources :likes  #not implemented
   resources :closets
   resources :closets_items, only: [:create, :destroy]
   #resources :duplicate_warnings

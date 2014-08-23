@@ -74,3 +74,13 @@ RSpec.configure do |config|
   # config.extend ControllerMacros, :type => :controller
 
 end
+
+
+# instantly redirect to the callback for omniauth
+OmniAuth.config.test_mode = true
+OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
+  provider: 'facebook',
+  uid: '123545'
+  # etc.
+ })
+OmniAuth.config.add_mock(:twitter, {:uid => '12345'})

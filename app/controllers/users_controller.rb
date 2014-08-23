@@ -51,8 +51,10 @@ class UsersController < ApplicationController
   end
 
   def correct_user
-    redirect_to(user_path current_user) unless current_user == User.find_by_id(params[:id])
-    flash[:alert] = "Please log in" unless current_user == User.find(params[:id])
+    if not current_user == User.find_by_id(params[:id])
+      redirect_to(user_path current_user)
+      flash[:alert] = "Please log in"
+    end
   end
 
 end
