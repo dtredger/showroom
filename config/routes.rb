@@ -15,7 +15,7 @@ Showspace::Application.routes.draw do
   devise_scope :user do
     root to: 'items#index'
     # handles Facebook confirmation signup
-    match '/users/facebook_confirmation' => 'registrations#facebook_confirmation',
+    match '/users/facebook_confirmation' => 'users/registrations#facebook_confirmation',
           :via => :get,
           :as => :update_user_facebook_confirmation
   end

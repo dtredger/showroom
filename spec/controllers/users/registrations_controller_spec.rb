@@ -28,10 +28,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user_2) }
 
-  context "#new" do
-
-  end
-
   describe "#create" do
     describe "facebook" do
 

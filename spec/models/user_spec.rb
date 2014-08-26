@@ -84,7 +84,7 @@ describe User do
   context "email" do
     describe "already taken" do
       duplicate_email = FactoryGirl.build(:user_2, email: 'user@email.com')
-      # binding.pry
+
       it { expect(duplicate_email).not_to be_valid }
 
       it "gives email error" do

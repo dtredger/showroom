@@ -54,9 +54,10 @@ RSpec.describe Closet, :type => :model do
   context "item" do
     describe "duplicates" do
 
-      it "rejects duplicates" do
-        pending('desirable?')
-      end
+      pending("desirable?")
+      # it "rejects duplicates" do
+      #   pending("desirable?")
+      # end
 
 
 
