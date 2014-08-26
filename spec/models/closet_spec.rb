@@ -27,8 +27,10 @@ RSpec.describe Closet, :type => :model do
     it { is_expected.to respond_to(:user_id) }
   end
 
-  context "created with new user" do
-    it { expect(user.closets).not_to be_empty }
+  context "for new user" do
+    it "exists" do
+      expect(user.closets).not_to be_empty
+    end
   end
 
   context "naming" do

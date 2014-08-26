@@ -69,18 +69,16 @@ RSpec.configure do |config|
   # include Devise in specs
   # # https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-%28and-RSpec%29
   config.include Devise::TestHelpers, type: :controller
-  #
-  # # use utility methods from support/controller_macros
-  # config.extend ControllerMacros, :type => :controller
 
 end
 
 
+# ------------------------------  OMNIAUTH CONFIG ------------------------------------
+
 # instantly redirect to the callback for omniauth
-OmniAuth.config.test_mode = true
-OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
-  provider: 'facebook',
-  uid: '123545'
-  # etc.
- })
-OmniAuth.config.add_mock(:twitter, {:uid => '12345'})
+OmniAuth.configure do |config|
+  config.test_mode = true
+  config.mock_auth[:facebook] = OmniAuth::AuthHash.new({ provider: 'facebook', uid: '123545' })
+  config.add_mock(:twitter, {:uid => '12345'})
+end
+

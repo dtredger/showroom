@@ -29,9 +29,9 @@ class User < ActiveRecord::Base
 
   validates :username,
             uniqueness: { case_sensitive: false }
-  validates :email,
-            uniqueness: true
-  validates_confirmation_of :password
+  # validates :email,
+  #           uniqueness: true
+  # validates_confirmation_of :password
 
   after_create :make_a_closet
 

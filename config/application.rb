@@ -34,7 +34,7 @@ module Showspace
       # g.integration_tool :rspec, fixture: true, views: true
     end
 
-    # Do nots log passwords
+    # Do not log passwords
     config.filter_parameters += [:password, :password_confirmation]
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 

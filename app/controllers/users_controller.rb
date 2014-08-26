@@ -3,19 +3,28 @@ class UsersController < ApplicationController
   before_filter :correct_user
 
   # def index
-  #   # no index of all users
+  #    no index of all users
   # end
 
 	def show
 		@user = User.find(params[:id])
-	end
+  end
 
+  # def new
+  #   implemented by devise in registrations_controller
+  # end
+
+  # def create
+  #   implemented by devise in registrations_controller
+  # end
+
+  # TODO how can edit be here, but not update?
 	def edit
 		@user = current_user
   end
 
-  ## implemented by devise in registrations_controller
   # def update
+  #   implemented by devise in registrations_controller
   # end
 
 	# https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-password
@@ -31,10 +40,8 @@ class UsersController < ApplicationController
     end
   end
 
-  ## implemented by devise in registrations_controller
   # def destroy
-  #   User.find(params[:id]).destroy
-  #   redirect_to root_path
+  #   implemented by devise in registrations_controller
   # end
 
 

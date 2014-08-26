@@ -29,3 +29,12 @@ Showspace::Application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost.com:3000' }
 end
+
+
+# ------------------------------  OMNIAUTH CONFIG ------------------------------------
+# instantly redirect to the callback for omniauth
+OmniAuth.configure do |config|
+  config.test_mode = true
+  config.mock_auth[:facebook] = OmniAuth::AuthHash.new({ provider: 'facebook', uid: '123545' })
+  config.add_mock(:twitter, {:uid => '12345'})
+end

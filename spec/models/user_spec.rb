@@ -27,8 +27,9 @@ describe User do
 
   before(:all) do
     User.delete_all
-    @user = FactoryGirl.create(:user)
   end
+
+  let!(:user) { create(:user) }
 
   context "model" do
     it { is_expected.to respond_to(:username) }
@@ -83,6 +84,7 @@ describe User do
   context "email" do
     describe "already taken" do
       duplicate_email = FactoryGirl.build(:user_2, email: 'user@email.com')
+      # binding.pry
       it { expect(duplicate_email).not_to be_valid }
 
       it "gives email error" do
