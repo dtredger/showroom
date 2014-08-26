@@ -16,8 +16,8 @@ Showspace::Application.routes.draw do
     root to: 'items#index'
     # handles Facebook confirmation signup
     match '/users/facebook_confirmation' => 'users/registrations#facebook_confirmation',
-          :via => :get,
-          :as => :update_user_facebook_confirmation
+      via: :get,
+      as: :update_user_facebook_confirmation
   end
 
 
@@ -28,7 +28,7 @@ Showspace::Application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users, only: [:show]
   resources :items do
     collection do
       get :edit_multiple, controller: 'items_management'

@@ -27,8 +27,8 @@ RSpec.describe UsersController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user_2) }
 
-  context "#show" do
-    describe "authorized user" do
+  describe "#show" do
+    context "authorized user" do
       before do
         sign_in user
         get :show, id: user.id
@@ -41,7 +41,7 @@ RSpec.describe UsersController, :type => :controller do
       end
     end
 
-    describe "unauthorized user" do
+    context "unauthorized user" do
       before do
         sign_in user2
         get :show, id: user.id
@@ -56,7 +56,7 @@ RSpec.describe UsersController, :type => :controller do
       end
     end
 
-    describe "un-authenticated user" do
+    context "un-authenticated user" do
       before { get :show, id: user.id }
 
       it "redirects to login" do
@@ -68,43 +68,31 @@ RSpec.describe UsersController, :type => :controller do
       end
     end
 
+  end
+
+
+
+
+  describe "#update_password" do
+    before(:each) do
+      sign_in user
+    end
+
+    context "authorized user" do
+      # get :
+    end
+
+    context "unauthorized user" do
+
+    end
+
+    context "un-authenticated user" do
+
+    end
 
 
   end
 
-
-  # context "#edit" do
-  #   describe "username" do
-  #     it "updates username" do
-  #       pending('soon...')
-  #     end
-  #   end
-  #
-  #   describe "password" do
-  #     it "updates password" do
-  #       pending('soon')
-  #     end
-  #   end
-  #
-  # end
-
-
-  # context "#delete" do
-  #   before(:each) do
-  #
-  #   end
-  #
-  #   describe "authenticated user" do
-  #
-  #   end
-  #
-  #   describe "un-authenticated user" do
-  #     it "redirects" do
-  #       expect(response).to redirect_to(user_session_path)
-  #     end
-  #   end
-  #
-  # end
 
 
 

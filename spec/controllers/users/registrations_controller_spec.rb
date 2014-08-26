@@ -28,6 +28,9 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user_2) }
 
+  describe "#new" do
+  end
+
   describe "#create" do
     describe "facebook" do
 
@@ -51,6 +54,96 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
 
 
+  end
+
+  describe "#edit" do
+    context "authorized user" do
+      #   describe "username" do
+      #     it "updates username" do
+      #       pending('soon...')
+      #     end
+      #   end
+      #
+      #   describe "password" do
+      #     it "updates password" do
+      #       pending('soon')
+      #     end
+      #   end
+    end
+
+    context "unauthorized user" do
+      #   describe "username" do
+      #     it "updates username" do
+      #       pending('soon...')
+      #     end
+      #   end
+      #
+      #   describe "password" do
+      #     it "updates password" do
+      #       pending('soon')
+      #     end
+      #   end
+    end
+
+    context "un-authenticated user" do
+      #   describe "username" do
+      #     it "updates username" do
+      #       pending('soon...')
+      #     end
+      #   end
+      #
+      #   describe "password" do
+      #     it "updates password" do
+      #       pending('soon')
+      #     end
+      #   end
+    end
+  end
+
+  describe "#update" do
+    pending("necessary?")
+
+    context "authorized user" do
+      #   describe "username" do
+      #     it "updates username" do
+      #       pending('soon...')
+      #     end
+      #   end
+      #
+      #   describe "password" do
+      #     it "updates password" do
+      #       pending('soon')
+      #     end
+      #   end
+    end
+
+    context "unauthorized user" do
+      #   describe "username" do
+      #     it "updates username" do
+      #       pending('soon...')
+      #     end
+      #   end
+      #
+      #   describe "password" do
+      #     it "updates password" do
+      #       pending('soon')
+      #     end
+      #   end
+    end
+
+    context "un-authenticated user" do
+      #   describe "username" do
+      #     it "updates username" do
+      #       pending('soon...')
+      #     end
+      #   end
+      #
+      #   describe "password" do
+      #     it "updates password" do
+      #       pending('soon')
+      #     end
+      #   end
+    end
   end
 
   describe "#destroy" do
