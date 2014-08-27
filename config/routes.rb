@@ -21,6 +21,10 @@ Showspace::Application.routes.draw do
   end
 
 
+  # TODO will we want to give users access to others' profiles in the future?
+  # resources :users, only: [:show]
+
+  get 'profile', to: 'users#show'
   # for update password
   resource :user, only: [:edit] do
     collection do
@@ -28,16 +32,19 @@ Showspace::Application.routes.draw do
     end
   end
 
-  resources :users, only: [:show]
   resources :items do
     collection do
       get :edit_multiple, controller: 'items_management'
       put :update_multiple, controller: 'items_management'
     end
   end
+
   # resources :likes  #not implemented
+
   resources :closets
+
   resources :closets_items, only: [:create, :destroy]
+
   #resources :duplicate_warnings
 
   match 'item_management', to: 'items_management#index', via: [:get, :post]

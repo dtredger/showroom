@@ -1,31 +1,15 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :correct_user
-
-  # def index
-  #    no index of all users
-  # end
+  # before_filter :correct_user, only: [:edit, :update_password]
 
 	def show
-		@user = User.find(params[:id])
+		@user = User.find_by_id(params[:id]) || current_user
   end
 
-  # def new
-  #   implemented by devise in registrations_controller
-  # end
-
-  # def create
-  #   implemented by devise in registrations_controller
-  # end
-
-  # TODO how can edit be here, but not update?
+  # TODO this pertains to editing password only: rename method?
 	def edit
 		@user = current_user
   end
-
-  # def update
-  #   implemented by devise in registrations_controller
-  # end
 
 	# https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-password
   def update_password
@@ -39,10 +23,6 @@ class UsersController < ApplicationController
       flash_errors @user
     end
   end
-
-  # def destroy
-  #   implemented by devise in registrations_controller
-  # end
 
 
   private

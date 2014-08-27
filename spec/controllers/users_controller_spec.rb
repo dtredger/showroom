@@ -31,7 +31,7 @@ RSpec.describe UsersController, :type => :controller do
     context "authorized user" do
       before do
         sign_in user
-        get :show, id: user.id
+        get :show
       end
 
       it { expect(response.status).to eq(200) }
@@ -42,22 +42,24 @@ RSpec.describe UsersController, :type => :controller do
     end
 
     context "unauthorized user" do
-      before do
-        sign_in user2
-        get :show, id: user.id
-      end
 
-      it "redirects to their #show" do
-        expect(response).to redirect_to(user_path user2)
-      end
-
-      it "flashes login notice" do
-        expect(flash[:alert]).to eq("Please log in")
-      end
+      pending('what do we want in this case?')
+      # before do
+      #   sign_in user2
+      #   get :show, id: user.id
+      # end
+      #
+      # it "redirects to their #show" do
+      #   expect(response).to redirect_to(user_path user2)
+      # end
+      #
+      # it "flashes login notice" do
+      #   expect(flash[:alert]).to eq("Please log in")
+      # end
     end
 
     context "un-authenticated user" do
-      before { get :show, id: user.id }
+      before { get :show }
 
       it "redirects to login" do
         expect(response).to redirect_to(new_user_session_path)
