@@ -39,6 +39,7 @@ class UsersController < ApplicationController
 
   def correct_user
     if not current_user == User.find_by_id(params[:id])
+      # TODO user_path doesn't currently exist
       redirect_to(user_path current_user)
       flash[:alert] = "Please log in"
     end
