@@ -9,12 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     clear_facebook_session
     build_resource({})
 
-    # Check for a Facebook session
-    if session[:fb_uid]
-      self.resource.fb_uid = session[:fb_uid]
-      self.resource.fb_token = session[:fb_token]
-      self.resource.fb_token_expiration = session[:fb_token_expiration]
-    end
+    # TODO clear_facebook_session removes session, so no point to check
 
     respond_with self.resource
   end
@@ -23,7 +18,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # Added logic to clear Facebook session upon create
   # POST /resource
   def create
-
     build_resource(sign_up_params)
 
     # Add Facebook info from session to user model.
