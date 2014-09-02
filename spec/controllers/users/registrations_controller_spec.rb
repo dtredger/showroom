@@ -287,6 +287,7 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
   end
 
   describe "facebook_confirmation" do
+    #TODO test that the fb info is passed to the sign-up form correctly
     before do
       session[:fb_uid] = 12421
       session[:fb_token] = "Some Token"
@@ -295,6 +296,7 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
     end
 
     it "renders facebook_confirmation" do
+      binding.pry
       expect(response).to render_template(:facebook_confirmation)
     end
 
