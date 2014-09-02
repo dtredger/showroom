@@ -15,7 +15,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 			sign_in_and_redirect identity
 		else
 			# A user is registering through Facebook
-			# Store the their Facebook info in a session and redirect them to the registration page
+			# Store their Facebook info in a session and redirect them to the registration page
 			set_fb_session(auth)
 			redirect_to update_user_facebook_confirmation_path
 		end

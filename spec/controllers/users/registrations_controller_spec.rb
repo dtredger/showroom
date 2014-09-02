@@ -44,9 +44,24 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
     end
   end
 
-
   describe "#create" do
     describe "email & p/w" do
+
+      context "invalid attributes" do
+        it "does not save user" do
+          expect{ post :create, user: FactoryGirl.attributes_for(:invalid_user) }.to change{User.count}.by(0)
+        end
+
+        it "does not log in user" do
+          post :create, user: FactoryGirl.attributes_for(:invalid_user)
+          expect(subject.current_user).to be nil
+        end
+
+        it "renders #new" do
+          post :create, user: FactoryGirl.attributes_for(:invalid_user)
+          expect(response).to render_template(:new)
+        end
+      end
 
       context "valid attributes" do
         it "saves user" do
@@ -70,44 +85,44 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
         end
       end
 
-      context "invalid attributes" do
-        it "does not save user" do
-          expect{ post :create, user: FactoryGirl.attributes_for(:invalid_user) }.to change{User.count}.by(0)
-        end
-
-        it "does not log in user" do
-          post :create, user: FactoryGirl.attributes_for(:invalid_user)
-          expect(subject.current_user).to be nil
-        end
-
-        it "renders #new" do
-          post :create, user: FactoryGirl.attributes_for(:invalid_user)
-          expect(response).to render_template(:new)
-        end
-      end
-
     end
 
 
     describe "facebook" do
-      
+
       context "invalid oauth" do
-        it "clears session" do
-
+        it "clears fb from session" do
+          expect(session.keys.grep(/^fb_/)).to be_empty
         end
-        
-        it "renders #new" do
 
+        it "renders #new" do
+          expect(response).to render_template(:new)
         end
       end
 
       context "valid oauth" do
-        it "" do
-          
+        it "saves user" do
+          expect{ post :create, user: FactoryGirl.attributes_for(:user) }.to change{User.count}.by(1)
+        end
+
+        it "logs user in" do
+          post :create, user: FactoryGirl.attributes_for(:user)
+          expect(subject.current_user).not_to be nil
+        end
+
+        it "redirects to root" do
+          post :create, user: FactoryGirl.attributes_for(:user)
+          # TODO alter after_sign_up_path_for to direct somewhere else
+          expect(response).to redirect_to(root_path)
+        end
+
+        it "flashes welcome" do
+          post :create, user: FactoryGirl.attributes_for(:user)
+          expect(flash[:notice]).to eq("Welcome! You have signed up successfully.")
         end
 
         it "clears fb from session" do
-          expect(session.keys.grep(/^fb_/)).to be_nil
+          expect(session.keys.grep(/^fb_/)).to be_empty
         end
 
       end
@@ -269,10 +284,25 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
       end
     end
 
-
-
   end
 
+  describe "facebook_confirmation" do
+    before do
+      session[:fb_uid] = 12421
+      session[:fb_token] = "Some Token"
+      session[:fb_token_expiration] = 1420102012
+      redirect_to update_user_facebook_confirmation_path
+    end
+
+    it "renders facebook_confirmation" do
+      expect(response).to render_template(:facebook_confirmation)
+    end
+
+    it "fb info in session" do
+      expect(session.keys.grep(/^fb_/).length).to eq(3)
+    end
+
+  end
 
 
 end
