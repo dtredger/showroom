@@ -30,7 +30,7 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
 
   describe "#new" do
-    it "builds User" do
+    it "builds empty User" do
       get :new
       expect(assigns[:user][:email]).to eq("")
     end
@@ -46,7 +46,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
   describe "#create" do
     describe "email & p/w" do
-
       context "invalid attributes" do
         it "does not save user" do
           expect{ post :create, user: FactoryGirl.attributes_for(:invalid_user) }.to change{User.count}.by(0)
@@ -84,51 +83,60 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
           expect(flash[:notice]).to eq("Welcome! You have signed up successfully.")
         end
       end
-
     end
 
-
     describe "facebook" do
-
       context "invalid oauth" do
+        before(:each) do
+          session[:fb_uid] = ""
+          session[:fb_token] = ""
+          session[:fb_token_expiration] = nil
+        end
+
         it "clears fb from session" do
+          pending('should this happen? could it?')
           expect(session.keys.grep(/^fb_/)).to be_empty
         end
 
         it "renders #new" do
+          pending('is this worth testing?')
           expect(response).to render_template(:new)
         end
       end
 
       context "valid oauth" do
-        it "saves user" do
-          expect{ post :create, user: FactoryGirl.attributes_for(:user) }.to change{User.count}.by(1)
+        before(:each) do
+          User.delete_all
+          session[:fb_uid] = "12345678"
+          session[:fb_token] = "TOKEN2"
+          session[:fb_token_expiration] = 1421747205
+          post :create, user: FactoryGirl.attributes_for(:user)
+        end
+
+        it "saves user fb credentials" do
+          expect(User.find(user.id).fb_uid).to eq("12345678")
+          expect(User.find(user.id).fb_uid).to eq("TOKEN2")
+          expect(User.find(user.id).fb_uid).to eq(1421747205)
         end
 
         it "logs user in" do
-          post :create, user: FactoryGirl.attributes_for(:user)
           expect(subject.current_user).not_to be nil
         end
 
         it "redirects to root" do
-          post :create, user: FactoryGirl.attributes_for(:user)
-          # TODO alter after_sign_up_path_for to direct somewhere else
+          # TODO alter after_sign_up_path_for to direct somewhere else?
           expect(response).to redirect_to(root_path)
         end
 
         it "flashes welcome" do
-          post :create, user: FactoryGirl.attributes_for(:user)
           expect(flash[:notice]).to eq("Welcome! You have signed up successfully.")
         end
 
         it "clears fb from session" do
           expect(session.keys.grep(/^fb_/)).to be_empty
         end
-
       end
-
     end
-
   end
 
   describe "#edit" do
@@ -262,7 +270,7 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
       describe "DELETE" do
         before { delete :destroy }
 
-        it "doesn't deletes user" do
+        it "doesn't delete user" do
           expect(User.find_by_id(user.id)).not_to be_nil
         end
 
@@ -296,7 +304,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
     end
 
     it "renders facebook_confirmation" do
-      binding.pry
       expect(response).to render_template(:facebook_confirmation)
     end
 

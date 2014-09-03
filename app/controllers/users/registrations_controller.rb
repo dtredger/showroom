@@ -107,6 +107,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     session.delete(:fb_uid)
     session.delete(:fb_token)
     session.delete(:fb_token_expiration)
+    # TODO delete all fb-related keys with:  session.empty? ; session.keys.grep(/^fb_\./).each { |k| session.delete(k) }
+    # see expire_data_after_sign_in! for rationale why session.empty? is necessary
   end
 
   def update_needs_confirmation?(resource, previous)
