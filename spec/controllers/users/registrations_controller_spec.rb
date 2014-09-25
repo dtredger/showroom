@@ -91,6 +91,7 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
           session[:fb_uid] = ""
           session[:fb_token] = ""
           session[:fb_token_expiration] = nil
+          post :create, user: FactoryGirl.attributes_for(:user)
         end
 
         it "clears fb from session" do
@@ -101,6 +102,12 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
         it "renders #new" do
           pending('is this worth testing?')
           expect(response).to render_template(:new)
+        end
+
+        it "does not save fb credentials" do
+          expect(User.find(user.id).fb_uid).to be_nil
+          expect(User.find(user.id).fb_token).to be_nil
+          expect(User.find(user.id).fb_token_expiration).to be_nil
         end
       end
 
@@ -115,8 +122,8 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
         it "saves user fb credentials" do
           expect(User.find(user.id).fb_uid).to eq("12345678")
-          expect(User.find(user.id).fb_uid).to eq("TOKEN2")
-          expect(User.find(user.id).fb_uid).to eq(1421747205)
+          expect(User.find(user.id).fb_token).to eq("TOKEN2")
+          expect(User.find(user.id).fb_token_expiration).to eq(1421747205)
         end
 
         it "logs user in" do
@@ -141,91 +148,51 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
   describe "#edit" do
     context "authorized user" do
-      #   describe "username" do
-      #     it "updates username" do
-      #       pending('soon...')
-      #     end
-      #   end
-      #
-      #   describe "password" do
-      #     it "updates password" do
-      #       pending('soon')
-      #     end
-      #   end
+      it "renders #edit" do
+        sign_in user
+        get :edit
+        expect(response).to render_template(:edit)
+      end
     end
 
     context "unauthorized user" do
-      #   describe "username" do
-      #     it "updates username" do
-      #       pending('soon...')
-      #     end
-      #   end
-      #
-      #   describe "password" do
-      #     it "updates password" do
-      #       pending('soon')
-      #     end
-      #   end
+      pending('is there a way to test this?')
     end
 
     context "un-authenticated user" do
-      #   describe "username" do
-      #     it "updates username" do
-      #       pending('soon...')
-      #     end
-      #   end
-      #
-      #   describe "password" do
-      #     it "updates password" do
-      #       pending('soon')
-      #     end
-      #   end
+      it "redirects to login" do
+        get :edit
+        expect(response).to redirect_to(new_user_session_path)
+      end
     end
   end
 
   describe "#update" do
-    pending("necessary?")
-
     context "authorized user" do
-      #   describe "username" do
-      #     it "updates username" do
-      #       pending('soon...')
-      #     end
-      #   end
-      #
-      #   describe "password" do
-      #     it "updates password" do
-      #       pending('soon')
-      #     end
-      #   end
+      before do
+        sign_in user
+        post :update, user: FactoryGirl.attributes_for(:user,
+           username: "something else")
+      end
+
+      it "updates username" do
+        expect(user.username).to eq("something else")
+      end
     end
 
     context "unauthorized user" do
-      #   describe "username" do
-      #     it "updates username" do
-      #       pending('soon...')
-      #     end
-      #   end
-      #
-      #   describe "password" do
-      #     it "updates password" do
-      #       pending('soon')
-      #     end
-      #   end
+      pending('how is this tested?')
     end
 
     context "un-authenticated user" do
-      #   describe "username" do
-      #     it "updates username" do
-      #       pending('soon...')
-      #     end
-      #   end
-      #
-      #   describe "password" do
-      #     it "updates password" do
-      #       pending('soon')
-      #     end
-      #   end
+      before do
+        post :update, user: FactoryGirl.attributes_for(:user,
+                                                       username: "something else")
+      end
+
+      it "does not update user" do
+        expect(user.username).to eq("username")
+      end
     end
   end
 

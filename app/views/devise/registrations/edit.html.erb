@@ -1,3 +1,6 @@
+<!-- This template for the registrations#edit action is for -->
+<!-- editing the User model, not the password (which is users#edit -->
+
 <div class="row">
   <div class="small-5 small-centered columns">
 
@@ -7,8 +10,8 @@
     <%= f.error_notification %>
 
     <div class="form-inputs">
-      <%= f.input :username, autofocus: true %>
-      <%= f.input :email %>
+      <%= f.input :username, label: "new username", autofocus: true %>
+      <%= f.input :email, label: "new email" %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
@@ -24,4 +27,4 @@
 
   <p><%= link_to "Edit my password", edit_user_path %></p>
   </div>
-</div>  
+</div>
