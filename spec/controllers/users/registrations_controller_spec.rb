@@ -171,12 +171,17 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
     context "authorized user" do
       before do
         sign_in user
-        post :update, user: FactoryGirl.attributes_for(:user,
-           username: "something else")
       end
 
       it "updates username" do
-        expect(user.username).to eq("something else")
+        put :update,
+            id: user.id,
+            user: FactoryGirl.attributes_for(:user,
+              email: "somethingelse@email.com",
+              username: "something else",
+              current_password: "user_password")
+        user.reload
+        expect(user.email).to eq("somethingelse@email.com")
       end
     end
 
@@ -186,8 +191,10 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
     context "un-authenticated user" do
       before do
-        post :update, user: FactoryGirl.attributes_for(:user,
-                                                       username: "something else")
+        put :update, user: FactoryGirl.attributes_for(:user,
+          email: "something@new.co",
+          username: "something else",
+          current_password: "user_password")
       end
 
       it "does not update user" do
@@ -257,6 +264,10 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
           expect(response).to redirect_to(new_user_session_path)
         end
       end
+    end
+
+    context "unauthorized" do
+      pending("check you can't delete others")
     end
 
   end
