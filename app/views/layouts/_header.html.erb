@@ -19,7 +19,7 @@
 			      <li class="has-dropdown">
 			      	<%= link_to('+ Add Closet', new_closet_path) %>
 			        <ul class="dropdown">
-			          <li><%= link_to "My Closets", closets_path(current_user) %></li>
+			          <li><%= link_to "My Closets", closets_path %></li>
 			          <li><%= link_to "Profile", profile_path %></li>
 			          <li><a href="#">About</a></li>
 			          <li><%= link_to('Logout', destroy_user_session_path, :method=>'delete') %></li>
