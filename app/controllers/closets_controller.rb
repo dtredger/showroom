@@ -1,11 +1,17 @@
 class ClosetsController < ApplicationController
+  before_filter :correct_user, only: [:show]
 
 	def index
-		@closets = current_user.closets
+    if current_user
+		  @closets = current_user.closets
+    else
+      redirect_to new_user_session_path
+    end
 	end
 
 	def show
 		@closet = Closet.includes(:items).where(id: params[:id]).first
+
 	end
 
 	def new
@@ -45,11 +51,20 @@ class ClosetsController < ApplicationController
 		end
 	end
 
+
 	private
 
 	def list_params
 		params.require(:closet).permit(:title, :summary)
-	end
+  end
+
+  def correct_user
+    if current_user.nil?
+      redirect_to new_user_session_path
+    elsif Closet.where(user_id: current_user.id).where(id: params[:id]).to_a == []
+      redirect_to closets_path
+    end
+  end
 
 end
 
