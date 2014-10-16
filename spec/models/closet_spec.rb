@@ -39,6 +39,11 @@ RSpec.describe Closet, :type => :model do
         duplicate_closet_title = Closet.create(user_id: user.id, title: "My Closet", summary: "new closet summary")
         expect(duplicate_closet_title).not_to be_valid
       end
+
+      pending "ignores case when rejecting duplicates" do
+        duplicate_closet_title = Closet.create(user_id: user.id, title: "My closet", summary: "new closet summary")
+        expect(duplicate_closet_title).not_to be_valid
+      end
     end
 
     describe "different user" do
