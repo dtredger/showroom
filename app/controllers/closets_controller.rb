@@ -1,5 +1,5 @@
 class ClosetsController < ApplicationController
-  before_filter :correct_user
+  before_filter :authenticated_user
   before_filter :correct_closet, only: [:show]
 
 	def index
@@ -62,7 +62,7 @@ class ClosetsController < ApplicationController
 		params.require(:closet).permit(:title, :summary)
   end
 
-  def correct_user
+  def authenticated_user
     if current_user.nil?
       redirect_to new_user_session_path
     end
