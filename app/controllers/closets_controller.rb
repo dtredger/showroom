@@ -1,6 +1,6 @@
 class ClosetsController < ApplicationController
   before_filter :authenticated_user
-  before_filter :correct_closet, only: [:show]
+  before_filter :correct_closet, only: [:show, :destroy]
 
 	def index
     if current_user.nil?

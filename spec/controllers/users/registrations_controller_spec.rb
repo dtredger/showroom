@@ -204,7 +204,8 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
   end
 
   describe "#destroy" do
-    # TODO should there be a distinction btw/ authenticated & authorized?
+    # TODO - should there be a distinction btw/ authenticated & authorized?
+    # TODO - deleting account is currently not accessible anywhere in UI
 
     context "authenticated" do
       before { sign_in user }
