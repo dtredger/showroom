@@ -1,6 +1,6 @@
 Showspace::Application.routes.draw do
 
-  devise_for :users, controllers: {
+  devise_for :users, skip: [:sessions], controllers: {
       omniauth_callbacks: "users/omniauth_callbacks",
       registrations: 'users/registrations'
   }
@@ -14,6 +14,11 @@ Showspace::Application.routes.draw do
   # routes for non-authenticated users
   devise_scope :user do
     root to: 'items#index'
+
+    get 'signin' => 'devise/sessions#new', :as => :new_user_session
+    post 'signin' => 'devise/sessions#create', :as => :user_session
+    delete 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
+
     # handles Facebook confirmation signup
     match '/users/facebook_confirmation' => 'users/registrations#facebook_confirmation',
       via: :get,
