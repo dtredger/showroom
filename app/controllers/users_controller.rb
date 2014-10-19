@@ -1,13 +1,15 @@
 class UsersController < ApplicationController
-	before_filter :authenticate_user!
+  before_filter :authenticate_user!
+  # before_filter :correct_user, only: [:edit, :update_password]
 
 	def show
-		@user = User.find(params[:id])
-	end
+		@user = User.find_by_id(params[:id]) || current_user
+  end
 
+  # TODO this pertains to editing password only: rename method?
 	def edit
 		@user = current_user
-	end
+  end
 
 	# https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-password
   def update_password
@@ -16,9 +18,10 @@ class UsersController < ApplicationController
       # Sign in the user by passing validation in case his password changed
       sign_in @user, :bypass => true
       redirect_to root_path
+      flash[:notice] = "Password successfully changed"
     else
-      render :edit
       flash_errors @user
+      render :edit
     end
   end
 
@@ -32,6 +35,14 @@ class UsersController < ApplicationController
   def flash_errors(user)
     user.errors.full_messages.each do |message|
       flash[:alert] = message
+    end
+  end
+
+  def correct_user
+    if not current_user == User.find_by_id(params[:id])
+      # TODO user_path doesn't currently exist
+      redirect_to(user_path current_user)
+      flash[:alert] = "Please log in"
     end
   end
 

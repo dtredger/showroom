@@ -27,14 +27,21 @@ RSpec.describe Closet, :type => :model do
     it { is_expected.to respond_to(:user_id) }
   end
 
-  context "created with new user" do
-    it { expect(user.closets).not_to be_empty }
+  context "for new user" do
+    it "exists" do
+      expect(user.closets).not_to be_empty
+    end
   end
 
   context "naming" do
     describe "same user" do
       it "rejects duplicate title" do
         duplicate_closet_title = Closet.create(user_id: user.id, title: "My Closet", summary: "new closet summary")
+        expect(duplicate_closet_title).not_to be_valid
+      end
+
+      pending "ignores case when rejecting duplicates" do
+        duplicate_closet_title = Closet.create(user_id: user.id, title: "My closet", summary: "new closet summary")
         expect(duplicate_closet_title).not_to be_valid
       end
     end
@@ -52,9 +59,10 @@ RSpec.describe Closet, :type => :model do
   context "item" do
     describe "duplicates" do
 
-      it "rejects duplicates" do
-        pending('desirable?')
-      end
+      pending("desirable?")
+      # it "rejects duplicates" do
+      #   pending("desirable?")
+      # end
 
 
 

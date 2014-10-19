@@ -38,6 +38,8 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'guard'
   gem 'guard-rspec'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :production, :staging do

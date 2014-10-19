@@ -1,5 +1,5 @@
 # Override Devise registrations controller
-class RegistrationsController < Devise::RegistrationsController
+class Users::RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :require_no_authentication, only: [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!, only: [:edit, :update, :destroy]
 
@@ -9,12 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
     clear_facebook_session
     build_resource({})
 
-    # Check for a Facebook session
-    if session[:fb_uid]
-      self.resource.fb_uid = session[:fb_uid]
-      self.resource.fb_token = session[:fb_token]
-      self.resource.fb_token_expiration = session[:fb_token_expiration]
-    end
+    # TODO clear_facebook_session removes session, so no point to check
 
     respond_with self.resource
   end
@@ -23,7 +18,6 @@ class RegistrationsController < Devise::RegistrationsController
   # Added logic to clear Facebook session upon create
   # POST /resource
   def create
-
     build_resource(sign_up_params)
 
     # Add Facebook info from session to user model.
@@ -113,6 +107,8 @@ class RegistrationsController < Devise::RegistrationsController
     session.delete(:fb_uid)
     session.delete(:fb_token)
     session.delete(:fb_token_expiration)
+    # TODO delete all fb-related keys with:  session.empty? ; session.keys.grep(/^fb_\./).each { |k| session.delete(k) }
+    # see expire_data_after_sign_in! for rationale why session.empty? is necessary
   end
 
   def update_needs_confirmation?(resource, previous)

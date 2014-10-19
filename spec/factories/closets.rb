@@ -14,5 +14,19 @@
 
 FactoryGirl.define do
   factory :closet do
+    association :user, factory: :user, username: "username"
+    title "closet one"
+    summary "summary for closet one"
+
+    factory :closet_2 do
+      association :user, factory: :user, username: "username_2"
+      title "closet two"
+    end
+
+    factory :closet_3 do
+      association :user, factory: :user, username: "username"
+      title "second closet for user one "
+      summary "user one's second closet "
+    end
   end
 end

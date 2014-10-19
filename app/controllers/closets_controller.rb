@@ -1,10 +1,17 @@
 class ClosetsController < ApplicationController
+  before_filter :authenticated_user
+  before_filter :correct_closet, only: [:show, :destroy]
 
 	def index
-		@closets = current_user.closets
+    if current_user.nil?
+      redirect_to new_user_session_path
+    else
+      @closets = current_user.closets
+    end
 	end
 
 	def show
+    # TODO - this seems more complex than necessary
 		@closet = Closet.includes(:items).where(id: params[:id]).first
 	end
 
@@ -13,11 +20,12 @@ class ClosetsController < ApplicationController
 	end
 
 	def create
-		@closet = current_user.closets.build(list_params)
+		@closet = current_user.closets.build(closet_params)
 		if @closet.save
 			redirect_to closets_path, notice: "Created a new closet."
-		else
-			render 'new', notice: "Error creating closet."
+    else
+      flash_errors(@closet)
+			render 'new'
 		end
 	end
 
@@ -28,10 +36,11 @@ class ClosetsController < ApplicationController
 	def update
 		@closet = current_user.closets.find(params[:id])
 
-		if @closet.update_attributes(list_params)
+		if @closet.update_attributes(closet_params)
 			redirect_to closet_path(@closet), notice: "Closet updated."
-		else
-			render 'edit', alert: "Something went wrong. Again..."
+    else
+      flash_errors(@closet)
+			render 'edit'
 		end
 	end
 
@@ -40,16 +49,36 @@ class ClosetsController < ApplicationController
 
 		if @closet.destroy
 			redirect_to closets_path, notice: 'Deleted closet.'
-		else
-			render 'show', notice: "Error deleting closet"
+    else
+      flash_errors(@closet)
+			render 'show'
 		end
 	end
 
+
 	private
 
-	def list_params
+	def closet_params
 		params.require(:closet).permit(:title, :summary)
-	end
+  end
+
+  def authenticated_user
+    if current_user.nil?
+      redirect_to new_user_session_path
+    end
+  end
+
+  def correct_closet
+    if Closet.where(user_id: current_user.id).where(id: params[:id]).to_a == []
+      redirect_to closets_path
+    end
+  end
+
+  def flash_errors(resource)
+    resource.errors.full_messages.each do |message|
+      flash[:alert] = message
+    end
+  end
 
 end
 

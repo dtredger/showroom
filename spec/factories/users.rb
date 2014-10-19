@@ -37,6 +37,12 @@ FactoryGirl.define do
       password "user2_password"
     end
 
+    factory :invalid_user do
+      username "whatever"
+      email "not an email"
+      password ""
+    end
+
   end
 
 

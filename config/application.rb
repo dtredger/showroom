@@ -22,20 +22,20 @@ module Showspace
     # config.i18n.enforce_available_locales = true
 
     config.generators do |g|
-      g.test_framework :rspec, 
-        fixtures: true, 
-        view_specs: false, 
+      g.test_framework :rspec,
+        fixtures: true,
+        view_specs: false,
         helper_specs: false,
         routing_specs: false,
         controller_specs: true,
         request_specs: true
-      g.fixture_replacement :factory_girl, 
+      g.fixture_replacement :factory_girl,
         dir: "spec/factories"
       # g.integration_tool :rspec, fixture: true, views: true
     end
 
-    # Do nots log passwords
-    config.filter_parameters += [:password, :password_confirmation]    
+    # Do not log passwords
+    config.filter_parameters += [:password, :password_confirmation]
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
     # http://blog.seancarpenter.net/2012/11/05/page-specific-javascript-with-the-asset-pipeline/

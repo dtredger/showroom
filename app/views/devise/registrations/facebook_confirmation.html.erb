@@ -5,23 +5,18 @@
       <h2>And choose a username please</h2>
     </div>
 
-		<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-		  <%= f.error_notification %>
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= f.error_notification %>
 
-      <div class="form-inputs">
-			  <%= f.input :username, required: true, autofocus: true %> 
-			  <%= f.input :email, required: true %>
-      </div>
+        <div class="form-inputs">
+          <%= f.input :username, required: true, autofocus: true %>
+          <%= f.input :email, required: true %>
+        </div>
 
-		  <%= hidden_field_tag :fb_uid, @fb_uid %>
-		  <%= hidden_field_tag :fb_expires_at, @fb_expires_at %>
-		  <%= hidden_field_tag :fb_token, @fb_token %>
-
-      <div class="form-actions">
-        <%= f.button :submit, "Activate", :class=> "right" %>
-      </div>
-
-		<% end %>
+        <div class="form-actions">
+            <%= f.button :submit, "Activate", :class=> "right" %>
+        </div>
+    <% end %>
 
   </div>
 </div>
