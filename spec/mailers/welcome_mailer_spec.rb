@@ -21,15 +21,15 @@ RSpec.describe WelcomeMailer, :type => :mailer do
   describe "welcome_email" do
     before do
       clear_sent_email
-      UserMailer.welcome_email(@user.id).deliver
+      WelcomeMailer.welcome_email(@user.id).deliver
     end
 
     it "sends to right user" do
-      ActionMailer::Base.deliveries.last.to.should eq([@user.email])
+      expect(ActionMailer::Base.deliveries.last.to).to eq([@user.email])
     end
 
     it "only sends one" do
-      ActionMailer::Base.deliveries.count.should eq(1)
+      expect(ActionMailer::Base.deliveries.count).to eq(1)
     end
   end
 
