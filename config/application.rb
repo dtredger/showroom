@@ -42,5 +42,7 @@ module Showspace
     config.assets.precompile += %w( *-bundle.js )
     config.assets.precompile += %w( *-bundle.css )
 
+    # https://devcenter.heroku.com/articles/rails-4-asset-pipeline
+    config.serve_static_assets = true
   end
 end
