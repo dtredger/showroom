@@ -26,6 +26,8 @@ gem 'unicorn'
 
 gem 'pg'
 
+gem 'figaro'
+
 group :development, :test do
 	gem 'pry-rails'
   gem 'annotate'
