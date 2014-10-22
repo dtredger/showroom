@@ -34,14 +34,18 @@ group :development, :test do
   gem 'ruby-debug-ide' #for Rubymine
   gem 'debase'         #for Rubymine
   gem 'simplecov'      #test coverage reports
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
+group :test do
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'rspec-collection_matchers'
   gem 'guard'
   gem 'guard-rspec'
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'webmock'
 end
 
 group :production, :staging do

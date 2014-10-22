@@ -25,7 +25,7 @@
 				end
 			end
 			puts "Links array: " + links_array.inspect
-			return links_array		
+			return links_array
 		end
 
 		def category_scrape(url, category1)
@@ -61,7 +61,7 @@
 							item_link = "http://tres-bien.com" + item_link
 							item_name = item.at_css('.product-name').text.strip
 							item_price = item.at_css('.regular-price').text.strip if item.at_css('.regular-price')
-							item_image = item.at_css('img')['src'] 
+							item_image = item.at_css('img')['src']
 							if item.at_css('.special-price')
 								item_sale_price = item.at_css('.special-price').css('span')[1].text.strip # this dense line grabs the text of the second span tag under the .special-price div -- i.e., gets the price
 							end
@@ -139,22 +139,23 @@
 			end
 		end
 
-	    def add_items_to_database
-	       @items_array.each do |item|
+    def add_items_to_database
+      @items_array.each do |item|
 
-	          puts "Adding item: " + item["product_name"]
-	         Item.create!(
-	            product_name: item["product_name"],
-	            description: item["description"],
-	            designer: item["designer"],
-	            price_cents: item["price"],
-	            currency: item["currency"],
-	            store_name: item["store_name"],
-	            image_source: item["image_source"],
-	            state: 0,
-	            image_source_array: item["image_source_array"],
-	            product_link: item["product_link"],
-	            category1: item["category1"])
-	       end
-	    end
+        puts "Adding item: " + item["product_name"]
+        Item.create!(
+          product_name: item["product_name"],
+          description: item["description"],
+          designer: item["designer"],
+          price_cents: item["price"],
+          currency: item["currency"],
+          store_name: item["store_name"],
+          image_source: item["image_source"],
+          state: 0,
+          image_source_array: item["image_source_array"],
+          product_link: item["product_link"],
+          category1: item["category1"])
+      end
+    end
+
 	end
