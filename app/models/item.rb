@@ -40,6 +40,8 @@ class Item < ActiveRecord::Base
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
+  mount_uploader : image_source, ItemImageUploader
+
   after_create :check_for_duplicate
   before_destroy :delete_associated_images
 

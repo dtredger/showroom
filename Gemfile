@@ -27,6 +27,8 @@ gem 'unicorn'
 gem 'pg'
 
 gem 'figaro'
+gem 'fog'
+gem 'carrierwave'
 
 group :development, :test do
 	gem 'pry-rails'

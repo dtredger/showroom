@@ -12,8 +12,20 @@ RSpec.describe 'Basic Scraper' do
     Rake::Task.define_task(:environment)
   end
 
+  def cats:
+    cats
+  end
+
   it 'should do something' do
-    expect{ Rake::Task["scrape_task"].invoke}.to change{ Items.count}
+    MrPorterScraper.stub initialize: cats
+
+    # allow(MrPorterScraper).to receive(open_url)
+    # allow(MrPorterScraper).to receive(resize_image)
+    # allow(MrPorterScraper).to receive(format_item_to_local_url_path)
+    Rake::Task["scrape_task"].invoke
+    binding.pry
+    expect(@cats).to eq('yup')
+    # expect{ Rake::Task["scrape_task"].invoke}.to change{ Items.count}
   end
 
 
