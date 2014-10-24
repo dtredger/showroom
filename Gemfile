@@ -46,7 +46,6 @@ group :test do
   gem 'rspec-collection_matchers'
   gem 'guard'
   gem 'guard-rspec'
-  gem 'webmock'
 end
 
 group :production, :staging do
