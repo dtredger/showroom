@@ -17,9 +17,9 @@ class ItemImageUploader < CarrierWave::Uploader::Base
     date = Time.now.strftime("%m%d%y")
 
     # sanitize and truncate strings
-    store_name = store_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(10)
+    store_name = store_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(10, omission:"")
     designer = designer.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_')
-    product_name = product_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(20)
+    product_name = product_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(10, omission:"")
 
     "items/#{store_name}/#{designer}/#{product_name}"
   end

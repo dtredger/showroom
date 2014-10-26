@@ -2,11 +2,16 @@ require 'rails_helper'
 
 RSpec.describe ItemImageUploader, :type => :uploader do
 
-  describe 'My behaviour' do
+  context '#store_dir' do
 
-    it 'should do something' do
+    it 'sets correct storage path' do
+      item = FactoryGirl.create(Item,
+        store_name: "name!",
+        designer: "designer?",
+        product_name: "name & more")
+      uploader = ItemImageUploader.new(model=item)
 
-      expect(true).to eq(true)
+      expect(uploader.store_dir).to eq("items/name_/designer_/name___mor")
     end
   end
 

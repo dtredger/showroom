@@ -20,7 +20,7 @@
 #  updated_at         :datetime
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Item, :type => :model do
 
@@ -28,7 +28,7 @@ RSpec.describe Item, :type => :model do
     Item.delete_all
   end
 
-  # let(:item) { create(:item) }
+  let(:item_1) { create(:item) }
 
   context "model" do
     it { is_expected.to respond_to(:product_name) }
@@ -49,10 +49,7 @@ RSpec.describe Item, :type => :model do
   context "matches" do
     describe "store, designer and name" do
       item_1 = FactoryGirl.create(:item)
-      item_2 = FactoryGirl.create(:blurberry,
-        designer: "BURBERRY LONDON",
-        store_name: "Mr. Porter",
-        product_name: "Black Relaxed-Fit Wool Suit Trousers")
+      item_2 = FactoryGirl.create(:item)
 
       it "creates warning" do
         expect(item_2.duplicate_warnings.length).to eq(1)
@@ -66,7 +63,22 @@ RSpec.describe Item, :type => :model do
         expect(item_2.duplicate_warnings[0].existing_item_id).to eq(item_1.id)
       end
     end
-    
+  end
+
+  context "images" do
+    describe "image_source" do
+      it "names image with filename" do
+        expect(item_1["image_source"]).to eq("doge_log.gif")
+      end
+
+      it "formats path with attributes" do
+        expect(item_1.image_source.url).to eq("/items/a_store_na/designer_test/Test_Produ/doge_log.gif")
+      end
+
+      it "stores CarrierWave file" do
+        expect(item_1.image_source.file.class.to_s).to eq("CarrierWave::SanitizedFile")
+      end
+    end
   end
 
 end

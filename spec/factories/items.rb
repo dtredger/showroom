@@ -24,13 +24,13 @@
 
 FactoryGirl.define do
   factory :item do
-    product_name "Black Relaxed-Fit Wool Suit Trousers"
+    product_name "Test Product"
     description "You can't go wrong with a pair of Burberry London's..."
-    designer "BURBERRY LONDON"
+    designer "designer test"
     price_cents 26000
     currency "USD"
-    store_name "Mr. Porter"
-    image_source "/img/items/Mr._Porter/BURBERRY_LONDON/073014/BURBERRY_L-Black_Relat4svr58f.jpeg"
+    store_name "a store name"
+    image_source File.open(File.join(Rails.root, '/public/images/doge_log.gif'))
     image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
     product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
     category1 "Suits"
@@ -45,7 +45,6 @@ FactoryGirl.define do
       price_cents 10101
       currency "USD"
       store_name "not Mr. Porter"
-      image_source "/img/items/not_Mr._Porter/BURBERRY_LONDON/073014/BURBERRY_L-Black_Relat4svr58f.jpeg"
       image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
       product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
       category1 "Suits"
