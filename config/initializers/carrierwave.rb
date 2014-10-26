@@ -8,7 +8,7 @@ CarrierWave.configure do |config|
     config.storage = :aws
   end
 
-  config.aws_bucket = ENV['AWS_BUCKET']
+  config.aws_bucket = ENV['AWS_BUCKETNAME']
   config.asset_host = ENV['AWS_ENDPOINT']
   config.aws_acl = :public_read
   config.aws_credentials = {

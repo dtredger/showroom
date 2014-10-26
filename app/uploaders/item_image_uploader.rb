@@ -10,10 +10,18 @@ class ItemImageUploader < CarrierWave::Uploader::Base
   ## set in initializers/carrierwave.rb
 
   # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
+    store_name = model.store_name.blank? ? "NA" : model.store_name
+    designer = model.designer.blank? ? "NA" : model.designer
+    product_name = model.product_name.blank? ? "NA" : model.product_name
+    date = Time.now.strftime("%m%d%y")
 
-    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    # sanitize and truncate strings
+    store_name = store_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(10)
+    designer = designer.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_')
+    product_name = product_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(20)
+
+    "items/#{store_name}/#{designer}/#{product_name}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
