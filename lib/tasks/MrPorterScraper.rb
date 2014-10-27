@@ -55,7 +55,7 @@ class MrPorterScraper < BasicScraper
 				product3 = Hash.new
 
 				# image rows
-				
+
 				images = image_rows[j].css('.product-image')
 
 				if images[0]
@@ -121,7 +121,7 @@ class MrPorterScraper < BasicScraper
 					puts "#1 designer: " + product1_designer
 					puts "#1 name: " + product1_name
 					puts "#1 price: " + product1_price
-					
+
 					if !@items_array.any? { |h| h["product_link"] == product1["product_link"]} # check if the link is already in our array somehow...
 						@items_array << product1
 					end
@@ -142,7 +142,7 @@ class MrPorterScraper < BasicScraper
 					puts "#2 designer: " + product2_designer
 					puts "#2 name: " + product2_name
 					puts "#2 price: " + product2_price
-					
+
 					if !@items_array.any? { |h| h["product_link"] == product2["product_link"]} # check if the link is already in our array somehow...
 						@items_array << product2
 					end
@@ -222,7 +222,9 @@ class MrPorterScraper < BasicScraper
 	def add_items_to_database
 		puts "Adding items to database..."
 		@items_array.each do |item|
-			Item.create!(item)
+      # Carrierwave accepts actual file
+      item["image_source"] = open("#{Rails.root}/public/#{item['image_source']}")
+  		Item.create!(item)
 		end
 		# output_file = CSV.open("MrPorter2.csv", "wb")
 		# output_file << ["product_name", "product_link", "designer", "price",  "image_source", "image_source_array", "description"]
