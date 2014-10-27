@@ -6,38 +6,34 @@ Dir[Rails.root.join('lib/tasks/*.rb')].each { |f| require f }
 
 RSpec.describe 'Basic Scraper' do
 
-  # let(:rake) { Rake::Application.new }
+  VALID_URL = 'https://www.google.ca'
 
-  # before do
-  #   load "tasks/scrape_task.rake"
-  #   Rake::Task.define_task(:environment)
-  # end
+  context "initialize" do
+    pending
+  end
 
+  context "open_url" do
+    it "fetches DOM with nokogiri" do
+      basic_scraper = BasicScraper.allocate
+      site = basic_scraper.open_url(VALID_URL)
 
-  #
-  # it 'should do something' do
-  #   MrPorterScraper.stub initialize: cats
-  #
-  #   # allow(MrPorterScraper).to receive(open_url)
-  #   # allow(MrPorterScraper).to receive(resize_image)
-  #   # allow(MrPorterScraper).to receive(format_item_to_local_url_path)
-  #   Rake::Task["scrape_task"].invoke
-  #   binding.pry
-  #   expect(@cats).to eq('yup')
-  #   # expect{ Rake::Task["scrape_task"].invoke}.to change{ Items.count}
-  # end
+      expect(site.class).to eq(Nokogiri::HTML::Document)
+    end
 
+    it "returns msg if DOM unavailable" do
+      pending
+    end
+  end
 
-  it "is cool" do
-    expect(true).to eq(true)
+  context "resize_image" do
+    pending
+  end
+
+  context "format_item_to_local_url_path" do
+    pending
   end
 
 
-  it "loads urls" do
-    basic_scraper = BasicScraper.allocate
-    site = basic_scraper.open_url('https://www.google.ca')
 
-    expect(site.class).to eq(Nokogiri::HTML::Document)
-  end
 
 end

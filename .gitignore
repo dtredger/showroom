@@ -19,6 +19,7 @@
 /public/img/*
 /public/scraped_images/*
 /public/uploads/*
+/public/images/img
 
 # ignore rubymine config
 /.idea
