@@ -1,0 +1,31 @@
+
+
+    <div class="register-header">
+      <h2>Sign in</h2>
+    </div>
+
+    <!-- facebook registration button -->
+    <div class="center-facebook-button">
+      <a href="/users/auth/facebook" class="facebook-login-button" id="facebook-registration-button">
+        <span>Sign in with Facebook</span>
+      </a>
+    </div>
+
+    <!-- or divider -->
+    <div>
+      <span class="or-divider"><span>or</span><span>
+    </div>
+
+    <%= simple_form_for(user, url: user_session_path) do |f| %>
+        <div class="form-inputs">
+          <%= f.input :login, required: true, autofocus: true %>
+          <%= f.input :password, required: true %>
+          <%= f.input :remember_me, as: :boolean %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.button :submit, "Sign in", :class=> "right" %>
+        </div>
+    <% end %>
+
+    <%= link_to "Forgot your password?", new_user_password_path %><br />
