@@ -5,6 +5,18 @@ Showspace::Application.routes.draw do
       registrations: 'users/registrations'
   }
 
+  # Devise adds the following (doesn't show up in Rake Routes / Rubymine)
+  #   new_session_path(:user)      => new_user_session_path
+  #   session_path(:user)          => user_session_path
+  #   destroy_session_path(:user)  => destroy_user_session_path
+  #
+  #   new_password_path(:user)     => new_user_password_path
+  #   password_path(:user)         => user_password_path
+  #   edit_password_path(:user)    => edit_user_password_path
+  #
+  #   new_confirmation_path(:user) => new_user_confirmation_path
+  #   confirmation_path(:user)     => user_confirmation_path
+
 
   # routes for authenticated users
   authenticated :user do
