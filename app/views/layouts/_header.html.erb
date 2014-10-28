@@ -48,29 +48,8 @@
 
 <!-- login modal -->
 <% if !user_signed_in? %>
-  <div id="login-modalx" class="reveal-modal" data-reveal>
-
-    <h2>Welcome back</h2>
-    <div class="center-facebook-button">
-      <a href="/users/auth/facebook" class="facebook-login-button">
-        <span>Login with Facebook</span>
-      </a>
-    </div>
-    <div>
-      <span class="or-divider"><span>or</span><span>
-    </div>
-
-    <%= simple_form_for :user, { url: user_session_path } do |f| %>
-      <%= f.error_notification %>
-      <%= f.input :login, required: true, autofocus: true %>
-      <%= f.input :password, required: true %>
-      <%= f.submit "Login", :class=> "button", :id => 'login_button' %>
-    <% end %>
-
+  <div id="login-modal" class="reveal-modal" data-reveal>
+    <%= render 'layouts/signin' %>
     <a class="close-reveal-modal">&#215;</a>
   </div>
 <% end %>
-
-<div class="login-modal">
-  <%= render "devise/sessions/new" %>
-</div>
