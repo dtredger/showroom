@@ -7,26 +7,32 @@ require 'fileutils'
 
 class BasicScraper
 
-	def initialize(url, category1)
-    @items_array = Array.new
-    category_scrape(url, category1)
-    scrape_items_detail
-    add_items_to_database
-  end
-
   def open_url(url)
     # Fake the browser
-    @site = Nokogiri::HTML(open(url, "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:13.0) Gecko/20100101 Firefox/13.0.1"))
+    begin
+      dom = Nokogiri::HTML(open(url, "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:13.0) Gecko/20100101 Firefox/13.0.1"))
+    rescue Exception => e
+      dom = "Open_url Error: #{e}"
+    end
+    dom
   end
 
-  def resize_image(item_hash)
+  def download_image(image_url)
+    # download image to memory
+    begin
+      image_string = open(image_url)
+      image_list = Magick::ImageList.new.from_blob(image_string.read)
+      image = image_list[0]
+    rescue Magick::ImageMagickError
+      image = "ImageMagickError: bad image format - #{image_url}"
+    rescue Exception => e
+      image = "General Resize error: #{e}"
+    end
+    image
+  end
 
-    # download bigger image to memory
-    image_bigger = Magick::ImageList.new
-    url_bigger = open(item_hash["image_source_array"][0])
-    image_bigger.from_blob(url_bigger.read)
-    image_bigger = image_bigger[0]
 
+  def resize_image(image_file)
     # grab format of image
     image_format_extension = '.' + image_bigger.format.downcase
 
