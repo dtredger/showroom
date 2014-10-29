@@ -1,7 +1,14 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-gem 'rails', '4.0.4'
+gem 'rails', '~> 4.1.0'
+
+gem 'pg'
+
+gem 'rack-timeout'
+gem 'unicorn'
+
+gem 'activejob'
 
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -21,11 +28,6 @@ gem 'money-rails'
 gem 'nokogiri'
 # http://stackoverflow.com/questions/3606190/rmagick-warning-while-running-server
 gem 'rmagick', :require => false
-
-gem 'rack-timeout'
-gem 'unicorn'
-
-gem 'pg'
 
 gem 'figaro'
 gem 'carrierwave-aws'
