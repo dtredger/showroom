@@ -10,7 +10,8 @@ task :scrape_task => :environment do
 end
 
 
-task :scrape_mrporter => :environment do
+task :scrape_mrporter, [:url, :category, :is_test] => :environment do |task, args|
+  args.with_defaults(url: "http://www.mrporter.com/Shop/Clothing/Suits", category: "Suits", is_test: true)
   mrporter = MrPorterScraper.new
-  mrporter.begin_scrape("http://www.mrporter.com/Shop/Clothing/Suits")
+  mrporter.begin_scrape(args.url, args.category, args.is_test)
 end

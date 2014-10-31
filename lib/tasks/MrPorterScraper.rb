@@ -1,7 +1,6 @@
 require_relative 'BasicScraper'
 
 class MrPorterScraper < BasicScraper
-  TEST_MODE = true
   SITE_ROOT = "http://www.mrporter.com"
   URL_PROTOCOL = "http:"
   CURRENCY = "USD"
@@ -23,13 +22,13 @@ class MrPorterScraper < BasicScraper
 		# puts "Base url: " + @base_url
   # end
 
-  def begin_scrape(url, category="")
+  def begin_scrape(url, category="", is_test)
     dom = open_url(url)
-    results = scrape_category_page(dom, category)
+    results = scrape_category_page(dom, category, is_test)
     puts results
   end
 
-	def scrape_category_page(dom, category)
+	def scrape_category_page(dom, category, is_test)
     item_details = dom.css('.description')
     images = dom.css('.tall-product-image')
 
@@ -41,7 +40,7 @@ class MrPorterScraper < BasicScraper
     results_log = { success: 0, failure: 0 }
     errors_log = []
 
-    beginning = (images.length - 3) if TEST_MODE
+    beginning = (images.length - 3) if is_test
     ((beginning||=0)..images.length).each do |row|
       # log errors but keep going with other rows
       begin
