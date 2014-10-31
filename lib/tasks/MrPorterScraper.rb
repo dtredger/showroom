@@ -1,7 +1,7 @@
 require_relative 'BasicScraper'
 
 class MrPorterScraper < BasicScraper
-
+  TEST_MODE = true
   SITE_ROOT = "http://www.mrporter.com"
   URL_PROTOCOL = "http:"
   CURRENCY = "USD"
@@ -9,21 +9,27 @@ class MrPorterScraper < BasicScraper
   STATE = 0
 
   # TODO - is this relevant, if we can simply ?viewall=on
-	def find_number_of_pages(url)
-		page = open_url(url)
+  # def find_number_of_pages(url)
+		# page = open_url(url)
+  #
+  #  # parse ul that counts "Page x of y"
+		# page_count_string = page.css('.product-list-menu-page-filter').at_css('.page-on').text.strip
+  #  page_count = /of.(?<count>\d*)/.match(page_count_string)[:count].to_i
+  #
+		# # grab the next page link stored in 3rd li element
+		# page_link = pages.css('li')[2].at_css('a')[:href]
+  #
+		# @base_url = "http://www.mrporter.com/" + page_link[0...-1] # chop off last number from url
+		# puts "Base url: " + @base_url
+  # end
 
-   # parse ul that counts "Page x of y"
-		page_count_string = page.css('.product-list-menu-page-filter').at_css('.page-on').text.strip
-   page_count = /of.(?<count>\d*)/.match(page_count_string)[:count].to_i
+  def begin_scrape(url, category="")
+    dom = open_url(url)
+    results = scrape_category_page(dom, category)
+    puts results
+  end
 
-		# grab the next page link stored in 3rd li element
-		page_link = pages.css('li')[2].at_css('a')[:href]
-
-		@base_url = "http://www.mrporter.com/" + page_link[0...-1] # chop off last number from url
-		puts "Base url: " + @base_url
-	end
-
-	def scrape_category_page(dom, category="")
+	def scrape_category_page(dom, category)
     item_details = dom.css('.description')
     images = dom.css('.tall-product-image')
 
@@ -34,16 +40,18 @@ class MrPorterScraper < BasicScraper
 
     results_log = { success: 0, failure: 0 }
     errors_log = []
-    (0..images.length).each do |row|
+
+    beginning = (images.length - 3) if TEST_MODE
+    ((beginning||=0)..images.length).each do |row|
       # log errors but keep going with other rows
       begin
         product = {
             product_link: SITE_ROOT + images[row].at_css('a')['href'],
-            image_link: URL_PROTOCOL + images[row].at_css('img')['src'],
-            product_designer: item_details[row].at_css('.product-designer').text.strip.upcase,
+            image_source: URL_PROTOCOL + images[row].at_css('img')['src'],
+            designer: item_details[row].at_css('.product-designer').text.strip.upcase,
             product_name: item_details[row].at_css('.product-title').text.strip,
-            product_price: item_details[row].at_css('.price-container').text.strip.gsub("$", '').gsub(",", ''),
-            category: category
+            price_cents: item_details[row].at_css('.price-container').text.strip.gsub("$", '').gsub(",", ''),
+            category1: category
         }
         complete_product = scrape_product_page(product)
         save_item_from_url(complete_product)
@@ -58,21 +66,25 @@ class MrPorterScraper < BasicScraper
 	end
 
 	def scrape_product_page(product_object)
-    product_page = open_url(product_object["product_link"])
+    begin
+      product_page = open_url(product_object[:product_link])
 
-    # the image_array for MrPorter has one image
-    image = URL_PROTOCOL + product_page.css('#medium-image').at_css('img')['src']
+      # the image_array for MrPorter has one image
+      image = URL_PROTOCOL + product_page.css('#medium-image').at_css('img')['src']
 
-    meta_desc = product_page.at("meta[property='og:description']")
-    description = meta_desc['content'].strip
+      meta_desc = product_page.at("meta[property='og:description']")
+      description = meta_desc['content'].strip
 
-    product_object.store("image_source_array", [image])
-    product_object.store("description", description)
-    product_object.store("currency", "USD")
-    product_object.store("store_name", "Mr. Porter")
-    product_object.store("state", 0)
-
-    product_object
+      product_object.store(:image_source_array, [image])
+      product_object.store(:description, description)
+      product_object.store(:currency, "USD")
+      product_object.store(:store_name, "Mr. Porter")
+      product_object.store(:state, 0)
+      response = product_object
+    rescue Exception => e
+      response = "scrape_product_page error: #{e}"
+    end
+    response
 	end
 
 

@@ -68,9 +68,11 @@ class BasicScraper
       item_object[:image_source] = open(image_path)
 
       response = Item.create!(item_object)
-      [image_path, response.image_source.path].each { |f| File.delete f }
+      [image_path, response.image_source.path].each { |f| File.delete(f) if File.exist?(f) }
     rescue ActiveRecord::RecordInvalid => e
-      response = e
+      response = "save_item_from_url ActiveRecord: #{e}"
+    rescue Exception => e
+      response = "save_item_from_url: #{e}"
     end
     response
   end

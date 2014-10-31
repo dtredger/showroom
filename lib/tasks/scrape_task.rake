@@ -8,3 +8,9 @@ task :scrape_task => :environment do
 	#TresbienScraper.new("http://tres-bien.com/categories/outerwear/", "Outerwear")
 	#TresbienScraper.new("http://tres-bien.com/categories/trousers/", "Bottoms")
 end
+
+
+task :scrape_mrporter => :environment do
+  mrporter = MrPorterScraper.new
+  mrporter.begin_scrape("http://www.mrporter.com/Shop/Clothing/Suits")
+end
