@@ -83,7 +83,6 @@ RSpec.describe 'Basic Scraper' do
   end
 
 
-
   context "#save_item_from_url" do
     # describe "failure" do
     #   bad_item = FactoryGirl.create(:item, image_source: 'trrble')
@@ -103,6 +102,27 @@ RSpec.describe 'Basic Scraper' do
 
       it "deletes resized image" do
         expect(File.exist? result.image_source.path).to be_falsey
+      end
+    end
+
+  end
+
+  context "#price_to_cents" do
+    describe "non-price" do
+      it "returns error" do
+        expect{ basic_scraper.price_to_cents('not a price') }.to raise_exception
+      end
+    end
+
+    describe "number price" do
+      it "parses prices without cents" do
+        price = basic_scraper.price_to_cents(159.90)
+        expect(price).to eq(15990)
+      end
+
+      it "parses string price with $" do
+        price = basic_scraper.price_to_cents("$29.30")
+        expect(price).to eq(2930)
       end
     end
 

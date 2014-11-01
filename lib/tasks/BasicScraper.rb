@@ -77,5 +77,18 @@ class BasicScraper
     response
   end
 
+  def price_to_cents(price)
+    if price.is_a?(String)
+      stripped_string_price = price.match(/\d{1,}\.*\d{,2}*/).to_s
+      raise Exception, "price_to_cents error: price has no numbers" if stripped_string_price.blank?
+      cents_price = (stripped_string_price.to_f*100).to_i
+    elsif price.is_a? Float or price.is_a? Integer
+      cents_price = (price*100).to_i
+    else
+      raise Exception, "price_to_cents error: invalid price type"
+    end
+    cents_price
+  end
+
 end
 
