@@ -60,6 +60,7 @@ class BasicScraper
   end
 
   # TODO - resize_image writes img to disk, and then carrierwave does to (to /tmp)
+  # TODO - not saving/resizing the images in the array currently
   def save_item_from_url(item_object)
     begin
       image_url = item_object[:image_source]
