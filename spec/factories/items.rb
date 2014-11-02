@@ -30,7 +30,7 @@ FactoryGirl.define do
     price_cents 26000
     currency "USD"
     store_name "a store name"
-    image_source File.open(File.join(Rails.root, '/public/images/doge_log.gif'))
+    image_source File.open(Rails.root.join('public/images/doge_log.gif'))
     image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
     product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
     category1 "Suits"
