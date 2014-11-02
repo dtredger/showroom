@@ -120,9 +120,9 @@ RSpec.describe 'Basic Scraper' do
         expect(price).to eq(15990)
       end
 
-      it "parses string price with $" do
-        price = basic_scraper.price_to_cents("$29.30")
-        expect(price).to eq(2930)
+      it "parses string price with $ and ," do
+        price = basic_scraper.price_to_cents("$1,129.30")
+        expect(price).to eq(112930)
       end
     end
 

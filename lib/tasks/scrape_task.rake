@@ -15,3 +15,9 @@ task :scrape_mrporter, [:url, :category, :is_test] => :environment do |task, arg
   mrporter = MrPorterScraper.new
   mrporter.begin_scrape(args.url, args.category, args.is_test)
 end
+
+task :scrape_ssense, [:url, :category, :is_test] => :environment do |task, args|
+  args.with_defaults(url: "https://www.ssense.com/men/designers/all/clothing/suits-blazers/suits", category: "Suits", is_test: true)
+  ssense = SsenseScraper.new
+  ssense.begin_scrape(args.url, args.category, args.is_test)
+end
