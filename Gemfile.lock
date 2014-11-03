@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/activeadmin/activeadmin.git
-  revision: c26ae0b1393311180b5137c6b4a271de3385d069
+  revision: c93f6f49c6d4a7f35c98466fc1bc1cd0e1c826c5
   specs:
     activeadmin (1.0.0.pre)
       arbre (~> 1.0, >= 1.0.2)
@@ -76,7 +76,7 @@ GEM
     celluloid (0.16.0)
       timers (~> 4.0.0)
     coderay (1.1.0)
-    coffee-rails (4.0.1)
+    coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
     coffee-script (2.3.0)
@@ -115,7 +115,7 @@ GEM
     foundation-rails (5.4.5.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
-    guard (2.7.1)
+    guard (2.7.2)
       formatador (>= 0.2.4)
       listen (~> 2.7)
       lumberjack (~> 1.0)
@@ -152,7 +152,7 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
-    mail (2.6.1)
+    mail (2.6.3)
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
     mime-types (2.4.3)
@@ -299,7 +299,6 @@ GEM
       raindrops (~> 0.7)
     warden (1.2.3)
       rack (>= 1.0)
-    will_paginate (3.0.7)
 
 PLATFORMS
   ruby
@@ -310,7 +309,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   carrierwave-aws
-  coffee-rails (~> 4.0.0)
+  coffee-rails
   database_cleaner
   debase
   devise (= 3.2.4)
@@ -340,4 +339,3 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   unicorn
-  will_paginate (~> 3.0)

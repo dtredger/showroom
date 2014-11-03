@@ -36,7 +36,7 @@
 				<div class="item">
 					<div class="item-picture">
 						<%= link_to item_path(item) do %><img src="<%=item.image_source%>" /><% end %>
-						
+
 						<% if current_user %>
 							<!-- ADD LINK TO CLOSET MODAL -->
 							<a href="#" data-reveal-id="closet-modal-<%= item.id %>"><div id="special-span">+</div></a>
@@ -72,7 +72,7 @@
 			<!-- paginate row -->
 			<div class="row">
 				<div class="placeholder">
-					<p><%= will_paginate @items %></p>
+					<!--<p>will_paginate @items %></p>-->
 				</div>
 			</div>
 		</div>
