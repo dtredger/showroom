@@ -4,8 +4,8 @@ require_relative 'MrPorterScraper'
 
 task :scrape_task => :environment do
 
-	MrPorterScraper.new("http://www.mrporter.com/Shop/Clothing/Suits", "Suits")
+	#MrPorterScraper.new("http://www.mrporter.com/Shop/Clothing/Suits", "Suits")
 	#SsenseScraper.new("https://www.ssense.com/men/designers/all/clothing/suits-blazers/suits", "Suits")
-	#TresbienScraper.new("http://tres-bien.com/categories/outerwear/", "Outerwear")
+	TresbienScraper.new("http://tres-bien.com/categories/outerwear/", "Outerwear")
 	#TresbienScraper.new("http://tres-bien.com/categories/trousers/", "Bottoms")
 end

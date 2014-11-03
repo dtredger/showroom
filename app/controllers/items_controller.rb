@@ -3,6 +3,8 @@ class ItemsController < ApplicationController
   def index
     @ci = ClosetsItem.new()
     @items = handle_search
+    # Allow state when items are approved
+    #@items = @items.where(state: 1).page(params[:page]).per_page(27)#.order("created_at DESC") -- default scope should handle this
     @items = @items.page(params[:page]).per_page(27)#.order("created_at DESC") -- default scope should handle this
   end
 
@@ -12,6 +14,9 @@ class ItemsController < ApplicationController
     @like = @item.likes.build
   end
 
+  #
+  # Items are imported through the scraper
+  #
   # def new
   # end
 
@@ -50,12 +55,11 @@ class ItemsController < ApplicationController
     money.cents
   end
 
-
+  # Add state to search (only display active items)
   def handle_search
-    # Also see
     # http://www.justinweiss.com/blog/2014/02/17/search-and-filter-rails-models-without-bloating-your-controller/
     # http://stackoverflow.com/questions/14219528/activerecord-anonymous-scope
-
+    
     items = Item.where(nil) # creates an anonymous scope
     items = items.search_designer(params[:designer]) unless params[:designer].blank?
     items = items.search_category1(params[:category1]) unless params[:category1].blank?

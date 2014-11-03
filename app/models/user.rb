@@ -1,3 +1,5 @@
+# Refactor Omniauth signup to remove sessions
+
 class User < ActiveRecord::Base
 
   has_many :items, through: :closets

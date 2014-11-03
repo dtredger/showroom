@@ -1,3 +1,9 @@
+# State 0 : Pending Review
+# State 1 : Live
+# State 2 : Retired
+# State 3 : Banned/Hidden
+# State 4 : Delete
+
 class Item < ActiveRecord::Base
 
   has_and_belongs_to_many :closets
@@ -7,6 +13,9 @@ class Item < ActiveRecord::Base
   has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
 
 	serialize :image_source_array
+
+  # Virtual attribute
+  attr_accessor :old_item_update
 
   # For the money-rails gem
   monetize :price_cents, :allow_nil => true
@@ -20,6 +29,46 @@ class Item < ActiveRecord::Base
 
   after_create :check_for_duplicate
   before_destroy :delete_associated_images
+  after_save :perform_item_management_operation, :handle_state
+
+  # either delete doesn't work properly or problem with image transfer?
+  def perform_item_management_operation
+    if old_item_update.present?
+      
+      # update the older item with the attributes of the newer item (duplicate)
+      other_item = Item.find(old_item_update)
+      other_item_image_path = 'public' + other_item.image_source
+
+      binding.pry
+
+      # http://stackoverflow.com/questions/10112946/nice-way-to-merge-copy-attributes-between-two-activerecord-classes
+      # no :without_protection => true in rails 4 for assign?
+      # http://stackoverflow.com/questions/6770350/rails-update-attributes-without-save
+      # update_attributes = assign_attributes + save
+      # SIMPLY UPDATE EACH ATTRIBUTE DIRECTLY
+      # a.attrib = b.attrib
+      # a.save
+      forbidden_attributes = ["id", "state", "created_at", "category1", "category2", "category3", "image_source"]
+
+      self.attributes.select do |attrib, val|
+        if !forbidden_attributes.include?(attrib) && Item.column_names.include?(attrib)
+          # http://www.davidverhasselt.com/set-attributes-in-activerecord/
+          other_item.update_attribute(attrib, val)
+        end
+      end
+
+      binding.pry
+
+      # copy the image too
+      newer_item_image_path = 'public' + self.image_source
+      FileUtils.move newer_item_image_path, other_item_image_path if File.exist?(newer_item_image_path)
+      self.destroy
+    end
+  end
+
+  def handle_state
+    self.destroy if state == 4
+  end
 
   def add_duplicate_warning!(other_item, match_score, warning_notes)
     self.duplicate_warnings.create!(existing_item_id: other_item.id, match_score: match_score, warning_notes: warning_notes)
