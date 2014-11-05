@@ -55,8 +55,64 @@
 					<%= f.text_field :product_name %>
 				</div>
 
-				<div class="large-2 columns">Update</div>
+				<div class="large-2 columns">
+				  <p>
+				  <%= f.check_box :state, {}, 1, nil %>  
+					<%= f.label :state, 'Approve' %>
+				  </p>
+				  <p>
+				  <%= f.check_box :state, {}, 3, nil %>  
+					<%= f.label :state, 'Ban' %>
+				  </p>
+				  <p>
+				  <%= f.check_box :state, {}, 4, nil %>  
+					<%= f.label :state, 'Delete' %>			
+					</p>
+				</div>
 			</div>
+
+			<!-- EXPERIMENTAL -->
+
+			<% item.matches.each do |match| %>
+				<div class="row panel">
+					<p>MATCH</p>
+					<!-- product image -->
+					<div class="large-3 columns"><img src="<%=match.image_source%>" /></div>
+					
+					<!-- images (displayed as thumbnails) -->
+					<div class="large-2 columns">
+						<% match.image_source_array.each do |i| %>
+							  <img class="th" src="<%= i %>"/>
+						<% end %>
+					</div>
+
+					<!-- item info -->
+					<div class="large-5 columns">
+						<p>
+						STORE NAME:<br />
+						<%= match.store_name %>
+						</p>
+
+						<p>
+						DESIGNER:
+						<%= match.designer %><br />
+						</p>
+
+						<p>
+						PRODUCT NAME:
+						<%= match.product_name %>
+						</p>
+					</div>
+
+					<div class="large-2 columns">
+					  <%= f.check_box :old_item_update, {}, match.id, nil %>  
+						<%= f.label :old_item_update, 'UPDATE MATCH' %>
+					</div>
+				</div>
+			<% end %>
+
+			<!-- EXPERIMENTAL -->
+
 		<% end %>
 	<% end %>
 	<%= submit_tag "Update Items", class: "button" %>
