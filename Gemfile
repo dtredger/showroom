@@ -5,22 +5,26 @@ gem 'rails', '~> 4.0.0'
 
 gem 'pg'
 
-gem 'rack-timeout'
+# gem 'rack-timeout'
 gem 'unicorn'
 
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'#, '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'sass', '3.4.5'
+gem 'sass',  '~> 3.2.0'
+
+# sass issue requires 2.11  https://github.com/twbs/bootstrap-sass/issues/560
+gem 'sprockets', '=2.11.0'
 
 gem 'foundation-rails'
 gem 'jquery-ui-rails'
-gem 'will_paginate', '~> 3.0'
+gem 'kaminari'
 
 gem 'devise', '3.2.4'
 gem 'omniauth-facebook'
 gem 'simple_form'
+gem 'activeadmin', github: 'activeadmin'
 
 gem 'money-rails'
 gem 'nokogiri'

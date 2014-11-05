@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   def index
     @ci = ClosetsItem.new()
     @items = handle_search
-    @items = @items.page(params[:page]).per_page(27)#.order("created_at DESC") -- default scope should handle this
+    @items = @items.page(params[:page]).per(9) #.order("created_at DESC") -- default scope should handle this
   end
 
   def show

@@ -167,3 +167,43 @@ span .spacer {
 	margin-bottom: 10px;
 	color: #333;
 }
+
+//from now-deleted item.css
+span .spacer {
+  padding: 0 5px;
+}
+
+.item {
+  display: inline-block;
+  width: 280px;
+  margin: 20px;
+}
+
+.item-picture {
+  position: relative;
+  width: 280px;
+  height: 400px;
+}
+
+.overlaytext {
+  position: relative;
+  bottom: 300px;
+  left: 10px;
+  color: white;
+  background: rgb(0, 0, 0); /* fallback color */
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+}
+
+
+.item-text {
+  width:280px;
+  height: 100px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.center-button-group {
+  display: table;
+  margin: 0 auto;
+}
