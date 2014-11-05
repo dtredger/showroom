@@ -15,7 +15,6 @@ ActiveAdmin.register Item do
   # end
 
   permit_params :product_name,
-    :description,
     :designer,
     :price_cents,
     :currency,
@@ -32,13 +31,11 @@ ActiveAdmin.register Item do
     selectable_column
     id_column
     column :product_name
-    column :description
     column :designer
     column :price_cents
     column :currency
     column :store_name
     column :image_source
-    column :image_source_array
     column :product_link
     column :category1
     column :category2
@@ -48,13 +45,11 @@ ActiveAdmin.register Item do
   end
 
   filter :product_name
-  filter :description
   filter :designer
   filter :price_cents
   filter :currency
   filter :store_name
   filter :image_source
-  filter :image_source_array
   filter :product_link
   filter :category1
   filter :category2

@@ -201,7 +201,6 @@ GEM
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rack-timeout (0.1.0)
     rails (4.0.11)
       actionmailer (= 4.0.11)
       actionpack (= 4.0.11)
@@ -320,12 +319,12 @@ DEPENDENCIES
   guard-rspec
   jquery-rails
   jquery-ui-rails
+  kaminari
   money-rails
   nokogiri
   omniauth-facebook
   pg
   pry-rails
-  rack-timeout
   rails (~> 4.0.0)
   rails_12factor
   rmagick
