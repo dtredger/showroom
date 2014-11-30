@@ -1,4 +1,4 @@
-	require_relative 'BasicScraper'
+	require_relative 'basic_scraper'
 
 	class TresbienScraper < BasicScraper
 
@@ -6,7 +6,6 @@
     CURRENCY = "EURO"
     STATE = 0
     SITE_ROOT = "http://tres-bien.com"
-
 
     def begin_scrape(url, category="", is_test)
       pages = find_number_of_pages(url)

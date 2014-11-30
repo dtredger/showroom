@@ -34,7 +34,9 @@
 			<div class="row">
 
 				<!-- product image -->
-				<div class="large-3 columns"><img src="<%=item.image_source%>" /></div>
+				<div class="large-3 columns">
+					<img src="<%=item.image_source%>" />
+				</div>
 				
 				<!-- images (displayed as thumbnails) -->
 				<div class="large-2 columns">
@@ -115,5 +117,11 @@
 
 		<% end %>
 	<% end %>
-	<%= submit_tag "Update Items", class: "button" %>
+
+	<div class="row">
+		<div class="large-12 columns">
+			<%= submit_tag "Update Items", class: "button right" %>
+		</div>
+	</div>
+
 <% end %>

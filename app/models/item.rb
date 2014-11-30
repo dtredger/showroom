@@ -32,6 +32,7 @@ class Item < ActiveRecord::Base
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
   has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
+  has_one :deadpool_warning
 
 	serialize :image_source_array
 
@@ -42,7 +43,8 @@ class Item < ActiveRecord::Base
   monetize :price_cents, :allow_nil => true
   monetize :price_cents, with_model_currency: :currency
 
-  default_scope -> { order('created_at DESC') }
+  # Why does the following default_scope now cause an error?
+  #default_scope -> { order('created_at DESC') }
   scope :search_min_price, -> (min_price) { where("price_cents >= ?", min_price) }
   scope :search_max_price, -> (max_price) { where("price_cents <= ?", max_price) }
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }

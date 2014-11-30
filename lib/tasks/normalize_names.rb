@@ -9,7 +9,6 @@ module Normalizer
 		name.strip.downcase.gsub(/[^a-z0-9]/, '').gsub('&', 'and').gsub('$', 's').gsub('+', 'plus')
 	end
 
-
 	def Normalizer.normalize(name)
 		names.each do |k, v|
 			return k if Normalizer.essence(k) == Normalizer.essence(name)

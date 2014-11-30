@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102155748) do
+ActiveRecord::Schema.define(version: 20141129224830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(version: 20141102155748) do
   create_table "closets_items", id: false, force: true do |t|
     t.integer "closet_id"
     t.integer "item_id"
+  end
+
+  create_table "deadpool_warnings", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "score"
+    t.text     "warning_notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "duplicate_warnings", force: true do |t|

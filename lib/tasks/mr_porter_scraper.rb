@@ -1,4 +1,4 @@
-require_relative 'BasicScraper'
+require_relative 'basic_scraper'
 
 class MrPorterScraper < BasicScraper
   SITE_ROOT = "http://www.mrporter.com"
