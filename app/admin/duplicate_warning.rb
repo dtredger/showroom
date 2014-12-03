@@ -22,7 +22,14 @@ ActiveAdmin.register DuplicateWarning do
       redirect_to root_path
     end
 
+
+    def scoped_collection
+      super.includes :duplicate_warnings
+    end
+
   end
+
+
 
 
 end

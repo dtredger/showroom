@@ -15,6 +15,7 @@ ActiveAdmin.register Item do
     :category3,
     :state
 
+
   index do
     selectable_column
     id_column
@@ -32,17 +33,19 @@ ActiveAdmin.register Item do
     actions
   end
 
+  index as: :grid, columns: 2 do |item|
+    link_to image_tag(item.image_source), admin_item_path(item)
+  end
+
   filter :product_name
-  filter :designer
+  filter :designer, as: :select
   filter :price_cents
-  filter :currency
-  filter :store_name
-  filter :image_source
-  filter :product_link
+  filter :currency, as: :select
+  filter :store_name, as: :select
   filter :category1
   filter :category2
   filter :category3
-  filter :state
+  filter :state, as: :select
 
   form do |f|
     f.inputs "New Item" do
