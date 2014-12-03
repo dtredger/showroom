@@ -1,6 +1,7 @@
 ActiveAdmin.register DuplicateWarning do
 
   menu priority: 8
+  menu parent: 'Items'
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

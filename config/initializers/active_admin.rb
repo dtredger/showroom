@@ -207,6 +207,15 @@ ActiveAdmin.setup do |config|
   #       menu.add label: "My Great Website", url: "http://www.mygreatwebsite.com", html_options: { target: :blank }
   #     end
   #   end
+  config.namespace :admin do |admin|
+    admin.build_menu do |menu|
+      menu.add label: 'Stores', priority: 30 do |sites|
+        sites.add label: 'Mr Porter',   url: 'http://mrporter.com'
+        sites.add label: 'Ssense',      url: 'http://ssense.com'
+        sites.add label: 'Tres Bien',   url: 'http://tresbien.com'
+      end
+    end
+  end
 
 
   # == Download Links
