@@ -28,3 +28,6 @@
 /coverage
 # Ignore application configuration
 /config/application.yml
+
+#all generated documentation
+/doc
