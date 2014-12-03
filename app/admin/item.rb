@@ -48,7 +48,7 @@ ActiveAdmin.register Item do
   filter :state, as: :select
 
   action_item :view, only: :show do
-    link_to 'View on site', post_path(post) if post.published?
+    link_to 'View on site', item_path(item)
   end
 
   show do
