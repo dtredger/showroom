@@ -3,32 +3,19 @@ ActiveAdmin.register DuplicateWarning do
   menu priority: 8
   menu parent: 'Items'
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
+  permit_params :pending_item_id, :existing_item_id, :match_score, :warning_notes
+
   #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if resource.something?
-  #   permitted
+  # form do |f|
+  #   # f.input :pending_item_id, as: :select, collection:
+  # #   f.input :existing_item_id
   # end
 
-  controller do
-    def create
-      flash[:alert] = 'cats yo'
-      redirect_to root_path
-    end
-
-
-    def scoped_collection
-      super.includes :duplicate_warnings
-    end
-
-  end
-
+  # controller do
+  #   show do
+  #
+  #   end
+  # end
 
 
 

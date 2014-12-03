@@ -2,7 +2,7 @@
 #
 # Table name: items
 #
-#  id                 :integer          not null primary key
+#  id                 :integer          not null, primary key
 #  product_name       :text
 #  description        :text
 #  designer           :text
@@ -18,6 +18,7 @@
 #  state              :integer
 #  created_at         :datetime
 #  updated_at         :datetime
+#  sku                :string(255)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

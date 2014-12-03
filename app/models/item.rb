@@ -18,6 +18,7 @@
 #  state              :integer
 #  created_at         :datetime
 #  updated_at         :datetime
+#  sku                :string
 #
 # State 0 : Pending Review
 # State 1 : Live
@@ -57,7 +58,7 @@ class Item < ActiveRecord::Base
   # either delete doesn't work properly or problem with image transfer?
   def perform_item_management_operation
     if old_item_update.present?
-      
+
       # update the older item with the attributes of the newer item (duplicate)
       other_item = Item.find(old_item_update)
       other_item_image_path = 'public' + other_item.image_source

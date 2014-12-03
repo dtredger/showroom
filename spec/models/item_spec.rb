@@ -18,6 +18,7 @@
 #  state              :integer
 #  created_at         :datetime
 #  updated_at         :datetime
+#  sku                :string(255)
 #
 
 require "rails_helper"

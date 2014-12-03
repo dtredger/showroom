@@ -47,6 +47,26 @@ ActiveAdmin.register Item do
   filter :category3
   filter :state, as: :select
 
+  action_item :view, only: :show do
+    link_to 'View on site', item_path(item)
+  end
+
+  show do
+    image_tag(item.image_source)
+    attributes_table do
+      row :product_name
+      row :designer
+      row :price_cents
+      row :currency
+      row :store_name
+      row :category1
+      row :category2
+      row :category3
+      row :state
+    end
+  end
+
+
   form do |f|
     f.inputs "New Item" do
       f.input :product_name
@@ -64,6 +84,14 @@ ActiveAdmin.register Item do
       f.input :state
     end
     f.actions
+  end
+
+  controller do
+
+    def scoped_collection
+      super.includes :duplicate_warnings
+    end
+
   end
 
 end
