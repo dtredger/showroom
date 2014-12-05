@@ -20,7 +20,6 @@
 #  fb_token_expiration    :datetime
 #  username               :string(255)
 #
-# Refactor Omniauth signup to remove sessions
 
 class User < ActiveRecord::Base
 

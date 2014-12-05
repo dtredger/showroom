@@ -1,18 +1,6 @@
 ActiveAdmin.register Item do
 
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if resource.something?
-  #   permitted
-  # end
+  menu priority: 4
 
   permit_params :product_name,
     :designer,
@@ -26,6 +14,23 @@ ActiveAdmin.register Item do
     :category2,
     :category3,
     :state
+
+  scope("Pending")  { |scope| scope.where(state: 0) }
+  scope('Live')     { |scope| scope.where(state: 1) }
+  scope('Retired')  { |scope| scope.where(state: 2) }
+  scope('Banned')   { |scope| scope.where(state: 3) }
+  scope('Deleted')  { |scope| scope.where(state: 4) }
+
+  filter :product_name
+  filter :designer, as: :select
+  filter :price_cents
+  filter :currency, as: :select
+  filter :store_name, as: :select
+  filter :category1
+  filter :category2
+  filter :category3
+  filter :state, as: :select
+
 
   index do
     selectable_column
@@ -44,17 +49,30 @@ ActiveAdmin.register Item do
     actions
   end
 
-  filter :product_name
-  filter :designer
-  filter :price_cents
-  filter :currency
-  filter :store_name
-  filter :image_source
-  filter :product_link
-  filter :category1
-  filter :category2
-  filter :category3
-  filter :state
+  index as: :grid, columns: 2 do |item|
+    link_to image_tag(item.image_source), admin_item_path(item)
+  end
+
+
+  action_item :view, only: :show do
+    link_to 'View on site', item_path(item)
+  end
+
+  show do
+    image_tag(item.image_source)
+    attributes_table do
+      row :product_name
+      row :designer
+      row :price_cents
+      row :currency
+      row :store_name
+      row :category1
+      row :category2
+      row :category3
+      row :state
+    end
+  end
+
 
   form do |f|
     f.inputs "New Item" do
@@ -73,6 +91,30 @@ ActiveAdmin.register Item do
       f.input :state
     end
     f.actions
+  end
+
+
+  batch_action :set_live, priority: 1, confirm: "Set selected items live?" do |ids|
+    Item.find(ids).each do |item|
+      item.update(state: 1)
+    end
+    redirect_to admin_items_path, notice: "All selected items were set live."
+  end
+
+  batch_action :retire, priority: 2, confirm: "Retire selected items?" do |ids|
+    Item.find(ids).each do |item|
+      item.update(state: 2)
+    end
+    redirect_to admin_items_path, notice: "All selected items were retired."
+  end
+
+
+  controller do
+
+    def scoped_collection
+      super.includes :duplicate_warnings
+    end
+
   end
 
 end

@@ -18,6 +18,7 @@
 #  state              :integer
 #  created_at         :datetime
 #  updated_at         :datetime
+#  sku                :string
 #
 # State 0 : Pending Review
 # State 1 : Live
@@ -51,13 +52,13 @@ class Item < ActiveRecord::Base
   mount_uploader :image_source, ItemImageUploader
 
   after_create :check_for_duplicate
-  before_destroy :delete_associated_images
+  before_destroy :delete_associated_images, :delete_associated_duplicate_warnings
   after_save :perform_item_management_operation, :handle_state
 
   # either delete doesn't work properly or problem with image transfer?
   def perform_item_management_operation
     if old_item_update.present?
-      
+
       # update the older item with the attributes of the newer item (duplicate)
       other_item = Item.find(old_item_update)
       other_item_image_path = 'public' + other_item.image_source
@@ -97,14 +98,24 @@ class Item < ActiveRecord::Base
     self.duplicate_warnings.create!(existing_item_id: other_item.id, match_score: match_score, warning_notes: warning_notes)
   end
 
-  def remove_duplicate_warning!(other_item)
-    self.duplicate_warnings.find_by(existing_item_id: other_item.id).destroy
-  end
+  # TODO - how would this be used?
+  # def remove_duplicate_warning!(other_item)
+  #   self.duplicate_warnings.find_by(existing_item_id: other_item.id).destroy
+  # end
 
   def delete_associated_images
     path_to_image = 'public' + self.image_source
     File.delete(path_to_image) if File.exist?(path_to_image)
   end
+
+  # TODO - delete warning once one of matches is deleted
+  # def delete_associated_duplicate_warnings
+  #   if self.duplicate_warnings
+  #     self.duplicate_warnings.delete_all
+  #   else
+  #     DuplicateWarning.find_by(existing_item_id: self.id).delete_all
+  #   end
+  # end
 
   def check_for_duplicate
     if self.store_name
