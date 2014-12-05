@@ -23,7 +23,6 @@ describe Admin::DuplicateWarningsController, type: :controller do
     it "appears in menu" do
       expect(resource).to be_include_in_menu
     end
-
   end
 
   context "batch actions" do
@@ -78,11 +77,13 @@ describe Admin::DuplicateWarningsController, type: :controller do
       end
 
       it "deletes pending items" do
-        expect([item_2, item_4]).to be_nil
+        expect(Item.find_by_id(item_2.id)).to be_nil
+        expect(Item.find_by_id(item_4.id)).to be_nil
       end
 
       it "does not delete existing items" do
-        expect([item_1, item_3]).not_to be_nil
+        expect(Item.find_by_id(item_1.id)).not_to be_nil
+        expect(Item.find_by_id(item_3.id)).not_to be_nil
       end
 
       it "deletes warnings" do
@@ -93,22 +94,25 @@ describe Admin::DuplicateWarningsController, type: :controller do
     describe "delete_all_existing_items" do
       before do
         sign_in admin_user
-        post :batch_action, batch_action: 'delete_all_pending_items',
+        post :batch_action, batch_action: 'delete_all_existing_items',
              collection_selection: [@duplicate_warning.id, @duplicate_warning_2.id]
       end
 
       it "deletes existing items" do
-        expect([item_1, item_3]).to be_nil
+        expect(Item.find_by_id(item_1.id)).to be_nil
+        expect(Item.find_by_id(item_3.id)).to be_nil
       end
 
       it "does not delete pending items" do
-        expect([item_2, item_4]).not_to be_nil
+        expect(Item.find_by_id(item_2.id)).not_to be_nil
+        expect(Item.find_by_id(item_4.id)).not_to be_nil
       end
 
       it "deletes warnings" do
         expect(DuplicateWarning.all).to be_empty
       end
     end
+
   end
 
 
