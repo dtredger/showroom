@@ -1,9 +1,23 @@
-require 'rspec'
+require 'rails_helper'
 
-describe 'My behaviour' do
+describe Admin::AdminUsersController, type: :controller do
 
-  it 'should do something' do
+  let(:admin_user) { AdminUser }
+  let(:all_resources)  { ActiveAdmin.application.namespaces[:admin].resources }
+  let(:resource)       { all_resources[admin_user] }
 
-    true.should == false
+  describe "setup" do
+    it "has correct name" do
+      expect(resource.resource_name).to eq("AdminUser")
+    end
+
+    it "appears in menu" do
+      expect(resource).to be_include_in_menu
+    end
+
   end
+
+
 end
+
+

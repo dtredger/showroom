@@ -39,7 +39,7 @@ FactoryGirl.define do
     category3 nil
     state 0
 
-    factory :blurberry do
+    factory :item_2 do
       product_name "not Black Relaxed-Fit Wool Suit Trousers"
       description "different description"
       designer "not BURBERRY LONDON"

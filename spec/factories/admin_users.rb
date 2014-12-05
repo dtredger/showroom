@@ -19,7 +19,8 @@
 
 FactoryGirl.define do
   factory :admin_user do
-    
+    email 'admin@show.co'
+    password 'admin_password'
   end
 
 end
