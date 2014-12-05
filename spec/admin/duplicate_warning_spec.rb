@@ -36,7 +36,7 @@ describe Admin::DuplicateWarningsController, type: :controller do
           pending_item_id: item_4.id)
     end
 
-    describe "unauthenticated" do
+    context "unauthenticated" do
       it "redirects to admin login" do
         post :batch_action, batch_action: 'destroy',
              collection_selection: [@duplicate_warning.id]
@@ -44,7 +44,7 @@ describe Admin::DuplicateWarningsController, type: :controller do
       end
     end
 
-    describe "unauthorized" do
+    context "unauthorized" do
       it "redirects to admin login" do
         sign_in user
         post :batch_action, batch_action: 'destroy',
@@ -53,63 +53,65 @@ describe Admin::DuplicateWarningsController, type: :controller do
       end
     end
 
-    describe "delete selected" do
-      before do
-        sign_in admin_user
-        post :batch_action, batch_action: 'destroy',
-             collection_selection: [@duplicate_warning.id, @duplicate_warning_2.id]
+    context "authorized" do
+      describe "delete selected" do
+        before do
+          sign_in admin_user
+          post :batch_action, batch_action: 'destroy',
+               collection_selection: [@duplicate_warning.id, @duplicate_warning_2.id]
+        end
+
+        it "destroys all selected warnings" do
+          expect(DuplicateWarning.all).to be_empty
+        end
+
+        it "does not delete associated items" do
+          expect(item_1).not_to be_nil
+        end
       end
 
-      it "destroys all selected warnings" do
-        expect(DuplicateWarning.all).to be_empty
+      describe "delete_all_pending_items" do
+        before do
+          sign_in admin_user
+          post :batch_action, batch_action: 'delete_all_pending_items',
+               collection_selection: [@duplicate_warning.id, @duplicate_warning_2.id]
+        end
+
+        it "deletes pending items" do
+          expect(Item.find_by_id(item_2.id)).to be_nil
+          expect(Item.find_by_id(item_4.id)).to be_nil
+        end
+
+        it "does not delete existing items" do
+          expect(Item.find_by_id(item_1.id)).not_to be_nil
+          expect(Item.find_by_id(item_3.id)).not_to be_nil
+        end
+
+        it "deletes warnings" do
+          expect(DuplicateWarning.all).to be_empty
+        end
       end
 
-      it "does not delete associated items" do
-        expect(item_1).not_to be_nil
-      end
-    end
+      describe "delete_all_existing_items" do
+        before do
+          sign_in admin_user
+          post :batch_action, batch_action: 'delete_all_existing_items',
+               collection_selection: [@duplicate_warning.id, @duplicate_warning_2.id]
+        end
 
-    describe "delete_all_pending_items" do
-      before do
-        sign_in admin_user
-        post :batch_action, batch_action: 'delete_all_pending_items',
-             collection_selection: [@duplicate_warning.id, @duplicate_warning_2.id]
-      end
+        it "deletes existing items" do
+          expect(Item.find_by_id(item_1.id)).to be_nil
+          expect(Item.find_by_id(item_3.id)).to be_nil
+        end
 
-      it "deletes pending items" do
-        expect(Item.find_by_id(item_2.id)).to be_nil
-        expect(Item.find_by_id(item_4.id)).to be_nil
-      end
+        it "does not delete pending items" do
+          expect(Item.find_by_id(item_2.id)).not_to be_nil
+          expect(Item.find_by_id(item_4.id)).not_to be_nil
+        end
 
-      it "does not delete existing items" do
-        expect(Item.find_by_id(item_1.id)).not_to be_nil
-        expect(Item.find_by_id(item_3.id)).not_to be_nil
-      end
-
-      it "deletes warnings" do
-        expect(DuplicateWarning.all).to be_empty
-      end
-    end
-
-    describe "delete_all_existing_items" do
-      before do
-        sign_in admin_user
-        post :batch_action, batch_action: 'delete_all_existing_items',
-             collection_selection: [@duplicate_warning.id, @duplicate_warning_2.id]
-      end
-
-      it "deletes existing items" do
-        expect(Item.find_by_id(item_1.id)).to be_nil
-        expect(Item.find_by_id(item_3.id)).to be_nil
-      end
-
-      it "does not delete pending items" do
-        expect(Item.find_by_id(item_2.id)).not_to be_nil
-        expect(Item.find_by_id(item_4.id)).not_to be_nil
-      end
-
-      it "deletes warnings" do
-        expect(DuplicateWarning.all).to be_empty
+        it "deletes warnings" do
+          expect(DuplicateWarning.all).to be_empty
+        end
       end
     end
 

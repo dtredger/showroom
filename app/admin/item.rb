@@ -15,6 +15,16 @@ ActiveAdmin.register Item do
     :category3,
     :state
 
+  filter :product_name
+  filter :designer, as: :select
+  filter :price_cents
+  filter :currency, as: :select
+  filter :store_name, as: :select
+  filter :category1
+  filter :category2
+  filter :category3
+  filter :state, as: :select
+
 
   index do
     selectable_column
@@ -37,15 +47,6 @@ ActiveAdmin.register Item do
     link_to image_tag(item.image_source), admin_item_path(item)
   end
 
-  filter :product_name
-  filter :designer, as: :select
-  filter :price_cents
-  filter :currency, as: :select
-  filter :store_name, as: :select
-  filter :category1
-  filter :category2
-  filter :category3
-  filter :state, as: :select
 
   action_item :view, only: :show do
     link_to 'View on site', item_path(item)
@@ -85,6 +86,16 @@ ActiveAdmin.register Item do
     end
     f.actions
   end
+
+
+  batch_action :set_live, priority: 1, confirm: "Set selected items live?" do |ids|
+    Item.find(ids).each do |item|
+      item.update(state: 1)
+    end
+    redirect_to admin_items_path, notice: "All selected items were set live."
+  end
+
+
 
   controller do
 

@@ -32,7 +32,7 @@ ActiveAdmin.register DuplicateWarning do
     redirect_to admin_duplicate_warnings_path, alert: "All selected existing items were deleted."
   end
 
-  #
+
   # form do |f|
   #   # f.input :pending_item_id, as: :select, collection:
   # #   f.input :existing_item_id

@@ -108,7 +108,7 @@ class Item < ActiveRecord::Base
     File.delete(path_to_image) if File.exist?(path_to_image)
   end
 
-  # TODO - delete warning once one of matches is deleted here, not in admin batch action
+  # TODO - delete warning once one of matches is deleted
   # def delete_associated_duplicate_warnings
   #   if self.duplicate_warnings
   #     self.duplicate_warnings.delete_all
