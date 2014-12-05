@@ -63,6 +63,33 @@ describe Admin::ItemsController, type: :controller do
           expect(flash[:notice]).not_to be_empty
         end
       end
+
+      describe "retire" do
+        before do
+          @duplicate_warning = DuplicateWarning.create(
+              existing_item_id: item_1.id,
+              pending_item_id: item_2.id)
+          sign_in admin_user
+          post :batch_action, batch_action: 'retire',
+               collection_selection: [item_1.id, item_2.id, item_3.id, item_4.id]
+        end
+
+        it "retires" do
+          expect(Item.find(item_1).state).to eq(2)
+          expect(Item.find(item_2).state).to eq(2)
+          expect(Item.find(item_3).state).to eq(2)
+          expect(Item.find(item_4).state).to eq(2)
+        end
+
+        it "does not alter duplicate warnings" do
+          expect(@duplicate_warning).not_to be_nil
+        end
+
+        it "flashes notice" do
+          expect(flash[:notice]).not_to be_empty
+        end
+      end
+
     end
 
 

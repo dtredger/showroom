@@ -19,7 +19,7 @@ ActiveAdmin.register Item do
   scope('Live')     { |scope| scope.where(state: 1) }
   scope('Retired')  { |scope| scope.where(state: 2) }
   scope('Banned')   { |scope| scope.where(state: 3) }
-  scope('Delete')   { |scope| scope.where(state: 4) }
+  scope('Deleted')  { |scope| scope.where(state: 4) }
 
   filter :product_name
   filter :designer, as: :select
@@ -101,6 +101,12 @@ ActiveAdmin.register Item do
     redirect_to admin_items_path, notice: "All selected items were set live."
   end
 
+  batch_action :retire, priority: 2, confirm: "Retire selected items?" do |ids|
+    Item.find(ids).each do |item|
+      item.update(state: 2)
+    end
+    redirect_to admin_items_path, notice: "All selected items were retired."
+  end
 
 
   controller do
