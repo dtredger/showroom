@@ -42,6 +42,7 @@ class MrPorterScraper < BasicScraper
 
     beginning = (images.length - 3) if is_test
     ((beginning||=0)..images.length).each do |row|
+      image_urls = []
       # log errors but keep going with other rows
       begin
         product = {
@@ -51,7 +52,7 @@ class MrPorterScraper < BasicScraper
           price_cents: item_details[row].at_css('.price-container').text.strip.gsub("$", '').gsub(",", ''),
           category1: category
         }
-        image_urls = [ URL_PROTOCOL + images[row].at_css('img')['src'] ]
+        image_urls << URL_PROTOCOL + images[row].at_css('img')['src']
         complete_product = scrape_product_page(product)
         item = save_item_from_url(complete_product)
         save_images(item, image_urls)
