@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141203043038) do
+ActiveRecord::Schema.define(version: 20141206060555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,13 @@ ActiveRecord::Schema.define(version: 20141203043038) do
   add_index "duplicate_warnings", ["existing_item_id"], name: "index_duplicate_warnings_on_existing_item_id", using: :btree
   add_index "duplicate_warnings", ["pending_item_id", "existing_item_id"], name: "by_pending_existing", unique: true, using: :btree
   add_index "duplicate_warnings", ["pending_item_id"], name: "index_duplicate_warnings_on_pending_item_id", using: :btree
+
+  create_table "images", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image"
+    t.integer  "item_id"
+  end
 
   create_table "items", force: true do |t|
     t.text     "product_name"

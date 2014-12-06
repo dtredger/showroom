@@ -33,8 +33,7 @@ class Item < ActiveRecord::Base
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
   has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
-
-	serialize :image_source_array
+  has_many :images
 
   # Virtual attribute
   attr_accessor :old_item_update
@@ -48,8 +47,6 @@ class Item < ActiveRecord::Base
   scope :search_max_price, -> (max_price) { where("price_cents <= ?", max_price) }
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
-
-  mount_uploader :image_source, ItemImageUploader
 
   after_create :check_for_duplicate
   before_destroy :delete_associated_images, :delete_associated_duplicate_warnings
