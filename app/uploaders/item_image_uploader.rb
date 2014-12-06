@@ -11,9 +11,9 @@ class ItemImageUploader < CarrierWave::Uploader::Base
 
   # Override the directory where uploaded files will be stored.
   def store_dir
-    store_name = model.store_name.blank? ? "NA" : model.store_name
-    designer = model.designer.blank? ? "NA" : model.designer
-    product_name = model.product_name.blank? ? "NA" : model.product_name
+    store_name = model.item.store_name.blank? ? "NA" : model.item.store_name
+    designer = model.item.designer.blank? ? "NA" : model.item.designer
+    product_name = model.item.product_name.blank? ? "NA" : model.item.product_name
     date = Time.now.strftime("%m%d%y")
 
     # sanitize and truncate strings

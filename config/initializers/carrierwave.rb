@@ -1,6 +1,7 @@
 CarrierWave.configure do |config|
 
-  if Rails.env.test?
+  if true
+  # if Rails.env.test?
     config.storage = :file
     config.enable_processing = false
     config.root = "#{Rails.root}/tmp"

@@ -64,7 +64,7 @@ class MrPorterScraper < BasicScraper
       end
     end
     [results_log, errors_log]
-	end
+  end
 
 	def scrape_product_page(product_object)
     begin

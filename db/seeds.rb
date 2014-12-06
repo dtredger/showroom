@@ -9,3 +9,21 @@
 puts 'Creating default user: admin'
 user1 = User.find_or_create_by_email :email => "admin@example.com", :username => "admin", :password => "admin"
 user1.save(validate: false)
+
+
+IMG_PATH = Rails.root.join("public/images/doge_log.gif")
+
+(1..10).each do |i|
+  item = Item.create!(
+      product_link: "product_link #{i}",
+      designer: "designer #{i}",
+      store_name: "some store #{i}",
+      product_name: "product_name #{i}",
+      description: "some description #{i}",
+      sku: "1532s",
+      price_cents: "100#{i}".to_i,
+      category1: "category1 #{i}",
+      state:1
+  )
+  item.images.create(image:open(IMG_PATH))
+end

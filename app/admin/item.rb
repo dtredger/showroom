@@ -7,8 +7,6 @@ ActiveAdmin.register Item do
     :price_cents,
     :currency,
     :store_name,
-    :image_source,
-    :image_source_array,
     :product_link,
     :category1,
     :category2,
