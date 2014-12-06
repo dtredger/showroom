@@ -59,6 +59,14 @@ class BasicScraper
     complete_file_path
   end
 
+  def save_image(parent, image_urls)
+    image_urls.each do |img|
+      magick_img = get_image(img)
+      img_path = resize_image(magick_img)
+      parent.images.create(image: open(img_path))
+    end
+  end
+
   # TODO - resize_image writes img to disk, and then carrierwave does to (to /tmp)
   # TODO - not saving/resizing the images in the array currently
   def save_item_from_url(item_object)
