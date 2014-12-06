@@ -33,7 +33,7 @@ class Item < ActiveRecord::Base
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
   has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
-  has_many :images
+  has_many :images, dependent: :destroy
 
   # Virtual attribute
   attr_accessor :old_item_update
@@ -49,7 +49,7 @@ class Item < ActiveRecord::Base
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
   after_create :check_for_duplicate
-  before_destroy :delete_associated_images, :delete_associated_duplicate_warnings
+  before_destroy :delete_associated_duplicate_warnings
   after_save :perform_item_management_operation, :handle_state
 
   # either delete doesn't work properly or problem with image transfer?
@@ -60,7 +60,6 @@ class Item < ActiveRecord::Base
       other_item = Item.find(old_item_update)
       other_item_image_path = 'public' + other_item.image_source
 
-      binding.pry
 
       # http://stackoverflow.com/questions/10112946/nice-way-to-merge-copy-attributes-between-two-activerecord-classes
       # no :without_protection => true in rails 4 for assign?
@@ -78,7 +77,6 @@ class Item < ActiveRecord::Base
         end
       end
 
-      binding.pry
 
       # copy the image too
       newer_item_image_path = 'public' + self.image_source
@@ -99,11 +97,6 @@ class Item < ActiveRecord::Base
   # def remove_duplicate_warning!(other_item)
   #   self.duplicate_warnings.find_by(existing_item_id: other_item.id).destroy
   # end
-
-  def delete_associated_images
-    path_to_image = 'public' + self.image_source
-    File.delete(path_to_image) if File.exist?(path_to_image)
-  end
 
   # TODO - delete warning once one of matches is deleted
   # def delete_associated_duplicate_warnings
