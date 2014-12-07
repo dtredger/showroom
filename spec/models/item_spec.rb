@@ -43,7 +43,7 @@ RSpec.describe Item, :type => :model do
     it { is_expected.to respond_to(:state) }
   end
 
-  context "matches" do
+  context "check_for_duplicate" do
     describe "store, designer and name" do
       item_1 = FactoryGirl.create(:item)
       item_2 = FactoryGirl.create(:item)
@@ -59,7 +59,27 @@ RSpec.describe Item, :type => :model do
       it "refers to original" do
         expect(item_2.duplicate_warnings[0].existing_item_id).to eq(item_1.id)
       end
+
+      describe "delete_duplicate_warnings" do
+        context "pending item" do
+          it "deletes warning" do
+            item_2.destroy
+            expect(item_1.duplicate_warnings).to be_empty
+            expect(item_2.duplicate_warnings).to be_empty
+          end
+        end
+
+        context "existing item" do
+          it "deletes warning" do
+            item_1.destroy
+            expect(item_1.duplicate_warnings).to be_empty
+            expect(item_2.duplicate_warnings).to be_empty
+          end
+        end
+
+      end
     end
   end
+
 
 end

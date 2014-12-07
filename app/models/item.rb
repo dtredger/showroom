@@ -45,7 +45,7 @@ class Item < ActiveRecord::Base
   # TODO - "In Rails 4.1 delete_all on associations would not fire callbacks. It means if the
   # :dependent option is :destroy then the associated records would be deleted without loading and invoking callbacks."
   after_create :check_for_duplicate
-  before_destroy :delete_associated_duplicate_warnings
+  before_destroy :delete_duplicate_warnings
   after_save :perform_item_management_operation, :handle_state
 
   # either delete doesn't work properly or problem with image transfer?
@@ -96,7 +96,7 @@ class Item < ActiveRecord::Base
 
   # TODO - delete warning once one of matches is deleted
   # deletes matches where item is existing or pending item
-  def delete_associated_duplicate_warnings
+  def delete_duplicate_warnings
     if self.duplicate_warnings
       self.duplicate_warnings.delete_all
     else
