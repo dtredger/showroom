@@ -35,8 +35,7 @@
 			<% @items.each_with_index do |item| %>
 				<div class=" medium-3 item">
 					<div class="item-picture">
-						<%= link_to item_path(item) do %><img src="<%=item.image_source%>" /><% end %>
-
+						<%= link_to item_path(item) do %><img src="<%=item.images.first.image%>" /><% end %>
 						<% if current_user %>
 							<!-- ADD LINK TO CLOSET MODAL -->
 							<a href="#" data-reveal-id="closet-modal-<%= item.id %>"><div id="special-span">+</div></a>
