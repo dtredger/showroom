@@ -17,7 +17,7 @@ IMG_PATH = Rails.root.join("public/images/doge_log.gif")
   item = Item.create!(
       product_link: "product_link #{i}",
       designer: "designer #{i}",
-      store_name: "some store #{i}",
+      store_name: "store #{i}",
       product_name: "product_name #{i}",
       description: "some description #{i}",
       sku: "1532s",
@@ -26,4 +26,5 @@ IMG_PATH = Rails.root.join("public/images/doge_log.gif")
       state:1
   )
   item.images.create(image:open(IMG_PATH))
+  puts "item #{i} and image created"
 end

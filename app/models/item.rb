@@ -41,6 +41,9 @@ class Item < ActiveRecord::Base
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
+
+  # TODO - "In Rails 4.1 delete_all on associations would not fire callbacks. It means if the
+  # :dependent option is :destroy then the associated records would be deleted without loading and invoking callbacks."
   after_create :check_for_duplicate
   before_destroy :delete_associated_duplicate_warnings
   after_save :perform_item_management_operation, :handle_state
@@ -92,13 +95,15 @@ class Item < ActiveRecord::Base
   # end
 
   # TODO - delete warning once one of matches is deleted
-  # def delete_associated_duplicate_warnings
-  #   if self.duplicate_warnings
-  #     self.duplicate_warnings.delete_all
-  #   else
-  #     DuplicateWarning.find_by(existing_item_id: self.id).delete_all
-  #   end
-  # end
+  # deletes matches where item is existing or pending item
+  def delete_associated_duplicate_warnings
+    if self.duplicate_warnings
+      self.duplicate_warnings.delete_all
+    else
+      warnings = DuplicateWarning.find_by(existing_item_id: self.id)
+      warnings.delete_all unless warnings.nil?
+    end
+  end
 
   def check_for_duplicate
     if self.store_name
