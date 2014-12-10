@@ -28,6 +28,9 @@ Showspace::Application.configure do
   config.assets.debug = true
 
   config.action_mailer.default_url_options = { host: 'localhost.com:3000' }
+
+  # for serving images from local
+  config.serve_static_assets = true
 end
 
 

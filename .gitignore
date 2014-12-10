@@ -16,8 +16,8 @@
 /tmp
 
 # ignore scraped things
-/public/img/*
-/public/scraped_images/*
+/public/img
+/public/items
 /public/uploads/*
 /public/images/img
 
@@ -26,6 +26,7 @@
 
 # ignore coverage reports
 /coverage
+
 # Ignore application configuration
 /config/application.yml
 
