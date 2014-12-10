@@ -4,10 +4,7 @@ class ClosetsItemsController < ApplicationController
 		@closets_item = ClosetsItem.new(closet_item_params)
     respond_to do |format|
       if @closets_item.save
-        format.js do
-          puts 'js yo'
-          # flash.now[:notice] = "yo"
-        end
+        format.js
       else
         redirect_to @item, notice: "Error adding item to closet."
       end
