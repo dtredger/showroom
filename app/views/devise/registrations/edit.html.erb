@@ -10,14 +10,15 @@
     <%= f.error_notification %>
 
     <div class="form-inputs">
-      <%= f.input :username, label: "new username", autofocus: true %>
-      <%= f.input :email, label: "new email" %>
+      <%= f.input :current_password, required: true, autofocus: true %>
+
+      <%= f.input :username, label: "New Username" %>
+
+      <%= f.input :email, label: "New Email" %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
       <% end %>
-
-      <%= f.input :current_password, hint: "we need your current password to confirm your changes", required: true %>
     </div>
 
     <div class="form-actions">

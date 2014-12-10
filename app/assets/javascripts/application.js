@@ -15,7 +15,17 @@
 //= require foundation
 
 $(function() {
-  $(document).foundation();
+  $(document).foundation({
+      reveal: {
+//          animation: 'fade',
+//          animation_speed: 5000,
+          close_on_background_click: true
+      },
+      orbit: {
+          timer_speed: 2000,
+          pause_on_hover: true // Pauses on the current slide while hovering
+      }
+  });
 });
 
 //= require turbolinks

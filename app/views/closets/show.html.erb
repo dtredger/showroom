@@ -20,7 +20,9 @@
 
 			<div class="item">
 				<div class="item-picture">
-					<%= link_to item_path(item) do %><img src="<%=item.image_source%>" /><% end %>
+					<%= link_to item_path(item) do %>
+                      <%=image_tag item.images[0].image %>
+                    <% end %>
 				</div>
 
 				<%= link_to item_path(item) do %>
