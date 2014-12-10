@@ -34,16 +34,21 @@
 		<div class="medium-12 small-centered columns text-center">
 			<% @items.each_with_index do |item| %>
 				<div class="medium-3 item">
-					<div class="item-picture">
-						<%= link_to image_tag(item.images.first.image), item_path(item) %>
-
-						<% if current_user %>
-							<!-- ADD LINK TO CLOSET MODAL -->
-							<a href="#" data-reveal-id="closet-modal-<%= item.id %>"><div id="special-span">+</div></a>
-						<% else %>
-							<a href="#" data-reveal-id="guest-closet-modal"><div id="special-span">+</div></a>
-						<% end %>
-					</div>
+                    <%= link_to item_path(item) do %>
+					    <div class="item-picture">
+                            <%= image_tag(item.images.first.image, size:"280x400") %>
+                            <% if current_user %>
+							    <!-- ADD LINK TO CLOSET MODAL -->
+                                <a href="#" data-reveal-id="closet-modal-<%= item.id %>">
+                                  <div class="special-span closet-button">+ add to closet</div>
+                                </a>
+                            <% else %>
+                                <a href="#" data-reveal-id="guest-closet-modal">
+                                  <div class="special-span closet-button">+ add to closet</div>
+                                </a>
+                            <% end %>
+					    </div>
+                    <% end %>
 
 					<%= link_to item_path(item) do %>
 						<div class='item-info'>
