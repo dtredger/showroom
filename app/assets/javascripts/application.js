@@ -29,3 +29,15 @@ $(function() {
 });
 
 //= require turbolinks
+
+$('document').ready(function() {
+
+
+    $(".about").click(function (el) {
+        el.preventDefault();
+        alert('yo');
+        $(document).foundation('joyride', 'start');
+    });
+
+
+});

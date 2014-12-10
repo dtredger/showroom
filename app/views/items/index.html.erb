@@ -21,9 +21,9 @@
 	<!-- items -->
 	<div class="row">
 		<div class="medium-12 small-centered columns text-center">
-			<% @items.each_with_index do |item| %>
+			<% @items.each_with_index do |item, index| %>
 
-				<div class="medium-3 item">
+				<div class="medium-3 item" id="item-<%= index %>">
                     <%= link_to item_path(item) do %>
 					    <div class="item-picture">
                             <%= image_tag(item.images.first.image, size:"280x400") %>
@@ -50,7 +50,6 @@
 				</div>
 
                 <%= render 'layouts/closets_item_create', { item: item } %>
-
 			<% end %>
 
 			<!-- paginate row -->
@@ -62,4 +61,24 @@
 
 		</div>
 	</div>
+
 </div>
+
+<!--about how-to joyride-->
+<ol class="joyride-list" data-joyride>
+  <li data-id="item-0" data-text="Next" data-options="tip_location: right; prev_button: false">
+    <p>Hello and welcome to the Joyride documentation page.</p>
+  </li>
+  <li data-id="numero1" data-class="custom so-awesome" data-text="Next" data-prev-text="Prev">
+    <h4>Stop #1</h4>
+    <p>You can control all the details for you tour stop. Any valid HTML will work inside of Joyride.</p>
+  </li>
+  <li data-id="numero2" data-button="Next" data-prev-text="Prev" data-options="tip_location:top;tip_animation:fade">
+    <h4>Stop #2</h4>
+    <p>Get the details right by styling Joyride with a custom stylesheet!</p>
+  </li>
+  <li data-button="End" data-prev-text="Prev">
+    <h4>Stop #3</h4>
+    <p>It works as a modal too!</p>
+  </li>
+</ol>
