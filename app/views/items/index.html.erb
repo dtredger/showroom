@@ -59,15 +59,7 @@
 					<% end %>
 
 					<% if current_user %>
-						<div id="closet-modal-<%= item.id %>" class="reveal-modal" data-reveal>
-							<h2>Save item to closet.</h2>
-							<%= form_for @ci, remote: true do |f| %>
-								<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
-								<%= f.hidden_field :item_id, :value => item.id %>
-								<%= submit_tag "SAVE", class: "search-button right" %>
-							<% end %>
-						  <a class="close-reveal-modal">&#215;</a>
-						</div>
+                      <%= render 'layouts/closets_item_create', { item: item } %>
 			 		<% end %>
 
 				</div>

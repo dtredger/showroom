@@ -3,14 +3,10 @@ setTimeout(function(){
     $('.close-reveal-modal').click()
 }, 400);
 
+// show flash-style warning for 2.2 seconds
 setTimeout(function(){
     $(".errors").html("<div data-alert class='alert-box text-center info new-closet'>Item <%= @closets_item.item_id %> added to closet<a href='#' class='close'>x</a></div>");
 }, 800);
-
-$(".close").click(function(el){
-    $(".new-closet").fadeOut();
-});
-
-$(".special-span").click(function(el){
-    $(".new-closet").fadeOut();
-});
+setTimeout(function(){
+    $(".new-closet").fadeOut(1000);
+}, 3000);
