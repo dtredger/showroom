@@ -1,14 +1,6 @@
 <!-- save modals -->
 <% if current_user %>
-	<div id="closet-modal" class="reveal-modal small" data-reveal>
-		<h2>Save item to closet.</h2>
-		<%= form_for @ci do |f| %>
-			<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
-			<%= f.hidden_field :item_id, :value => @item.id %>
-			<%= submit_tag "SAVE", class: "search-button right" %>
-		<% end %>
-	  <a class="close-reveal-modal">&#215;</a>
-	</div>
+    <%= render 'layouts/closets_item_create', { item: @item } %>
 <% else %>
 	<div id="guest-closet-modal" class="reveal-modal small" data-reveal>
 	  <h2>Shop all of Showspace</h2>

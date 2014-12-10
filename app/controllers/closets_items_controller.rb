@@ -2,12 +2,14 @@ class ClosetsItemsController < ApplicationController
 
 	def create
 		@closets_item = ClosetsItem.new(closet_item_params)
-
-		if @closets_item.save
-			redirect_to root_path, notice: "Added item to closet."
-		else
-			redirect_to @item, notice: "Error adding item to closet."
-		end
+    respond_to do |format|
+      if @closets_item.save
+        # stays on page, and runs views/closets_items/create.js.erb
+        format.js
+      else
+        redirect_to @item, notice: "Error adding item to closet."
+      end
+    end
 	end
 
 	def destroy
@@ -21,10 +23,11 @@ class ClosetsItemsController < ApplicationController
 		end
 	end
 
+
 	private
 
 	def closet_item_params
 		params.require(:closets_item).permit(:closet_id, :item_id)
 	end
-	
+
 end

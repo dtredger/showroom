@@ -1,0 +1,19 @@
+<% if current_user %>
+    <div id="closet-modal" class="reveal-modal" data-reveal>
+      <h2>Save item to closet.</h2>
+      <%= form_for @closets_item, remote: true do |f| %>
+          <%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
+          <%= f.hidden_field :item_id, :value => item.id %>
+          <%= submit_tag "SAVE", class: "search-button right" %>
+      <% end %>
+      <a class="close-reveal-modal">&#215;</a>
+    </div>
+<% else %>
+    <!-- Guest save item to closet modal -->
+    <div id="guest-closet-modal" class="reveal-modal small" data-reveal>
+        <h2>Shop all of Showspace</h2>
+        <%= link_to "Join Now", new_user_registration_path, class: "button expand", id: "padding-join-now-btn-modal" %>
+        Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+<% end %>
