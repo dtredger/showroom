@@ -1,15 +1,3 @@
-<!-- save modals -->
-<% if current_user %>
-    <%= render 'layouts/closets_item_create', { item: @item } %>
-<% else %>
-	<div id="guest-closet-modal" class="reveal-modal small" data-reveal>
-	  <h2>Shop all of Showspace</h2>
-	  <a href="#" class="button expand" id="padding-join-now-btn-modal">Join Now</a>
-	  Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
-	  <a class="close-reveal-modal">&#215;</a>
-	</div>
-<% end %>
-
 <div class="main-section">
 	<div class="row">
 		<div class="small-5 columns">
@@ -32,13 +20,9 @@
 
 
 
-			<%= link_to 'Buy', @item.product_link, class: "button expand" %>
+			<%= link_to 'Buy', @item.product_link, class: "button expand", id: "buy-button" %>
 
-			<% if current_user %>
-				<a href="#" class="button expand" data-reveal-id="closet-modal">Save</a>
-			<% else %>
-				<a href="#" class="button expand" data-reveal-id="guest-closet-modal">Save</a>
-			<% end %>
+			<a class="button expand" id="save-button" data-reveal-id="closet-modal">Save</a>
 
 			<div class="show-product-description-header">DETAILS</div>
 			<div class="show-product-description"><%= @item.description %></div>
@@ -46,3 +30,6 @@
 
 	</div>
 </div>
+
+<!-- save modals -->
+<%= render 'layouts/closets_item_create', { item: @item } %>

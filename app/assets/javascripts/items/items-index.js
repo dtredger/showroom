@@ -19,3 +19,10 @@
 // 	  }
 // 	});
 // });
+
+//
+//$(".about").click(function (el) {
+//    el.preventDefault();
+//    alert('yo');
+//    $(document).foundation('joyride', 'start');
+//});
