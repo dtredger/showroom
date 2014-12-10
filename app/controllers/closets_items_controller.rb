@@ -4,6 +4,7 @@ class ClosetsItemsController < ApplicationController
 		@closets_item = ClosetsItem.new(closet_item_params)
     respond_to do |format|
       if @closets_item.save
+        # stays on page, and runs views/closets_items/create.js.erb
         format.js
       else
         redirect_to @item, notice: "Error adding item to closet."
@@ -21,6 +22,7 @@ class ClosetsItemsController < ApplicationController
 			flash[:notice] = "Error deleting item from closet."
 		end
 	end
+
 
 	private
 

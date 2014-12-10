@@ -4,9 +4,15 @@ setTimeout(function(){
 }, 400);
 
 // show flash-style warning for 2.2 seconds
+//setTimeout(function(){
+//    $(".errors").html("<div data-alert class='alert-box text-center info new-closet'>Item <%= @closets_item.item_id %> added to closet</div>");
+//}, 800);
+$(".errors").html("<div data-alert class='alert-box text-center info new-closet'>Item <%= @closets_item.item_id %> added to closet</div>")
+        .hide()
+        .show(400, function(){
+            $(".new-closet").slideDown(500);
+        });
+
 setTimeout(function(){
-    $(".errors").html("<div data-alert class='alert-box text-center info new-closet'>Item <%= @closets_item.item_id %> added to closet<a href='#' class='close'>x</a></div>");
-}, 800);
-setTimeout(function(){
-    $(".new-closet").fadeOut(1000);
-}, 3000);
+    $(".new-closet").slideUp(700);
+}, 4500);
