@@ -17,12 +17,14 @@
     <% if user_signed_in? %>
       <section class="top-bar-section">
         <ul class="right">
-            <li class="divider"></li>
+          <li class="divider"></li>
+          <li class="help"><a>Help</a></li>
+          <li class="divider"></li>
           <li class="has-dropdown">
-            <%= link_to('+ Add Closet', new_closet_path) %>
+            <%= link_to '+ Add Closet', new_closet_path, id: "add-closet" %>
             <ul class="dropdown">
-              <li><%= link_to "My Closets", closets_path %></li>
-              <li><%= link_to "Profile", profile_path %></li>
+              <li><%= link_to "My Closets", closets_path, id: "my-closets" %></li>
+              <li><%= link_to "Profile", profile_path, id: "profile" %></li>
               <li class="about"><a>About</a></li>
               <li><%= link_to('Logout', destroy_user_session_path, :method=>'delete') %></li>
             </ul>
@@ -32,6 +34,8 @@
     <% else %>
       <section class="top-bar-section">
         <ul class="right">
+          <li class="divider"></li>
+          <li class="help"><a>Help</a></li>
           <li class="divider"></li>
           <li class="active"><a data-reveal-id="signup-modal">Sign Up</a></li>
           <li class="divider"></li>

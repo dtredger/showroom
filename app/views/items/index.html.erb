@@ -23,30 +23,32 @@
 		<div class="medium-12 small-centered columns text-center">
 			<% @items.each_with_index do |item, index| %>
 
-				<div class="medium-3 item" id="item-<%= index %>">
-                    <%= link_to item_path(item) do %>
-					    <div class="item-picture">
-                            <%= image_tag(item.images.first.image, size:"280x400") %>
-                            <% if current_user %>
-							    <!-- ADD LINK TO CLOSET MODAL -->
-                                <a href="#" data-reveal-id="closet-modal">
-                                  <div class="special-span closet-button">+ add to closet</div>
-                                </a>
-                            <% else %>
-                                <a href="#" data-reveal-id="guest-closet-modal">
-                                  <div class="special-span closet-button">+ add to closet</div>
-                                </a>
-                            <% end %>
-					    </div>
-                    <% end %>
+				<div class="medium-3 item">
+                    <div id="item-<%= index %>">
+                        <%= link_to item_path(item) do %>
+                            <div class="item-picture">
+                                <%= image_tag(item.images.first.image, size:"280x400") %>
+                                <% if current_user %>
+                                    <!-- ADD LINK TO CLOSET MODAL -->
+                                    <a href="#" data-reveal-id="closet-modal">
+                                      <div class="special-span closet-button">+ add to closet</div>
+                                    </a>
+                                <% else %>
+                                    <a href="#" data-reveal-id="guest-closet-modal">
+                                      <div class="special-span closet-button">+ add to closet</div>
+                                    </a>
+                                <% end %>
+                            </div>
+                        <% end %>
 
-					<%= link_to item_path(item) do %>
-						<div class='item-info'>
-							<div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
-							<div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
-							<div class='item-price'><%= humanized_money_with_symbol item.price %></div>
-						</div>
-					<% end %>
+                        <%= link_to item_path(item) do %>
+                            <div class='item-info'>
+                                <div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
+                                <div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
+                                <div class='item-price'><%= humanized_money_with_symbol item.price %></div>
+                            </div>
+                        <% end %>
+                    </div>
 				</div>
 
                 <%= render 'layouts/closets_item_create', { item: item } %>
@@ -61,24 +63,5 @@
 
 		</div>
 	</div>
-
 </div>
 
-<!--about how-to joyride-->
-<ol class="joyride-list" data-joyride>
-  <li data-id="item-0" data-text="Next" data-options="tip_location: right; prev_button: false">
-    <p>Hello and welcome to the Joyride documentation page.</p>
-  </li>
-  <li data-id="numero1" data-class="custom so-awesome" data-text="Next" data-prev-text="Prev">
-    <h4>Stop #1</h4>
-    <p>You can control all the details for you tour stop. Any valid HTML will work inside of Joyride.</p>
-  </li>
-  <li data-id="numero2" data-button="Next" data-prev-text="Prev" data-options="tip_location:top;tip_animation:fade">
-    <h4>Stop #2</h4>
-    <p>Get the details right by styling Joyride with a custom stylesheet!</p>
-  </li>
-  <li data-button="End" data-prev-text="Prev">
-    <h4>Stop #3</h4>
-    <p>It works as a modal too!</p>
-  </li>
-</ol>
