@@ -6,7 +6,7 @@ class ClosetsItemsController < ApplicationController
       if @closets_item.save
         format.js do
           puts 'js yo'
-          flash[:notice] = "yo"
+          # flash.now[:notice] = "yo"
         end
       else
         redirect_to @item, notice: "Error adding item to closet."

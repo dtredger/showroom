@@ -1,4 +1,4 @@
-
+    <div class="errors">
 		<% flash.each do |key, value| %>
 		  <% if value.is_a?(String) %>
 		    <div data-alert class="alert-box text-center <%= key.to_s == 'notice' ? 'info' : 'alert' %>">
@@ -7,3 +7,4 @@
 		    </div>
 		  <% end %>
 		<% end %>
+    </div>
