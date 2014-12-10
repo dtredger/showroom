@@ -4,22 +4,26 @@
     <br/>
 	<p>Email: <%= @user.email %><p>
     <p>username: <%=@user.username %></p>
-    <p>encrypted_password: <%=@user.encrypted_password %></p>
-    <p><%= link_to "Edit my Profile", edit_user_registration_path %></p>
 
-    <p>reset_password_token: <%=@user.reset_password_token %></p>
-    <p>reset_password_sent_at: <%=@user.reset_password_sent_at %></p>
-    <p>remember_created_at: <%=@user.remember_created_at %></p>
-    <p>sign_in_count: <%=@user.sign_in_count %></p>
-    <p>current_sign_in_at: <%=@user.current_sign_in_at %></p>
-    <p>last_sign_in_at: <%=@user.last_sign_in_at %></p>
-    <p>current_sign_in_ip: <%=@user.current_sign_in_ip %></p>
-    <p>last_sign_in_ip: <%=@user.last_sign_in_ip %></p>
-    <p>created_at: <%=@user.created_at %></p>
-    <p>updated_at: <%=@user.updated_at %></p>
-    <p>fb_uid: <%=@user.fb_uid %></p>
-    <p>fb_token: <%=@user.fb_token %></p>
-    <p>fb_token_expiration: <%=@user.fb_token_expiration %></p>
+    <%= link_to edit_user_registration_path do %>
+          <button>Edit my Profile</button>
+    <% end %>
+
+    <!--<p>encrypted_password: <%=@user.encrypted_password %></p>-->
+
+    <!--<p>reset_password_token: <%=@user.reset_password_token %></p>-->
+    <!--<p>reset_password_sent_at: <%=@user.reset_password_sent_at %></p>-->
+    <!--<p>remember_created_at: <%=@user.remember_created_at %></p>-->
+    <!--<p>sign_in_count: <%=@user.sign_in_count %></p>-->
+    <!--<p>current_sign_in_at: <%=@user.current_sign_in_at %></p>-->
+    <!--<p>last_sign_in_at: <%=@user.last_sign_in_at %></p>-->
+    <!--<p>current_sign_in_ip: <%=@user.current_sign_in_ip %></p>-->
+    <!--<p>last_sign_in_ip: <%=@user.last_sign_in_ip %></p>-->
+    <!--<p>created_at: <%=@user.created_at %></p>-->
+    <!--<p>updated_at: <%=@user.updated_at %></p>-->
+    <!--<p>fb_uid: <%=@user.fb_uid %></p>-->
+    <!--<p>fb_token: <%=@user.fb_token %></p>-->
+    <!--<p>fb_token_expiration: <%=@user.fb_token_expiration %></p>-->
 
     </div>
 </div>
