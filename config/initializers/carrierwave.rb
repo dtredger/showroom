@@ -1,15 +1,14 @@
 CarrierWave.configure do |config|
 
-  if Rails.env.test?
+  if Rails.env.test? || ENV['RAILS_OFFLINE'] == 'true'
     config.storage = :file
     config.enable_processing = false
-    config.root = "#{Rails.root}/tmp"
+    config.base_path = ""
   else
     config.storage = :aws
   end
 
   config.aws_bucket = ENV['AWS_BUCKETNAME']
-  # config.asset_host = ENV['AWS_ENDPOINT'] #not needed
   config.aws_acl = :public_read
   config.aws_credentials = {
       access_key_id: ENV['AWS_ACCESS_KEY_ID'],

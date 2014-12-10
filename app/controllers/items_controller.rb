@@ -12,6 +12,7 @@ class ItemsController < ApplicationController
   def show
     @ci = ClosetsItem.new()
     @item = Item.find(params[:id])
+    @item_images = return_images @item
     @like = @item.likes.build
   end
 
@@ -60,13 +61,21 @@ class ItemsController < ApplicationController
   def handle_search
     # http://www.justinweiss.com/blog/2014/02/17/search-and-filter-rails-models-without-bloating-your-controller/
     # http://stackoverflow.com/questions/14219528/activerecord-anonymous-scope
-    
+
     items = Item.where(nil) # creates an anonymous scope
     items = items.search_designer(params[:designer]) unless params[:designer].blank?
     items = items.search_category1(params[:category1]) unless params[:category1].blank?
     items = items.search_min_price(value_to_cents(params[:min_price])) unless params[:min_price].blank?
     items = items.search_max_price(value_to_cents(params[:max_price])) unless params[:max_price].blank?
     return items
+  end
+
+  def return_images(item)
+    if (item.images.count == 1) then
+      item.images
+    else
+      item.images[1..-1]
+    end
   end
 
 end

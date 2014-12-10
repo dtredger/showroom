@@ -2,23 +2,21 @@
 #
 # Table name: items
 #
-#  id                 :integer          not null, primary key
-#  product_name       :text
-#  description        :text
-#  designer           :text
-#  price_cents        :integer
-#  currency           :string(255)
-#  store_name         :string(255)
-#  image_source       :text
-#  image_source_array :text
-#  product_link       :text
-#  category1          :string(255)
-#  category2          :string(255)
-#  category3          :string(255)
-#  state              :integer
-#  created_at         :datetime
-#  updated_at         :datetime
-#  sku                :string(255)
+#  id           :integer          not null, primary key
+#  product_name :text
+#  description  :text
+#  designer     :text
+#  price_cents  :integer
+#  currency     :string(255)
+#  store_name   :string(255)
+#  product_link :text
+#  category1    :string(255)
+#  category2    :string(255)
+#  category3    :string(255)
+#  state        :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  sku          :string(255)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
@@ -31,8 +29,8 @@ FactoryGirl.define do
     price_cents 26000
     currency "USD"
     store_name "a store name"
-    image_source File.open(Rails.root.join('public/images/doge_log.gif'))
-    image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
+    # image_source File.open(Rails.root.join('public/images/doge_log.gif'))
+    # image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
     product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
     category1 "Suits"
     category2 nil
@@ -46,7 +44,7 @@ FactoryGirl.define do
       price_cents 10101
       currency "USD"
       store_name "not Mr. Porter"
-      image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
+      # image_source_array ["http://cache.mrporter.com/images/products/320022/320022_mrp_in_l.jpg"]
       product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
       category1 "Suits"
       category2 nil

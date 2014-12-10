@@ -42,18 +42,20 @@ class MrPorterScraper < BasicScraper
 
     beginning = (images.length - 3) if is_test
     ((beginning||=0)..images.length).each do |row|
+      image_urls = []
       # log errors but keep going with other rows
       begin
         product = {
-            product_link: SITE_ROOT + images[row].at_css('a')['href'],
-            image_source: URL_PROTOCOL + images[row].at_css('img')['src'],
-            designer: item_details[row].at_css('.product-designer').text.strip.upcase,
-            product_name: item_details[row].at_css('.product-title').text.strip,
-            price_cents: item_details[row].at_css('.price-container').text.strip.gsub("$", '').gsub(",", ''),
-            category1: category
+          product_link: SITE_ROOT + images[row].at_css('a')['href'],
+          designer: item_details[row].at_css('.product-designer').text.strip.upcase,
+          product_name: item_details[row].at_css('.product-title').text.strip,
+          price_cents: item_details[row].at_css('.price-container').text.strip.gsub("$", '').gsub(",", ''),
+          category1: category
         }
+        image_urls << URL_PROTOCOL + images[row].at_css('img')['src']
         complete_product = scrape_product_page(product)
-        save_item_from_url(complete_product)
+        item = save_item_from_url(complete_product)
+        save_images(item, image_urls)
         results_log[:success] += 1
       rescue Exception => e
         results_log[:failure] += 1
@@ -62,19 +64,18 @@ class MrPorterScraper < BasicScraper
       end
     end
     [results_log, errors_log]
-	end
+  end
 
 	def scrape_product_page(product_object)
     begin
       product_page = open_url(product_object[:product_link])
 
       # the image_array for MrPorter has one image
-      image = URL_PROTOCOL + product_page.css('#medium-image').at_css('img')['src']
+      image_urls << URL_PROTOCOL + product_page.css('#medium-image').at_css('img')['src']
 
       meta_desc = product_page.at("meta[property='og:description']")
       description = meta_desc['content'].strip
 
-      product_object.store(:image_source_array, [image])
       product_object.store(:description, description)
       product_object.store(:currency, "USD")
       product_object.store(:store_name, "Mr. Porter")

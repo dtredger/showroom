@@ -2,23 +2,21 @@
 #
 # Table name: items
 #
-#  id                 :integer          not null, primary key
-#  product_name       :text
-#  description        :text
-#  designer           :text
-#  price_cents        :integer
-#  currency           :string(255)
-#  store_name         :string(255)
-#  image_source       :text
-#  image_source_array :text
-#  product_link       :text
-#  category1          :string(255)
-#  category2          :string(255)
-#  category3          :string(255)
-#  state              :integer
-#  created_at         :datetime
-#  updated_at         :datetime
-#  sku                :string(255)
+#  id           :integer          not null, primary key
+#  product_name :text
+#  description  :text
+#  designer     :text
+#  price_cents  :integer
+#  currency     :string(255)
+#  store_name   :string(255)
+#  product_link :text
+#  category1    :string(255)
+#  category2    :string(255)
+#  category3    :string(255)
+#  state        :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  sku          :string(255)
 #
 
 require "rails_helper"
@@ -38,8 +36,6 @@ RSpec.describe Item, :type => :model do
     it { is_expected.to respond_to(:price_cents) }
     it { is_expected.to respond_to(:currency) }
     it { is_expected.to respond_to(:store_name) }
-    it { is_expected.to respond_to(:image_source) }
-    it { is_expected.to respond_to(:image_source_array) }
     it { is_expected.to respond_to(:product_link) }
     it { is_expected.to respond_to(:category1) }
     it { is_expected.to respond_to(:category2) }
@@ -47,7 +43,7 @@ RSpec.describe Item, :type => :model do
     it { is_expected.to respond_to(:state) }
   end
 
-  context "matches" do
+  context "check_for_duplicate" do
     describe "store, designer and name" do
       item_1 = FactoryGirl.create(:item)
       item_2 = FactoryGirl.create(:item)
@@ -63,23 +59,27 @@ RSpec.describe Item, :type => :model do
       it "refers to original" do
         expect(item_2.duplicate_warnings[0].existing_item_id).to eq(item_1.id)
       end
+
+      describe "delete_duplicate_warnings" do
+        context "pending item" do
+          it "deletes warning" do
+            item_2.destroy
+            expect(item_1.duplicate_warnings).to be_empty
+            expect(item_2.duplicate_warnings).to be_empty
+          end
+        end
+
+        context "existing item" do
+          it "deletes warning" do
+            item_1.destroy
+            expect(item_1.duplicate_warnings).to be_empty
+            expect(item_2.duplicate_warnings).to be_empty
+          end
+        end
+
+      end
     end
   end
 
-  context "images" do
-    describe "image_source" do
-      it "names image with filename" do
-        expect(item_1["image_source"]).to eq("doge_log.gif")
-      end
-
-      it "formats path with attributes" do
-        expect(item_1.image_source.url).to eq("/items/a_store_na/designer_test/Test_Produ/doge_log.gif")
-      end
-
-      it "stores CarrierWave file" do
-        expect(item_1.image_source.file.class.to_s).to eq("CarrierWave::SanitizedFile")
-      end
-    end
-  end
 
 end

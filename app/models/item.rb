@@ -2,29 +2,22 @@
 #
 # Table name: items
 #
-#  id                 :integer          not null, primary key
-#  product_name       :text
-#  description        :text
-#  designer           :text
-#  price_cents        :integer
-#  currency           :string(255)
-#  store_name         :string(255)
-#  image_source       :text
-#  image_source_array :text
-#  product_link       :text
-#  category1          :string(255)
-#  category2          :string(255)
-#  category3          :string(255)
-#  state              :integer
-#  created_at         :datetime
-#  updated_at         :datetime
-#  sku                :string
+#  id           :integer          not null, primary key
+#  product_name :text
+#  description  :text
+#  designer     :text
+#  price_cents  :integer
+#  currency     :string(255)
+#  store_name   :string(255)
+#  product_link :text
+#  category1    :string(255)
+#  category2    :string(255)
+#  category3    :string(255)
+#  state        :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  sku          :string(255)
 #
-# State 0 : Pending Review
-# State 1 : Live
-# State 2 : Retired
-# State 3 : Banned/Hidden
-# State 4 : Delete
 
 class Item < ActiveRecord::Base
 
@@ -33,8 +26,7 @@ class Item < ActiveRecord::Base
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
   has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
-
-	serialize :image_source_array
+  has_many :images, dependent: :destroy
 
   # Virtual attribute
   attr_accessor :old_item_update
@@ -49,10 +41,11 @@ class Item < ActiveRecord::Base
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
-  mount_uploader :image_source, ItemImageUploader
 
+  # TODO - "In Rails 4.1 delete_all on associations would not fire callbacks. It means if the
+  # :dependent option is :destroy then the associated records would be deleted without loading and invoking callbacks."
   after_create :check_for_duplicate
-  before_destroy :delete_associated_images, :delete_associated_duplicate_warnings
+  before_destroy :delete_duplicate_warnings
   after_save :perform_item_management_operation, :handle_state
 
   # either delete doesn't work properly or problem with image transfer?
@@ -63,7 +56,6 @@ class Item < ActiveRecord::Base
       other_item = Item.find(old_item_update)
       other_item_image_path = 'public' + other_item.image_source
 
-      binding.pry
 
       # http://stackoverflow.com/questions/10112946/nice-way-to-merge-copy-attributes-between-two-activerecord-classes
       # no :without_protection => true in rails 4 for assign?
@@ -81,7 +73,6 @@ class Item < ActiveRecord::Base
         end
       end
 
-      binding.pry
 
       # copy the image too
       newer_item_image_path = 'public' + self.image_source
@@ -103,19 +94,16 @@ class Item < ActiveRecord::Base
   #   self.duplicate_warnings.find_by(existing_item_id: other_item.id).destroy
   # end
 
-  def delete_associated_images
-    path_to_image = 'public' + self.image_source
-    File.delete(path_to_image) if File.exist?(path_to_image)
-  end
-
   # TODO - delete warning once one of matches is deleted
-  # def delete_associated_duplicate_warnings
-  #   if self.duplicate_warnings
-  #     self.duplicate_warnings.delete_all
-  #   else
-  #     DuplicateWarning.find_by(existing_item_id: self.id).delete_all
-  #   end
-  # end
+  # deletes matches where item is existing or pending item
+  def delete_duplicate_warnings
+    if self.duplicate_warnings
+      self.duplicate_warnings.delete_all
+    else
+      warnings = DuplicateWarning.find_by(existing_item_id: self.id)
+      warnings.delete_all unless warnings.nil?
+    end
+  end
 
   def check_for_duplicate
     if self.store_name
