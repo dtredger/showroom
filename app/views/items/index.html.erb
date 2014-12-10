@@ -1,14 +1,3 @@
-<% if current_user.nil? %>
-	<!-- Guest save item to closet modal -->
-	<div id="guest-closet-modal" class="reveal-modal small" data-reveal>
-	  <h2>Shop all of Showspace</h2>
-	  <a href="#" class="button expand" id="padding-join-now-btn-modal"fi>Join Now</a>
-	  Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
-	  <a class="close-reveal-modal">&#215;</a>
-	</div>
-<% end %>
-
-
 <div class="main-section">
 
 	<!-- search -->
@@ -33,13 +22,14 @@
 	<div class="row">
 		<div class="medium-12 small-centered columns text-center">
 			<% @items.each_with_index do |item| %>
+
 				<div class="medium-3 item">
                     <%= link_to item_path(item) do %>
 					    <div class="item-picture">
                             <%= image_tag(item.images.first.image, size:"280x400") %>
                             <% if current_user %>
 							    <!-- ADD LINK TO CLOSET MODAL -->
-                                <a href="#" data-reveal-id="closet-modal-<%= item.id %>">
+                                <a href="#" data-reveal-id="closet-modal">
                                   <div class="special-span closet-button">+ add to closet</div>
                                 </a>
                             <% else %>
@@ -57,12 +47,10 @@
 							<div class='item-price'><%= humanized_money_with_symbol item.price %></div>
 						</div>
 					<% end %>
-
-					<% if current_user %>
-                      <%= render 'layouts/closets_item_create', { item: item } %>
-			 		<% end %>
-
 				</div>
+
+                <%= render 'layouts/closets_item_create', { item: item } %>
+
 			<% end %>
 
 			<!-- paginate row -->
@@ -71,6 +59,7 @@
 					<%= paginate @items %>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </div>
