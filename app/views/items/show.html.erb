@@ -1,6 +1,6 @@
 <!-- save modals -->
 <% if current_user %>
-	<div id="closet-modal" class="reveal-modal" data-reveal>
+	<div id="closet-modal" class="reveal-modal small" data-reveal>
 		<h2>Save item to closet.</h2>
 		<%= form_for @ci do |f| %>
 			<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
@@ -22,24 +22,25 @@
 	<div class="row">
 		<div class="small-5 columns">
 			<!--- main image -->
+            <%= image_tag @item.images[0].image, size: "280x400" %>
 		</div>
 
 		<div class="small-3 columns" id="item-thumbnails">
 			<!--- image thumbnails -->
-			<% @item_images.each do |model| %>
-                <%= image_tag model.image %>
+			<% @item.images[1..-1].each do |img| %>
+                <%= image_tag img.image, size: "280x400" %>
 			<% end %>
 		</div>
 
 		<div class="small-4 columns">
 			<div class="show-designer"><%= @item.designer %></div>
 			<div class="show-product-name"><%= @item.product_name %></div>
-			<div class="show-price"><%= humanized_money_with_symbol @item.price %></div>
+			<div class="show-price"><%= humanized_money_with_symbol @item.price %> <%= @item.currency %></div>
 			<div class="show-store">Available from: <%= @item.store_name %></div>
 
 
 
-			<%= link_to 'Buy', @item.product_link, class: 'button expand' %>
+			<%= link_to 'Buy', @item.product_link, class: "button expand" %>
 
 			<% if current_user %>
 				<a href="#" class="button expand" data-reveal-id="closet-modal">Save</a>

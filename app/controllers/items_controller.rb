@@ -12,7 +12,6 @@ class ItemsController < ApplicationController
   def show
     @ci = ClosetsItem.new()
     @item = Item.find(params[:id])
-    @item_images = return_images @item
     @like = @item.likes.build
   end
 
@@ -68,14 +67,6 @@ class ItemsController < ApplicationController
     items = items.search_min_price(value_to_cents(params[:min_price])) unless params[:min_price].blank?
     items = items.search_max_price(value_to_cents(params[:max_price])) unless params[:max_price].blank?
     return items
-  end
-
-  def return_images(item)
-    if (item.images.count == 1) then
-      item.images
-    else
-      item.images[1..-1]
-    end
   end
 
 end
