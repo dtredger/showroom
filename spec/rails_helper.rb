@@ -20,9 +20,9 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'vcr'
+# require 'vcr'
 
-# Requires supporting ruby files with custom matche rs and macros, etc, in
+# Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
 # in _spec.rb will both be required and run as specs, causing the specs to be
@@ -46,7 +46,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  # config.use_transactional_fixtures = true
 
   # If you do not include FactoryGirl::Syntax::Methods in your test suite, then
   # all factory_girl methods will need to be prefaced with FactoryGirl.
@@ -74,10 +74,10 @@ RSpec.configure do |config|
 end
 
 # ----------- https://github.com/vcr/vcr -----------
-VCR.configure do |c|
-  c.cassette_library_dir = 'factories/vcr_cassettes'
-  c.hook_into :webmock
-end
+# VCR.configure do |c|
+#   c.cassette_library_dir = 'factories/vcr_cassettes'
+#   c.hook_into :webmock
+# end
 
 
 # ------------------------------  OMNIAUTH CONFIG ------------------------------------
