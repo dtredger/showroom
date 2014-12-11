@@ -51,6 +51,8 @@ group :test do
   gem 'rspec-collection_matchers'
   gem 'guard'
   gem 'guard-rspec'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 group :production, :staging do
