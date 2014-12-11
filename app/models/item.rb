@@ -26,6 +26,8 @@ class Item < ActiveRecord::Base
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
   has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
+  #TODO does not allow bidirectional foreign_key, if uncommented will override above
+  # has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
   has_many :images, dependent: :destroy
 
   # Virtual attribute

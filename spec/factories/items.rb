@@ -52,6 +52,14 @@ FactoryGirl.define do
       state 0
     end
 
+    factory :unique_item do
+      sequence(:store_name) { |i| "unique store #{i}" }
+      sequence(:product_name) { |i| "unique product #{i}" }
+      sequence(:designer) { |i| "unique designer #{i}" }
+    end
+
   end
+
+
 
 end

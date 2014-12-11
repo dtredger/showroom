@@ -6,9 +6,12 @@ describe Admin::DuplicateWarningsController, type: :controller do
   let!(:item_2) { FactoryGirl.create (:item_2) }
   let!(:item_3) { FactoryGirl.create (:item) }
   let!(:item_4) { FactoryGirl.create (:item_2) }
+  # will create duplicate_warnings for 1&3, 2&4
 
   let(:user) { FactoryGirl.create (:user) }
   let(:admin_user) { FactoryGirl.create (:admin_user) }
+
+  # let(:duplicate_warning_1) {FactoryGirl.create}
 
   let(:duplicate_warning) { DuplicateWarning }
   let(:all_resources)  { ActiveAdmin.application.namespaces[:admin].resources }
@@ -113,6 +116,10 @@ describe Admin::DuplicateWarningsController, type: :controller do
           expect(DuplicateWarning.all).to be_empty
         end
       end
+    end
+
+    after do
+      DuplicateWarning.delete_all
     end
 
   end
