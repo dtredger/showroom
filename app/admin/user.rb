@@ -1,5 +1,7 @@
 ActiveAdmin.register User do
 
+  actions :all, except: [:edit, :update]
+
   permit_params :remember_created_at,
     :sign_in_count,
     :current_sign_in_at,
@@ -13,6 +15,10 @@ ActiveAdmin.register User do
     :fb_token_expiration,
     :username
 
+  # created within last 72 hours
+  # scope("New Users")  { |scope| scope.where((((Time.now.utc - created_at.utc)/1000)/60)/60) < 72 }
+
+  # filter :items, as: :select, collection: lambda { Item.all }
 
   index do
     selectable_column
@@ -27,6 +33,19 @@ ActiveAdmin.register User do
     column :current_sign_in_ip
     column :sign_in_count
     column :fb_token_expiration
+  end
+
+  show do
+    attributes_table do
+      row :username
+      row :email
+      row :created_at
+      row :updated_at
+      row :current_sign_in_at
+      row :current_sign_in_ip
+      row :sign_in_count
+      row :fb_token_expiration
+    end
   end
 
 end
