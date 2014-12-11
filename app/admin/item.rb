@@ -38,7 +38,6 @@ ActiveAdmin.register Item do
     column :price_cents
     column :currency
     column :store_name
-    column :image_source
     column :product_link
     column :category1
     column :category2
@@ -48,7 +47,7 @@ ActiveAdmin.register Item do
   end
 
   index as: :grid, columns: 2 do |item|
-    link_to image_tag(item.image_source), admin_item_path(item)
+    link_to image_tag(item.images[0].image), admin_item_path(item)
   end
 
 
@@ -57,7 +56,6 @@ ActiveAdmin.register Item do
   end
 
   show do
-    image_tag(item.image_source)
     attributes_table do
       row :product_name
       row :designer
@@ -74,19 +72,18 @@ ActiveAdmin.register Item do
 
   form do |f|
     f.inputs "New Item" do
-      f.input :product_name
-      f.input :description
-      f.input :designer
+      f.input :product_name, as: :string
+      f.input :description, as: :string
+      f.input :designer, as: :string
       f.input :price_cents
       f.input :currency
-      f.input :store_name
-      f.input :image_source
-      f.input :image_source_array
-      f.input :product_link
+      f.input :store_name, as: :string
+      # f.input :image, # requires nested attributes? this form seems unimportant for now
+      f.input :product_link, as: :string
       f.input :category1
       f.input :category2
       f.input :category3
-      f.input :state
+      f.input :state, as: :select, collection: [1,2,3,4,5]
     end
     f.actions
   end
