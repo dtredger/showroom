@@ -35,10 +35,7 @@ RSpec.describe UsersController, :type => :controller do
       end
 
       it { expect(response.status).to eq(200) }
-
-      it "sets correct user" do
-        expect(subject.current_user.id).to eq(user.id)
-      end
+      it("sets correct user") { expect(subject.current_user.id).to eq(user.id) }
     end
 
     context "unauthorized user" do

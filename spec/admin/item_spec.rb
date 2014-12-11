@@ -36,7 +36,7 @@ describe Admin::ItemsController, type: :controller do
     end
 
     context "authorized" do
-      describe "set live" do
+      describe "#set live" do
         before do
           sign_in admin_user
           post :batch_action, batch_action: 'set_live',
@@ -59,14 +59,14 @@ describe Admin::ItemsController, type: :controller do
         end
       end
 
-      describe "retire" do
+      describe "#retire" do
         before do
           sign_in admin_user
           post :batch_action, batch_action: 'retire',
                collection_selection: [item_1.id, item_2.id, item_3.id, item_4.id]
         end
 
-        it "retires" do
+        it "retires items" do
           expect(Item.find(item_1).state).to eq(2)
           expect(Item.find(item_2).state).to eq(2)
           expect(Item.find(item_3).state).to eq(2)
