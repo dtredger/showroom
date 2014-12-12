@@ -20,5 +20,30 @@
 require 'rails_helper'
 
 RSpec.describe AdminUser, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let!(:admin_user) { create(:admin_user) }
+
+  context "model" do
+    it { is_expected.to respond_to(:email) }
+    it { is_expected.to respond_to(:password) }
+    it { is_expected.to respond_to(:encrypted_password) }
+  end
+
+  describe "validations" do
+    context "email" do
+      it "rejects duplicates" do
+        duplicate = AdminUser.new(email: admin_user.email, password: "10521b92")
+        expect(duplicate).to have(1).errors_on(:email)
+      end
+    end
+
+    context "password" do
+      it "rejects < 4 characters" do
+        duplicate = AdminUser.new(email: "something_new@email.co", password: "123")
+        expect(duplicate).to have(1).errors_on(:password)
+      end
+    end
+  end
+
+
 end

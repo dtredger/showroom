@@ -89,7 +89,6 @@ describe Admin::UsersController, type: :controller do
         }.to change{User.count}.by(1)
       end
     end
-
   end
 
   context "#update" do

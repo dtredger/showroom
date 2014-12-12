@@ -25,7 +25,6 @@ describe Admin::ItemsController, type: :controller do
       end
     end
 
-
     context "unauthorized" do
       it "redirects to admin login" do
         sign_in user
