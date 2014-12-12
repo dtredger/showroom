@@ -20,12 +20,12 @@ ActiveAdmin.register DuplicateWarning do
     pending = Item.find(warning.pending_item_id)
     existing = Item.find(warning.existing_item_id)
     ul
-      li link_to image_tag(pending.images[0].image), admin_item_path(pending)
+      li link_to image_tag(pending.images[0].source), admin_item_path(pending)
       li pending.designer
       li pending.product_name
       li pending.store_name
       br
-      li link_to image_tag(existing.images[0].image), admin_item_path(existing)
+      li link_to image_tag(existing.images[0].source), admin_item_path(existing)
       li existing.designer
       li existing.product_name
       li existing.store_name

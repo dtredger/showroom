@@ -2,13 +2,13 @@
 	<div class="row">
 		<div class="small-5 columns">
 			<!--- main image -->
-            <%= image_tag @item.images[0].image, size: "280x400" %>
+            <%= image_tag @item.images[0].source, size: "280x400" %>
 		</div>
 
 		<div class="small-3 columns" id="item-thumbnails">
 			<!--- image thumbnails -->
 			<% @item.images[1..-1].each do |img| %>
-                <%= image_tag img.image, size: "280x400" %>
+                <%= image_tag img.source, size: "280x400" %>
 			<% end %>
 		</div>
 
