@@ -12,4 +12,8 @@ class ClosetsItem < ActiveRecord::Base
 
   validates_presence_of :closet_id
   validates_presence_of :item_id
+
+  validates_uniqueness_of :item_id,
+      scope: :closet_id
+
 end
