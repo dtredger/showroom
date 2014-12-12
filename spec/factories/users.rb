@@ -43,6 +43,12 @@ FactoryGirl.define do
       password ""
     end
 
+    factory :unique_user do
+      sequence(:username) { |i| "unique-username-#{i}" }
+      sequence(:email) { |i| "unique-email-#{i}@email-#{i}.com" }
+      sequence(:password) { |i| "unique-pass-#{i}" }
+    end
+
   end
 
 

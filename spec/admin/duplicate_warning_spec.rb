@@ -103,13 +103,7 @@ describe Admin::DuplicateWarningsController, type: :controller do
       end
     end
 
-    after() do
-
-    end
-
   end
-
-
 end
 
 
