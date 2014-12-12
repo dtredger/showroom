@@ -28,5 +28,10 @@ FactoryGirl.define do
       title "second closet for user one "
       summary "user one's second closet "
     end
+
+    factory :unique_closet do
+      sequence(:title) { |i| "closet title #{i}" }
+      sequence(:summary) { |i| "closet summary #{i}" }
+    end
   end
 end
