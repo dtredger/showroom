@@ -23,11 +23,8 @@ require "rails_helper"
 
 RSpec.describe Item, :type => :model do
 
-  before(:all) do
-    Item.delete_all
-  end
-
-  let(:item_1) { create(:item) }
+  let!(:original_item) { FactoryGirl.create(:item) }
+  let!(:new_item) { FactoryGirl.create(:item) }
 
   context "model" do
     it { is_expected.to respond_to(:product_name) }
@@ -37,49 +34,57 @@ RSpec.describe Item, :type => :model do
     it { is_expected.to respond_to(:currency) }
     it { is_expected.to respond_to(:store_name) }
     it { is_expected.to respond_to(:product_link) }
+    # TODO - move to category as array
+    # https://www.amberbit.com/blog/2014/2/4/postgresql-awesomeness-for-rails-developers/
     it { is_expected.to respond_to(:category1) }
     it { is_expected.to respond_to(:category2) }
     it { is_expected.to respond_to(:category3) }
     it { is_expected.to respond_to(:state) }
+    it { is_expected.to respond_to(:sku) }
   end
 
   context "check_for_duplicate" do
     describe "store, designer and name" do
-      item_1 = FactoryGirl.create(:item)
-      item_2 = FactoryGirl.create(:item)
-
       it "creates warning" do
-        expect(item_2.duplicate_warnings.length).to eq(1)
+        expect(new_item.duplicate_warnings.length).to eq(1)
       end
 
       it "attaches to new product" do
-        expect(item_2.duplicate_warnings[0].pending_item_id).to eq(item_2.id)
+        expect(new_item.duplicate_warnings[0].pending_item_id).to eq(new_item.id)
       end
 
       it "refers to original" do
-        expect(item_2.duplicate_warnings[0].existing_item_id).to eq(item_1.id)
+        expect(new_item.duplicate_warnings[0].existing_item_id).to eq(original_item.id)
       end
 
-      describe "delete_duplicate_warnings" do
-        context "pending item" do
+      describe "#delete_duplicate_warnings" do
+        context "destroy pending item" do
           it "deletes warning" do
-            item_2.destroy
-            expect(item_1.duplicate_warnings).to be_empty
-            expect(item_2.duplicate_warnings).to be_empty
+            new_item.destroy
+            expect(DuplicateWarning.find_by(existing_item_id: original_item)).to be_nil
+            expect(DuplicateWarning.find_by(pending_item_id: new_item)).to be_nil
           end
         end
 
-        context "existing item" do
+        context "destroy existing item" do
           it "deletes warning" do
-            item_1.destroy
-            expect(item_1.duplicate_warnings).to be_empty
-            expect(item_2.duplicate_warnings).to be_empty
+            original_item.destroy
+            expect(DuplicateWarning.find_by(existing_item_id: original_item)).to be_nil
+            expect(DuplicateWarning.find_by(pending_item_id: new_item)).to be_nil
           end
         end
-
       end
+
     end
   end
 
-
 end
+
+
+  #
+  # perform_item_management_operation
+  # handle_state
+  # add_duplicate_warning
+  # remove_duplicate_warning
+  # delete_duplicate_warnings
+  # check_for_duplicate

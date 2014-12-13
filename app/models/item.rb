@@ -25,10 +25,11 @@ class Item < ActiveRecord::Base
   has_many :users, through: :closets
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
-  has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
+  has_many :duplicate_warnings, foreign_key: "pending_item_id"
   #TODO does not allow bidirectional foreign_key, if uncommented will override above
-  # has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
+  # has_many :duplicate_warnings, foreign_key: "existing_item_id"
   has_many :images, dependent: :destroy
+
 
   # Virtual attribute
   attr_accessor :old_item_update
@@ -47,7 +48,7 @@ class Item < ActiveRecord::Base
   # TODO - "In Rails 4.1 delete_all on associations would not fire callbacks. It means if the
   # :dependent option is :destroy then the associated records would be deleted without loading and invoking callbacks."
   after_create :check_for_duplicate
-  before_destroy :delete_duplicate_warnings
+  after_destroy :delete_duplicate_warnings
   after_save :perform_item_management_operation, :handle_state
 
   # either delete doesn't work properly or problem with image transfer?
@@ -99,11 +100,24 @@ class Item < ActiveRecord::Base
   # TODO - delete warning once one of matches is deleted
   # deletes matches where item is existing or pending item
   def delete_duplicate_warnings
-    if self.duplicate_warnings
-      self.duplicate_warnings.delete_all
+    if self.duplicate_warnings.any?
+      warnings = self.duplicate_warnings
+      if self.duplicate_warnings.respond_to? :each
+        warnings.each { |warn| warn.destroy }
+      elsif !warnings.nil?
+        warnings.destroy
+      else
+        return
+      end
     else
       warnings = DuplicateWarning.find_by(existing_item_id: self.id)
-      warnings.delete_all unless warnings.nil?
+      if warnings.respond_to? :each
+        warnings.each { |warn| warn.destroy }
+      elsif !warnings.nil?
+        warnings.destroy
+      else
+        return
+      end
     end
   end
 
