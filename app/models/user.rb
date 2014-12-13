@@ -27,16 +27,10 @@ class User < ActiveRecord::Base
   has_many :closets, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
 
+  # Devise has default email and password validations
   validates :username,
             uniqueness: { case_sensitive: false }
-  # validates :email,
-  #           uniqueness: true
-  # validates_confirmation_of :password
 
-  after_create :make_a_closet
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :registerable,
          :recoverable,
@@ -44,6 +38,8 @@ class User < ActiveRecord::Base
          :trackable,
          :validatable,
          :omniauthable, omniauth_providers: [:facebook]
+
+  after_create :make_a_closet
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -73,15 +69,15 @@ class User < ActiveRecord::Base
   end
 
   def make_a_closet
-    Closet.create!(user_id: self.id, title: "My Closet", summary: "My first closet")
+    self.closets.create(title: "My Closet", summary: "My first closet")
   end
 
-  # Added to allow users to signin via username or email
+  # Added to allow users to sign in via username or email
   # https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", {value: login.downcase}]).first
     else
       where(conditions).first
     end

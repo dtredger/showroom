@@ -25,10 +25,6 @@ require 'rails_helper'
 
 describe User do
 
-  before(:all) do
-    User.delete_all
-  end
-
   let!(:user) { create(:user) }
 
   context "model" do
@@ -38,60 +34,69 @@ describe User do
     it { is_expected.to respond_to(:encrypted_password) }
   end
 
-  context "password" do
-    describe "is blank" do
-      user_without_password = FactoryGirl.build(:user_2, password: "", password_confirmation: "")
-      it { expect(user_without_password).not_to be_valid }
+  context "validations" do
+    describe "password" do
+      context "is blank" do
+        user_without_password = FactoryGirl.build(:user_2, password: "", password_confirmation: "")
+        it { expect(user_without_password).not_to be_valid }
 
-      it "gives password error" do
-        expect(user_without_password.errors_on(:password).size).to eq(1)
+        it "gives password error" do
+          expect(user_without_password).to have(1).errors_on(:password)
+        end
+
       end
 
+      context "does not match confirmation" do
+        password_confirm_mismatch = FactoryGirl.build(:user_2, password_confirmation: "different!")
+        it { expect(password_confirm_mismatch).not_to be_valid }
+
+        it "gives confirmation error" do
+          expect(password_confirm_mismatch).to have(1).errors_on(:password_confirmation)
+        end
+      end
     end
 
-    describe "does not match confirmation" do
-      password_confirmation_mismatch = FactoryGirl.build(:user_2, password_confirmation: "different!")
-      it { expect(password_confirmation_mismatch).not_to be_valid }
+    describe "username" do
+      context "already exists" do
+        username_copy = FactoryGirl.build(:user_2, username: 'username')
+        it { is_expected.not_to be_valid }
 
-      it "gives confirmation error" do
-        expect(password_confirmation_mismatch.errors_on(:password_confirmation).size).to eq(1)
+        it "gives username error" do
+          expect(username_copy).to have(1).errors_on(:username)
+        end
+      end
+
+      context "already exists in upper-case" do
+        upcase_username = FactoryGirl.build(:user_2, username: "username".upcase)
+        it { expect(upcase_username).not_to be_valid }
+
+        it "gives username error" do
+          expect(upcase_username).to have(1).errors_on(:username)
+        end
+      end
+    end
+
+    describe "email" do
+      context "already taken" do
+        duplicate_email = FactoryGirl.build(:user_2, email: 'user@email.com')
+        it { expect(duplicate_email).not_to be_valid }
+
+        it "gives email error" do
+          expect(duplicate_email).to have(1).errors_on(:email)
+        end
       end
     end
 
   end
 
-  context "username" do
-    describe "already exists" do
-      username_copy = FactoryGirl.build(:user_2, username: 'username')
-      it { is_expected.not_to be_valid }
-
-      it "gives username error" do
-        expect(username_copy.errors_on(:username).size).to eq(1)
+  context "callbacks" do
+    describe "#make_a_closet" do
+      it "creates default closet for new user" do
+        new_user = FactoryGirl.create(:unique_user)
+        expect(new_user.closets.count).to eq(1)
       end
     end
-
-    describe "already exists in upper-case" do
-      upcase_username = FactoryGirl.build(:user_2, username: "username".upcase)
-      it { expect(upcase_username).not_to be_valid }
-
-      it "gives username error" do
-        expect(upcase_username.errors_on(:username).size).to eq(1)
-      end
-    end
-
   end
 
-  context "email" do
-    describe "already taken" do
-      duplicate_email = FactoryGirl.build(:user_2, email: 'user@email.com')
-
-      it { expect(duplicate_email).not_to be_valid }
-
-      it "gives email error" do
-        expect(duplicate_email.errors_on(:email).size).to eq(1)
-      end
-    end
-
-  end
 
 end
