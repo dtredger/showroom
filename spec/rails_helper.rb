@@ -74,10 +74,10 @@ RSpec.configure do |config|
 end
 
 # ----------- https://github.com/vcr/vcr -----------
-# VCR.configure do |c|
-#   c.cassette_library_dir = 'factories/vcr_cassettes'
-#   c.hook_into :webmock
-# end
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/factories/vcr_cassettes'
+  c.hook_into :webmock
+end
 
 
 # ------------------------------  OMNIAUTH CONFIG ------------------------------------
