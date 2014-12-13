@@ -131,7 +131,13 @@ describe User do
     end
 
     describe "#update_facebook_info" do
+      mock_auth = {credentials: {
+          token: 'TOKEN_OAUTH_2', expires_at: 1321747205} }
 
+      it "saves fb token to user" do
+        user.update_facebook_info(mock_auth)
+        expect(user.fb_token).to eq('TOKEN_OAUTH_2')
+      end
     end
   end
 

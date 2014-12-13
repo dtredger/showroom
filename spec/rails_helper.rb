@@ -73,7 +73,8 @@ RSpec.configure do |config|
 
 end
 
-# ----------- https://github.com/vcr/vcr -----------
+# ---------------------------------  VCR CONFIG --------------------------------------
+
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/factories/vcr_cassettes'
   c.hook_into :webmock
@@ -95,7 +96,7 @@ OmniAuth.configure do |config|
           first_name: 'Joe',
           last_name: 'Bloggs',
           image: 'http://graph.facebook.com/1234567/picture?type=square',
-          urls: {:Facebook => 'http://www.facebook.com/jbloggs'},
+          urls: {Facebook: 'http://www.facebook.com/jbloggs'},
           location: 'Palo Alto, California',
           verified: true
       },
@@ -112,7 +113,10 @@ OmniAuth.configure do |config|
               last_name: 'Bloggs',
               link: 'http://www.facebook.com/jbloggs',
               username: 'jbloggs',
-              location: {id: '123456789', name: 'Palo Alto, California'},
+              location: {
+                  id: '123456789',
+                  name: 'Palo Alto, California'
+              },
               gender: 'male',
               email: 'joe@bloggs.com',
               timezone: -8,

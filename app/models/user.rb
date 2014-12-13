@@ -56,9 +56,9 @@ class User < ActiveRecord::Base
 
   # Update the user's record with the new Facebook info
   def update_facebook_info(auth)
-    fb_token = auth.credentials.token
-    fb_expires_at = Time.at(auth['credentials'].expires_at)
-    save
+    fb_token = auth[:credentials][:token]
+    fb_expires_at = Time.at(auth[:credentials][:expires_at])
+    update(fb_token: fb_token, fb_token_expiration: fb_expires_at)
   end
 
   # NOTE:

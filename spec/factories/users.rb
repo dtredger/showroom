@@ -48,7 +48,11 @@ FactoryGirl.define do
       sequence(:email) { |i| "unique-email-#{i}@email-#{i}.com" }
       sequence(:password) { |i| "unique-pass-#{i}" }
     end
+  end
 
+  factory :facebook_user do
+    fb_token 'TOKEN_OAUTH_2' # OAuth 2.0 access_token, which you may wish to store
+    fb_expires_at 1521747205 # when the access token expires (it always will)
   end
 
 
