@@ -43,8 +43,8 @@ RSpec.describe Item, :type => :model do
     it { is_expected.to respond_to(:sku) }
   end
 
-  context "check_for_duplicate" do
-    describe "store, designer and name" do
+  describe "#check_for_duplicate" do
+    context "store, designer and name" do
       it "creates warning" do
         expect(new_item.duplicate_warnings.length).to eq(1)
       end
@@ -56,26 +56,56 @@ RSpec.describe Item, :type => :model do
       it "refers to original" do
         expect(new_item.duplicate_warnings[0].existing_item_id).to eq(original_item.id)
       end
+    end
+  end
 
-      describe "#delete_duplicate_warnings" do
-        context "destroy pending item" do
-          it "deletes warning" do
-            new_item.destroy
-            expect(DuplicateWarning.find_by(existing_item_id: original_item)).to be_nil
-            expect(DuplicateWarning.find_by(pending_item_id: new_item)).to be_nil
-          end
-        end
 
-        context "destroy existing item" do
-          it "deletes warning" do
-            original_item.destroy
-            expect(DuplicateWarning.find_by(existing_item_id: original_item)).to be_nil
-            expect(DuplicateWarning.find_by(pending_item_id: new_item)).to be_nil
-          end
+  describe "#delete_duplicate_warnings" do
+    context "single warning" do
+      describe "destroy pending item" do
+        it "deletes warning" do
+          new_item.destroy
+          expect(DuplicateWarning.find_by(existing_item_id: original_item)).to be_nil
+          expect(DuplicateWarning.find_by(pending_item_id: new_item)).to be_nil
         end
       end
 
+      describe "destroy existing item" do
+        it "deletes warning" do
+          original_item.destroy
+          expect(DuplicateWarning.find_by(existing_item_id: original_item)).to be_nil
+          expect(DuplicateWarning.find_by(pending_item_id: new_item)).to be_nil
+        end
+      end
     end
+
+    context "multiple warnings" do
+      before do
+        new_item_2 = FactoryGirl.create(:item)
+        # will create two new warnings:
+        # new_item_2 will be pending_item for both;
+        # existing_item will be original_item (1) and new_item (1)
+      end
+
+      it "creates two new warnings" do
+        expect(DuplicateWarning.count).to eq(3)
+      end
+
+      describe "destroy pending & existing" do
+        before { new_item.destroy }
+
+        it "deletes pending_item warnings" do
+          expect(DuplicateWarning.find_by(pending_item_id: new_item)).to be_nil
+        end
+
+        it "deletes existing_item warnings" do
+          expect(DuplicateWarning.find_by(existing_item_id: new_item)).to be_nil
+        end
+      end
+
+
+    end
+
   end
 
 end

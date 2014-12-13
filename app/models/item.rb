@@ -26,8 +26,10 @@ class Item < ActiveRecord::Base
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
   has_many :duplicate_warnings, foreign_key: "pending_item_id"
-  #TODO does not allow bidirectional foreign_key, if uncommented will override above
+  # TODO does not allow bidirectional foreign_key, if uncommented will override above
   # has_many :duplicate_warnings, foreign_key: "existing_item_id"
+  # TODO image files should be removed from s3: if they're just deleted, we lose
+  # any way of finding them
   has_many :images, dependent: :destroy
 
 
@@ -104,20 +106,15 @@ class Item < ActiveRecord::Base
       warnings = self.duplicate_warnings
       if self.duplicate_warnings.respond_to? :each
         warnings.each { |warn| warn.destroy }
-      elsif !warnings.nil?
+      else !warnings.nil?
         warnings.destroy
-      else
-        return
       end
-    else
-      warnings = DuplicateWarning.find_by(existing_item_id: self.id)
-      if warnings.respond_to? :each
-        warnings.each { |warn| warn.destroy }
-      elsif !warnings.nil?
-        warnings.destroy
-      else
-        return
-      end
+    end
+    warnings = DuplicateWarning.find_by(existing_item_id: self.id)
+    if warnings.respond_to? :each
+      warnings.each { |warn| warn.destroy }
+    elsif !warnings.nil?
+      warnings.destroy
     end
   end
 
