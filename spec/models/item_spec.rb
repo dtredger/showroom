@@ -44,21 +44,38 @@ RSpec.describe Item, :type => :model do
   end
 
   describe "#check_for_duplicate" do
-    context "store, designer and name" do
-      it "creates warning" do
+    # context "unique items" do
+    #   pending "does not create duplicate_warning" do
+    #     # expect(DuplicateWarning.count).to eq(0)
+    #   end
+    # end
+    #
+    # context "duplicate store only" do
+    #   pending "creates duplicate_warning" do
+    #     # expect(DuplicateWarning.count).to eq(1)
+    #   end
+    # end
+    #
+    # context "duplicate store and designer" do
+    #   pending "creates duplicate_warning" do
+    #     # expect(DuplicateWarning.count).to eq(1)
+    #   end
+    # end
+
+    context "duplicate store, designer and name" do
+      it "creates duplicate_warning" do
         expect(new_item.duplicate_warnings.length).to eq(1)
       end
 
-      it "attaches to new product" do
+      it "new product is pending_item" do
         expect(new_item.duplicate_warnings[0].pending_item_id).to eq(new_item.id)
       end
 
-      it "refers to original" do
+      it "original is existing_item" do
         expect(new_item.duplicate_warnings[0].existing_item_id).to eq(original_item.id)
       end
     end
   end
-
 
   describe "#delete_duplicate_warnings" do
     context "single warning" do
@@ -102,19 +119,29 @@ RSpec.describe Item, :type => :model do
           expect(DuplicateWarning.find_by(existing_item_id: new_item)).to be_nil
         end
       end
-
-
     end
+  end
+
+  describe "#monetize" do
+    pending
+  end
+
+  describe "#perform_item_management_operation" do
+    pending
+  end
+
+  describe "handle_state" do
+    pending
+  end
+
+  describe "add_duplicate_warning" do
+    pending
+  end
+
+  describe "remove_duplicate_warning" do
 
   end
 
+
 end
 
-
-  #
-  # perform_item_management_operation
-  # handle_state
-  # add_duplicate_warning
-  # remove_duplicate_warning
-  # delete_duplicate_warnings
-  # check_for_duplicate
