@@ -26,8 +26,8 @@ IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
       category1: "category1 #{i}",
       state:1
   )
-  item.images.create(image:open(IMG_PATH))
-  item.images.create(image:open(IMG_2_PATH))
-  item.images.create(image:open(IMG_PATH))
+  item.images.create(source: open(IMG_PATH))
+  item.images.create(source: open(IMG_2_PATH))
+  item.images.create(source: open(IMG_PATH))
   puts "item #{i} and #{item.images.count} images created"
 end
