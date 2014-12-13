@@ -7,6 +7,7 @@ class ClosetsItemsController < ApplicationController
         # stays on page, and runs views/closets_items/create.js.erb
         format.js
       else
+        #TODO must be updated, especially with item-uniqueness requirement
         redirect_to @item, notice: "Error adding item to closet."
       end
     end

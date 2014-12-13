@@ -25,7 +25,7 @@
 /.idea
 
 # ignore coverage reports
-/coverage
+/spec/coverage
 
 # Ignore application configuration
 /config/application.yml

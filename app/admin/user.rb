@@ -13,7 +13,9 @@ ActiveAdmin.register User do
     :fb_uid,
     :fb_token,
     :fb_token_expiration,
-    :username
+    :username,
+    :email,
+    :password
 
   # created within last 72 hours
   # scope("New Users")  { |scope| scope.where((((Time.now.utc - created_at.utc)/1000)/60)/60) < 72 }
@@ -47,5 +49,16 @@ ActiveAdmin.register User do
       row :fb_token_expiration
     end
   end
+
+
+  form do |f|
+    f.inputs "New User" do
+      f.input :username
+      f.input :email
+      f.input :password
+    end
+    f.actions
+  end
+
 
 end

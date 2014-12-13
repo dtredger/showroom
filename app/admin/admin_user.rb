@@ -1,7 +1,9 @@
 ActiveAdmin.register AdminUser do
 
   menu priority: 13
-  actions :all, except: [:new, :create, :update, :destroy]
+  
+  # TODO - possible we want to allow admins to edit themselves in the future
+  actions :all, except: [:new, :create, :edit, :update, :destroy]
   config.filters = false
 
   index do

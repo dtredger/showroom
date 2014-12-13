@@ -14,60 +14,52 @@ require 'rails_helper'
 
 RSpec.describe Closet, :type => :model do
 
-  before(:all) do
-    User.delete_all
-  end
-
-  let(:user) { create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user_2) { FactoryGirl.create(:user_2) }
 
   context "model" do
     it { is_expected.to respond_to(:title) }
     it { is_expected.to respond_to(:summary) }
-
     it { is_expected.to respond_to(:user_id) }
   end
 
-  context "for new user" do
-    it "exists" do
-      expect(user.closets).not_to be_empty
+  describe "new user" do
+    it "has default closet" do
+      expect(user.closets.length).to eq(1)
     end
   end
 
-  context "naming" do
-    describe "same user" do
-      it "rejects duplicate title" do
-        duplicate_closet_title = Closet.create(user_id: user.id, title: "My Closet", summary: "new closet summary")
-        expect(duplicate_closet_title).not_to be_valid
+  describe "validations" do
+    context "title" do
+      it "blank rejected" do
+        blank = user.closets.build(title:'')
+        expect(blank).to have(1).errors_on(:title)
       end
 
-      pending "ignores case when rejecting duplicates" do
-        duplicate_closet_title = Closet.create(user_id: user.id, title: "My closet", summary: "new closet summary")
-        expect(duplicate_closet_title).not_to be_valid
+      describe "uniqueness" do
+        context "same user" do
+          it "duplicate rejected" do
+            duplicate = user.closets.build(title: "My Closet", summary: "same title as default")
+            expect(duplicate).to have(1).errors_on(:title)
+          end
+
+          it "uppercase also rejected" do
+            upper_duplicate = user.closets.build(title: "mY CLOSeT", summary: "only case different")
+            expect(upper_duplicate).to have(1).errors_on(:title)
+          end
+        end
+
+        context "different user" do
+          it "accepts duplicate title" do
+            expect{
+              user.closets.build(title: "ONE")
+              user_2.closets.build(title: "ONE")
+            }.to change{Closet.count}.by(2)
+          end
+        end
       end
-    end
-
-    describe "different user" do
-      it "accepts duplicate title" do
-        duplicate_closet_title = Closet.create(user_id: 1000, title: "My Closet", summary: "new closet summary")
-        expect(duplicate_closet_title).to be_valid
-      end
-    end
-
-  end
-
-
-  context "item" do
-    describe "duplicates" do
-
-      pending("desirable?")
-      # it "rejects duplicates" do
-      #   pending("desirable?")
-      # end
-
-
 
     end
   end
 
-
-  end
+end
