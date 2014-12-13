@@ -32,7 +32,7 @@ RSpec.describe 'Basic Scraper' do
   context "#get_image" do
     describe "invalid url" do
       it "returns general error" do
-        file = basic_scraper.get_image "bogus!"
+        file = basic_scraper.get_image("bogus!")
         expect(file).to eq("get_image error: No such file or directory - bogus!")
       end
     end
@@ -40,7 +40,7 @@ RSpec.describe 'Basic Scraper' do
     describe "url not image" do
       it "returns ImageMagickError" do
         VCR.use_cassette('valid_url') do
-          file = basic_scraper.get_image VALID_URL
+          file = basic_scraper.get_image(VALID_URL)
           expect(file).to eq("get_image ImageMagickError: bad image format - #{VALID_URL}")
         end
       end
@@ -48,8 +48,9 @@ RSpec.describe 'Basic Scraper' do
 
     describe "valid url" do
       it "returns file" do
+        puts "TODO - cassette not compatible with image"
         VCR.use_cassette('valid_image_url') do
-          file = basic_scraper.get_image VALID_IMAGE_URL
+          file = basic_scraper.get_image(VALID_IMAGE_URL)
           expect(file).to be_kind_of(Magick::Image)
         end
       end
@@ -90,24 +91,21 @@ RSpec.describe 'Basic Scraper' do
 
 
   context "#save_item_from_url" do
-    # describe "failure" do
-    #   bad_item = FactoryGirl.create(:item, image_source: 'trrble')
-    #
-    #   it "returns error" do
-    #     expect{Item.create(item)}.to raise_exception
-    #   end
-    # end
+    describe "failure" do
+      bad_item = FactoryGirl.create(:item)
+      bad_item[images: 'invalid!']
+      it "returns error" do
+        expect{Item.create(item)}.to raise_exception
+      end
+    end
 
     describe "success" do
-      item_attributes = FactoryGirl.attributes_for(:item, image_source: VALID_IMAGE_URL)
-      result = basic_scraper.save_item_from_url(item_attributes)
+      item_attributes_with_images = FactoryGirl.attributes_for(:item)
+      item_attributes_with_images[images: VALID_IMAGE_URL]
+      result = basic_scraper.save_item_from_url(item_attributes_with_images)
 
       it "returns saved item" do
         expect(result.class).to eq(Item)
-      end
-
-      it "deletes resized image" do
-        expect(File.exist? result.image_source.path).to be_falsey
       end
     end
 
