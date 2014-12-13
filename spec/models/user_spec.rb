@@ -86,7 +86,6 @@ describe User do
         end
       end
     end
-
   end
 
   context "callbacks" do
@@ -95,6 +94,44 @@ describe User do
         new_user = FactoryGirl.create(:unique_user)
         expect(new_user.closets.count).to eq(1)
       end
+    end
+
+    describe "#find_first_by_auth_conditions" do
+      context "blank login" do
+        it "returns none" do
+          warden_conditions = { login: "" }
+          found = User.find_first_by_auth_conditions(warden_conditions)
+          expect(found).to eq(nil)
+        end
+      end
+
+      context "unknown login" do
+        it "returns none" do
+          warden_conditions = { login: "bogus!" }
+          found = User.find_first_by_auth_conditions(warden_conditions)
+          expect(found).to eq(nil)
+        end
+      end
+
+      context "email login" do
+        it "returns user" do
+          warden_conditions = { login: user.email }
+          found = User.find_first_by_auth_conditions(warden_conditions)
+          expect(found).to be_a(User)
+        end
+      end
+
+      context "username login" do
+        it "returns user" do
+          warden_conditions = { login: user.username }
+          found = User.find_first_by_auth_conditions(warden_conditions)
+          expect(found).to be_a(User)
+        end
+      end
+    end
+
+    describe "#update_facebook_info" do
+
     end
   end
 
