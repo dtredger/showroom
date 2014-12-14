@@ -10,6 +10,7 @@ ActiveAdmin.register DuplicateWarning do
     id_column
     column :pending_item_id
     column :existing_item_id
+    column :match_score
     column :warning_notes
     column :created_at
     column :updated_at
