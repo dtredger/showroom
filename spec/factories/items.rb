@@ -23,7 +23,7 @@
 
 FactoryGirl.define do
   factory :item do
-    sku 'item_one sku'
+    sku "item_one sku"
     product_name "item_one product name"
     description "item_one description"
     designer "item_one designer"
@@ -36,28 +36,30 @@ FactoryGirl.define do
     category3 nil
     state 0
 
-    factory :item_2 do
-      product_name "not Black Relaxed-Fit Wool Suit Trousers"
-      description "different description"
-      designer "not BURBERRY LONDON"
-      price_cents 10101
-      currency "CAD"
-      store_name "item_2_store"
-      product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
-      category1 "Suits"
-      category2 nil
-      category3 nil
-      state 1
-    end
-
     factory :unique_item do
       sequence(:store_name) { |i| "unique store #{i}" }
       sequence(:product_name) { |i| "unique product #{i}" }
       sequence(:designer) { |i| "unique designer #{i}" }
     end
-
   end
 
+  factory :item_2, class: Item do
+    sku "item_two SKU"
+    product_name "not Black Relaxed-Fit Wool Suit Trousers"
+    description "different description"
+    designer "not BURBERRY LONDON"
+    price_cents 10101
+    currency "CAD"
+    store_name "item_2_store"
+    product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
+    category1 "Suits"
+    category2 nil
+    category3 nil
+    state 1
 
+    factory :item_1_store do
+      store_name "item_one store"
+    end
+  end
 
 end

@@ -112,13 +112,39 @@ class Item < ActiveRecord::Base
   def check_for_duplicate
     if self.store_name
       check_items = Item.where(store_name: self.store_name).where.not(id: self.id)
+      score = 0
+      notes = ""
       check_items.each do |check_item|
-        if self.designer == check_item.designer && self.product_name == check_item.product_name
-          self.duplicate_warnings.create(existing_item_id: check_item.id,
-              match_score: 0,
-              warning_notes: "match: designer & product_name")
+        if self.sku == check_item.sku
+          score += 100
+          notes += "sku, "
         end
-
+        if self.product_link == check_item.product_link
+          score += 90
+          notes += "product_link, "
+        end
+        if self.product_name == check_item.product_name
+          score += 70
+          notes += "product_name, "
+        end
+        if self.price_cents == check_item.price_cents
+          score += 35
+          notes += "price, "
+        end
+        if self.designer == check_item.designer
+          score += 20
+          notes += "designer, "
+        end
+        if self.category1 == check_item.category1
+          score += 15
+          notes += "category, "
+        end
+        if score >= 70
+          notes = notes[0..-3] if notes.last(2) == ", "
+          self.duplicate_warnings.create(existing_item_id: check_item.id,
+              match_score: score,
+              warning_notes: notes)
+        end
       end
     end
   end
