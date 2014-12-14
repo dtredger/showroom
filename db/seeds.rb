@@ -25,7 +25,7 @@ IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
       sku: "1532s#{i}52-#{i}",
       price_cents: "100#{i}".to_i,
       category1: "category1 #{i}",
-      state:1
+      state:1 # live
   )
   item.images.create(source: open(IMG_PATH))
   item.images.create(source: open(IMG_2_PATH))

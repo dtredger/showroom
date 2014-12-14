@@ -1,52 +1,18 @@
 class ItemsController < ApplicationController
 
   def index
-    @closets_item = ClosetsItem.new()
+    @closets_item = ClosetsItem.new
     @items = handle_search
     # Allow state when items are approved
-    #@items = @items.where(state: 1).page(params[:page]).per_page(27)#.order("created_at DESC") -- default scope should handle this
-    #@items = @items.page(params[:page]).per_page(27)#.order("created_at DESC") -- default scope should handle this
-    @items = @items.page(params[:page]).per(9)
+    @items = @items.where(state: 1).page(params[:page]).per(27)
   end
 
   def show
-    @closets_item = ClosetsItem.new()
+    @closets_item = ClosetsItem.new
     @item = Item.find(params[:id])
     @like = @item.likes.build
   end
 
-  #
-  # Items are imported through the scraper
-  #
-  # def new
-  # end
-
-  def create
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-
-  def delete
-  end
-
-  def edit_multiple
-    @items = Item.find(params[:item_ids])
-  end
-
-  def update_multiple
-    @items = Item.update(params[:items].keys, params[:items].values)
-    @items.reject! { |i| i.errors.empty? }
-    if @items.empty?
-      redirect_to :root
-    else
-      render "index"
-    end
-  end
 
   private
 
