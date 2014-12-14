@@ -5,6 +5,9 @@ ActiveAdmin.register DuplicateWarning do
 
   permit_params :pending_item_id, :existing_item_id, :match_score, :warning_notes
 
+  scope("Identical Match")  { |scope| scope.where(match_score: 330) }
+
+
   index do
     selectable_column
     id_column
