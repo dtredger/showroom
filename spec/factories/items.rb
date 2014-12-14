@@ -23,14 +23,15 @@
 
 FactoryGirl.define do
   factory :item do
-    product_name "Test Product"
-    description "You can't go wrong with a pair of Burberry London's..."
-    designer "designer test"
-    price_cents 26000
+    sku 'item_one sku'
+    product_name "item_one product name"
+    description "item_one description"
+    designer "item_one designer"
+    price_cents 100
     currency "USD"
-    store_name "a store name"
-    product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
-    category1 "Suits"
+    store_name "item_one store"
+    product_link "http://item_one-link"
+    category1 "item_one category"
     category2 nil
     category3 nil
     state 0
@@ -40,13 +41,13 @@ FactoryGirl.define do
       description "different description"
       designer "not BURBERRY LONDON"
       price_cents 10101
-      currency "USD"
-      store_name "not Mr. Porter"
+      currency "CAD"
+      store_name "item_2_store"
       product_link "http://www.mrporter.com/en-ca/mens/burberry_london/black-relaxed-fit-wool-suit-trousers/320022"
       category1 "Suits"
       category2 nil
       category3 nil
-      state 0
+      state 1
     end
 
     factory :unique_item do
