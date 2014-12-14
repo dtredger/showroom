@@ -1,10 +1,10 @@
 class ItemsController < ApplicationController
 
+  before_filter :item_live?, only: [:show]
+
   def index
     @closets_item = ClosetsItem.new
-    @items = handle_search
-    # Allow state when items are approved
-    @items = @items.where(state: 1).page(params[:page]).per(27)
+    @items = handle_search.where(state: 1).page(params[:page]).per(27)
   end
 
   def show
@@ -22,17 +22,19 @@ class ItemsController < ApplicationController
     money.cents
   end
 
-  # Add state to search (only display active items)
   def handle_search
     # http://www.justinweiss.com/blog/2014/02/17/search-and-filter-rails-models-without-bloating-your-controller/
     # http://stackoverflow.com/questions/14219528/activerecord-anonymous-scope
-
     items = Item.where(nil) # creates an anonymous scope
     items = items.search_designer(params[:designer]) unless params[:designer].blank?
     items = items.search_category1(params[:category1]) unless params[:category1].blank?
     items = items.search_min_price(value_to_cents(params[:min_price])) unless params[:min_price].blank?
     items = items.search_max_price(value_to_cents(params[:max_price])) unless params[:max_price].blank?
     return items
+  end
+
+  def item_live?
+    redirect_to(root_path) if Item.where(state:1).find_by_id(params[:id]).nil?
   end
 
 end
