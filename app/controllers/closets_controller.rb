@@ -3,15 +3,10 @@ class ClosetsController < ApplicationController
   before_filter :correct_closet, only: [:show, :destroy]
 
 	def index
-    if current_user.nil?
-      redirect_to new_user_session_path
-    else
-      @closets = current_user.closets
-    end
+    @closets = current_user.closets
 	end
 
 	def show
-    # TODO - this seems more complex than necessary
 		@closet = Closet.includes(:items).where(id: params[:id]).first
 	end
 
@@ -25,9 +20,9 @@ class ClosetsController < ApplicationController
 			redirect_to closets_path, notice: "Created a new closet."
     else
       flash_errors(@closet)
-			render 'new'
+			render :new
 		end
-	end
+  end
 
 	def edit
 		@closet = current_user.closets.find(params[:id])
@@ -35,7 +30,6 @@ class ClosetsController < ApplicationController
 
 	def update
 		@closet = current_user.closets.find(params[:id])
-
 		if @closet.update_attributes(closet_params)
 			redirect_to closet_path(@closet), notice: "Closet updated."
     else
@@ -46,7 +40,6 @@ class ClosetsController < ApplicationController
 
 	def destroy
 		@closet = current_user.closets.find(params[:id])
-
 		if @closet.destroy
 			redirect_to closets_path, notice: 'Deleted closet.'
     else
@@ -63,9 +56,7 @@ class ClosetsController < ApplicationController
   end
 
   def authenticated_user
-    if current_user.nil?
-      redirect_to new_user_session_path
-    end
+    redirect_to new_user_session_path if current_user.nil?
   end
 
   def correct_closet

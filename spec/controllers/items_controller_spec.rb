@@ -11,7 +11,7 @@ RSpec.describe ItemsController, :type => :controller do
     context "default" do
       before { get :index }
 
-      it { expect(response.status).to eq(200) }
+      it { expect(response).to render_template(:index) }
       it("includes live @items") { expect(assigns[:items].length).to eq(3) }
       it("includes correct items") { expect(assigns[:items]).to include(item1, item2, item3) }
       it("does not contain pending items") { expect(assigns[:items]).not_to include(item4)}
@@ -47,7 +47,7 @@ RSpec.describe ItemsController, :type => :controller do
     context "live item" do
       before { get :show, id: item2.id }
 
-      it { expect(response.status).to eq(200) }
+      it { expect(response).to render_template(:show) }
       it("assigns correct item") { expect(assigns[:item]).to eq(item2) }
       it("builds closet item") { expect(assigns[:closets_item]).not_to be_nil }
       it("builds like") { expect(assigns[:like]).not_to be_nil }

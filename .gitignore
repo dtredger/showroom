@@ -26,7 +26,6 @@
 
 # ignore coverage reports
 /spec/coverage
-/spec/coverage/*.*
 
 # Ignore application configuration
 /config/application.yml
