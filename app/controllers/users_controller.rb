@@ -32,18 +32,4 @@ class UsersController < ApplicationController
     params.required(:user).permit(:password, :password_confirmation, :current_password)
   end
 
-  def flash_errors(user)
-    user.errors.full_messages.each do |message|
-      flash[:alert] = message
-    end
-  end
-
-  def correct_user
-    if not current_user == User.find_by_id(params[:id])
-      # TODO user_path doesn't currently exist
-      redirect_to(user_path current_user)
-      flash[:alert] = "Please log in"
-    end
-  end
-
 end

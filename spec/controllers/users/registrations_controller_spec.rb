@@ -22,7 +22,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
   # it needs to be told explicitly. For example, if you are testing the user scope, simply do:
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    DatabaseCleaner.clean
   end
 
   let(:user) { create(:user) }

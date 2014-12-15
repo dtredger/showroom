@@ -55,19 +55,9 @@ class ClosetsController < ApplicationController
 		params.require(:closet).permit(:title, :summary)
   end
 
-  def authenticated_user
-    redirect_to new_user_session_path if current_user.nil?
-  end
-
   def correct_closet
     if Closet.where(user_id: current_user.id).where(id: params[:id]).to_a == []
       redirect_to closets_path
-    end
-  end
-
-  def flash_errors(resource)
-    resource.errors.full_messages.each do |message|
-      flash[:alert] = message
     end
   end
 

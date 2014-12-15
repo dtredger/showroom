@@ -1,20 +1,20 @@
-require 'simplecov'
-
-SimpleCov.coverage_dir 'spec/coverage'
-SimpleCov.start do
-  add_group 'Models',      'app/models'
-  add_group 'Controllers', 'app/controllers'
-  add_group 'Tasks',       'lib/tasks'
-
-  add_filter 'spec'
-  add_filter '/bin/'
-  add_filter '/config/'
-  add_filter '/db/'
-  add_filter '/spec/'
-  add_filter 'config.ru'
-  add_filter 'Gemfile'
-  add_filter 'Guardfile'
-end
+# require 'simplecov'
+#
+# SimpleCov.coverage_dir 'spec/coverage'
+# SimpleCov.start do
+#   add_group 'Models',      'app/models'
+#   add_group 'Controllers', 'app/controllers'
+#   add_group 'Tasks',       'lib/tasks'
+#
+#   add_filter 'spec'
+#   add_filter '/bin/'
+#   add_filter '/config/'
+#   add_filter '/db/'
+#   add_filter '/spec/'
+#   add_filter 'config.ru'
+#   add_filter 'Gemfile'
+#   add_filter 'Guardfile'
+# end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'

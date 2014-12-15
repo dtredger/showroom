@@ -20,9 +20,10 @@ RSpec.describe UsersController, :type => :controller do
   # tell Devise which mapping should be used before a request. This is necessary because Devise
   # gets this information from the router, but since functional tests do not pass through the router,
   # it needs to be told explicitly. For example, if you are testing the user scope, simply do:
-  before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-  end
+
+  # before(:each) do
+  #   @request.env["devise.mapping"] = Devise.mappings[:user]
+  # end
 
   let(:user) { create(:user) }
   let(:user2) { create(:user_2) }

@@ -13,4 +13,23 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password) }
   end
 
+  def authenticated_user
+    redirect_to new_user_session_path if current_user.nil?
+  end
+
+  def correct_user
+    if not current_user == User.find_by_id(params[:id])
+      # TODO user_path doesn't currently exist
+      redirect_to(user_path current_user)
+      flash[:alert] = "Please log in"
+    end
+  end
+
+  def flash_errors(resource)
+    resource.errors.full_messages.each do |message|
+      flash[:alert] = message
+    end
+  end
+
+
 end

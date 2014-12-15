@@ -2,10 +2,6 @@ require 'rails_helper'
 
 RSpec.describe ClosetsController, :type => :controller do
 
-  before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-  end
-
   let(:user) { FactoryGirl.create(:user) }
   let(:user_2) { FactoryGirl.create(:user_2) }
 
