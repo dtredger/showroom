@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
-  # before_filter :correct_user, only: [:edit, :update_password]
+  before_filter :authenticated_user
 
 	def show
-		@user = User.find_by_id(params[:id]) || current_user
+		@user = current_user
   end
 
   # TODO this pertains to editing password only: rename method?
