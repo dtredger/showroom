@@ -58,7 +58,21 @@ RSpec.describe Closet, :type => :model do
           end
         end
       end
+    end
 
+    context "user" do
+      it "rejects nil" do
+        no_user = FactoryGirl.build(:closet, user_id: nil)
+        expect(no_user).not_to be_valid
+        expect(no_user).to have(1).errors_on(:user)
+      end
+
+      it "rejects invalid user" do
+        user_2.destroy
+        no_user = FactoryGirl.build(:closet, user_id: user_2.id)
+        expect(no_user).not_to be_valid
+        expect(no_user).to have(1).errors_on(:user)
+      end
     end
   end
 

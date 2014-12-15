@@ -2,8 +2,9 @@
 #
 # SimpleCov.coverage_dir 'spec/coverage'
 # SimpleCov.start do
-#   add_group 'Models', 'app/models'
+#   add_group 'Models',      'app/models'
 #   add_group 'Controllers', 'app/controllers'
+#   add_group 'Tasks',       'lib/tasks'
 #
 #   add_filter 'spec'
 #   add_filter '/bin/'

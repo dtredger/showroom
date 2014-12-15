@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
-  # before_filter :correct_user, only: [:edit, :update_password]
+  before_filter :authenticated_user
 
 	def show
-		@user = User.find_by_id(params[:id]) || current_user
+		@user = current_user
   end
 
   # TODO this pertains to editing password only: rename method?
@@ -30,20 +29,6 @@ class UsersController < ApplicationController
 
   def user_params
     params.required(:user).permit(:password, :password_confirmation, :current_password)
-  end
-
-  def flash_errors(user)
-    user.errors.full_messages.each do |message|
-      flash[:alert] = message
-    end
-  end
-
-  def correct_user
-    if not current_user == User.find_by_id(params[:id])
-      # TODO user_path doesn't currently exist
-      redirect_to(user_path current_user)
-      flash[:alert] = "Please log in"
-    end
   end
 
 end
