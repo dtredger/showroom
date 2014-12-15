@@ -3,8 +3,8 @@ en:
     pagination:
       first: "&laquo; First"
       last: "Last &raquo;"
-      previous: "" #"&lsaquo; Prev"
-      next: "" #"Next &rsaquo;"
+      previous: "&lsaquo; Prev"
+      next: "Next &rsaquo;"
       truncate: "&hellip;"
   helpers:
     page_entries_info:

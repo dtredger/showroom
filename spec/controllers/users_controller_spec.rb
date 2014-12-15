@@ -28,72 +28,87 @@ RSpec.describe UsersController, type: :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user_2) }
 
+  # /profile page
   describe "#show" do
+    context "un-authenticated user" do
+      before { get :show }
+
+      it { expect(response).to redirect_to(new_user_session_path) }
+      it "flashes login notice" do
+        expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+      end
+    end
+
     context "authorized user" do
       before do
         sign_in user
         get :show
       end
 
-      it { expect(response.status).to eq(200) }
+      it { expect(response).to render_template(:show) }
       it("sets correct user") { expect(subject.current_user.id).to eq(user.id) }
     end
+  end
 
-    context "unauthorized user" do
 
-      pending('what do we want in this case?')
-      # before do
-      #   sign_in user2
-      #   get :show, id: user.id
-      # end
-      #
-      # it "redirects to their #show" do
-      #   expect(response).to redirect_to(user_path user2)
-      # end
-      #
-      # it "flashes login notice" do
-      #   expect(flash[:alert]).to eq("Please log in")
-      # end
-    end
-
+  describe "#edit_password" do
     context "un-authenticated user" do
-      before { get :show }
+      before { get :edit_password }
 
-      it "redirects to login" do
-        expect(response).to redirect_to(new_user_session_path)
-      end
-
+      it { expect(response).to redirect_to(new_user_session_path) }
       it "flashes login notice" do
         expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
       end
     end
 
+    context "authenticated user" do
+      it "assigns correct user" do
+        sign_in user2
+        get :edit_password
+        expect(assigns[:user]).to eq(user2)
+      end
+    end
   end
-
-
-  describe "#edit" do
-    pending("should this be here?...")
-  end
-
 
   describe "#update_password" do
-    before(:each) do
-      sign_in user
-    end
-
-    context "authorized user" do
-      # get :
-    end
-
-    context "unauthorized user" do
-
-    end
-
     context "un-authenticated user" do
+      before do
+        post :update_password, user: user2.id,
+             current_password: user2.password,
+             password: "something else",
+             password_confirmation: "something else"
+        user2.reload
+      end
 
+      it { expect(response).to redirect_to(new_user_session_path) }
+
+      it "flashes login notice" do
+        expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+      end
+
+      it "does not update password" do
+        expect(user2.password).not_to eq("something new")
+      end
     end
 
+    context "authenticated user" do
+      before do
+        sign_in user2
+      end
 
+      # TODO - WTF why won't this work? is exactly the same as other update specs
+      # appears user is being interpreted as string: something related to relying
+      # on current_user in the controller? if uses find(params[:id]), can't find
+      # user2. But action seems to work not under test
+      it "updates password" do
+        patch :update_password, user: user2.id,
+             current_password: user2.password,
+             password: "something new",
+             password_confirmation: "something new"
+        user2.reload
+        expect(user2.password).to eq("something new")
+      end
+    end
   end
 
 end

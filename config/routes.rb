@@ -40,17 +40,9 @@ Showspace::Application.routes.draw do
       as: :update_user_facebook_confirmation
   end
 
-
-  # TODO will we want to give users access to others' profiles in the future?
-  # resources :users, only: [:show]
-
   get 'profile', to: 'users#show'
-  # for update password
-  resource :user, only: [:edit] do
-    collection do
-      patch 'update_password'
-    end
-  end
+  get 'users/edit_password', to: 'users#edit_password'
+  patch 'users/update_password', to: 'users#update_password'
 
   resources :items, only: [:index, :show] do
     collection do
