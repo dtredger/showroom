@@ -16,7 +16,7 @@ require 'rails_helper'
 #
 # --------------------------------------------------------------------------------------------------------
 
-RSpec.describe UsersController, :type => :controller do
+RSpec.describe UsersController, type: :controller do
   # tell Devise which mapping should be used before a request. This is necessary because Devise
   # gets this information from the router, but since functional tests do not pass through the router,
   # it needs to be told explicitly. For example, if you are testing the user scope, simply do:
@@ -71,6 +71,9 @@ RSpec.describe UsersController, :type => :controller do
   end
 
 
+  describe "#edit" do
+    pending("should this be here?...")
+  end
 
 
   describe "#update_password" do
