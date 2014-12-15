@@ -51,7 +51,7 @@
 <!-- signin modal -->
 <% if !user_signed_in? %>
   <div id="login-modal" class="reveal-modal" data-reveal>
-    <%= render 'layouts/signin' %>
+    <%= render 'layouts/forms/signin' %>
     <a class="close-reveal-modal">&#215;</a>
   </div>
 <% end %>
@@ -59,7 +59,7 @@
 <!-- signup modal -->
 <% if !user_signed_in? %>
     <div id="signup-modal" class="reveal-modal" data-reveal>
-      <%= render 'layouts/signup' %>
+      <%= render 'layouts/forms/signup' %>
       <a class="close-reveal-modal">&#215;</a>
     </div>
 <% end %>

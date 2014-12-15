@@ -23,12 +23,22 @@
         <p>Click here to save this item to a closet.</p>
       </li>
     </ol>
-<% elsif page == "edit" %>
+<% elsif page == "edit_password" %>
     <ol class="joyride-list" data-joyride>
       <li data-text="OK" data-options="prev_button: false">
         <h4>Edit your Password</h4>
         <br/>
         <p>Enter your current password to save a new one.</p>
+      </li>
+    </ol>
+<% elsif page == "update_password" %>
+    <ol class="joyride-list" data-joyride>
+      <li data-text="OK" data-options="prev_button: false">
+        <h4>Forget your password?</h4>
+        <br/>
+        <p>We don't know what it is either, but you can reset it.</p>
+        <p>For security reasons, you must sign out to send yourself a password
+        reset email</p>
       </li>
     </ol>
 <% end %>
