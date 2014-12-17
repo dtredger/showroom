@@ -19,9 +19,14 @@
 #  fb_token               :string(255)
 #  fb_token_expiration    :datetime
 #  username               :string(255)
+#  slug                   :string(255)      not null
 #
 
 class User < ActiveRecord::Base
+
+  include FriendlyId
+  friendly_id :slug_candidates, use: :slugged
+
 
   has_many :items, through: :closets
   has_many :closets, dependent: :destroy
@@ -29,7 +34,8 @@ class User < ActiveRecord::Base
 
   # Devise has default email and password validations
   validates :username,
-            uniqueness: { case_sensitive: false }
+            uniqueness: { case_sensitive: false },
+            presence: true
 
   devise :database_authenticatable,
          :registerable,
@@ -39,11 +45,23 @@ class User < ActiveRecord::Base
          :validatable,
          :omniauthable, omniauth_providers: [:facebook]
 
+  before_validation :create_username
   after_create :make_a_closet
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
+
+  
+  # http://norman.github.io/friendly_id/file.Guide.html
+  def slug_candidates
+    [ :username, :email ]
+  end
+
+  # def should_generate_new_friendly_id?
+
+  # end
+
 
   # Override Devise's password_required?
   # Check if a password is required for the registration process.
@@ -84,6 +102,12 @@ class User < ActiveRecord::Base
       # TODO - how do we get to this else block?
       # safer to use User.none  ??
       where(conditions).first
+    end
+  end
+
+  def create_username
+    if self.username.blank?
+      self.update(username: self.email)
     end
   end
 

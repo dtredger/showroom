@@ -34,6 +34,8 @@ gem 'rmagick', :require => false
 gem 'figaro'
 gem 'carrierwave-aws'
 
+gem 'friendly_id', require: 'friendly_id'
+
 group :development, :test do
 	gem 'pry-rails'
   gem 'annotate'

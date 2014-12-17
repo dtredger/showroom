@@ -19,6 +19,7 @@
 #  fb_token               :string(255)
 #  fb_token_expiration    :datetime
 #  username               :string(255)
+#  slug                   :string(255)      not null
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

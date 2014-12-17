@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
 
   def index
     @closets_item = ClosetsItem.new
-    @items = handle_search.where(state: 1).page(params[:page]).per(27)
+    @items = handle_search.where(state: 1).includes(:images).page(params[:page]).per(27)
   end
 
   def show
