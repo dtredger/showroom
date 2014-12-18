@@ -10,9 +10,12 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// run Rails.application.config.assets.paths in console to see assets path
+//
 //= require jquery
 //= require jquery_ujs
 //= require foundation
+//= require_directory ./items
 
 $(function() {
   $(document).foundation({

@@ -14,13 +14,13 @@
     <body id="<%= params[:controller].parameterize %>">
 
         <div class="fixed">
-          <%= render 'layouts/header' %>
-          <%= render 'layouts/errors' %>
+          <%= render "layouts/header" %>
+          <%= render "layouts/errors" %>
         </div>
 
         <%= yield %>
 
         <%= render "layouts/help/#{params[:controller].gsub("/","_")}", page: params[:action] %>
-        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     </body>
 </html>

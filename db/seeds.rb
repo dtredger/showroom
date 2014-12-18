@@ -14,6 +14,7 @@ AdminUser.create_with(password: "admin").find_or_create_by(email:"admin@showspac
 
 IMG_PATH = Rails.root.join("public/images/doge_log.gif")
 IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
+# SUIT_IMG_ROOT = Rails.root.join("public/images/suit_sample_#{i}.jpg")
 
 (1..10).each do |i|
   item = Item.create!(
@@ -23,12 +24,12 @@ IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
       product_name: "product_name #{i}",
       description: "some description #{i}",
       sku: "1532s#{i}52-#{i}",
-      price_cents: "100#{i}".to_i,
+      price_cents: "#{i}0000".to_i,
       category1: "category1 #{i}",
       state:1 # live
   )
+  item.images.create(source: open(Rails.root.join("public/images/suit_sample_#{i}.jpg")))
   item.images.create(source: open(IMG_PATH))
   item.images.create(source: open(IMG_2_PATH))
-  item.images.create(source: open(IMG_PATH))
   puts "item #{i} and #{item.images.count} images created"
 end
