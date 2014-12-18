@@ -31,6 +31,10 @@ Showspace::Application.configure do
 
   # for serving images from local
   config.serve_static_assets = true
+
+  # Automatically inject JavaScript needed for LiveReload
+  # TODO - config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
+
 end
 
 
