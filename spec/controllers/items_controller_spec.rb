@@ -40,17 +40,33 @@ RSpec.describe ItemsController, :type => :controller do
 
   describe "#show" do
     context "non-live item" do
-      before { get :show, id: item4.id }
-      it("redirects to index") { expect(response).to redirect_to(root_path) }
+      it("redirects to index") do
+        get :show, id: item4
+        expect(response).to redirect_to(root_path)
+      end
     end
 
     context "live item" do
-      before { get :show, id: item2.id }
+      describe "uses slug by default" do
+        before { get :show, id: item2 }
 
-      it { expect(response).to render_template(:show) }
-      it("assigns correct item") { expect(assigns[:item]).to eq(item2) }
-      it("builds closet item") { expect(assigns[:closets_item]).not_to be_nil }
-      it("builds like") { expect(assigns[:like]).not_to be_nil }
+        it { expect(response).to render_template(:show) }
+        it("assigns correct item") { expect(assigns[:item]).to eq(item2) }
+        it("builds closet item") { expect(assigns[:closets_item]).not_to be_nil }
+        it("builds like") { expect(assigns[:like]).not_to be_nil }
+      end
+
+      describe "finds by slug" do
+        before { get :show, id: item2.slug }
+        it { expect(response).to render_template(:show) }
+        it("uses slug in path") { expect(response.request.path).to eq("/items/#{item2.slug}") }
+        it("returns correct item") { expect(assigns[:item]).to eq(item2) }
+      end
+
+      it "denies numeric ID finds" do
+        get :show, id: item2.id
+        expect(response).to redirect_to(root_path)
+      end
     end
   end
 
