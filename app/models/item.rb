@@ -21,6 +21,10 @@
 
 class Item < ActiveRecord::Base
 
+  include FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+
   has_and_belongs_to_many :closets
   has_many :users, through: :closets
 	has_many :likes, as: :likeable, dependent: :destroy
@@ -52,6 +56,17 @@ class Item < ActiveRecord::Base
   after_create :check_for_duplicate
   after_save :perform_item_management_operation, :handle_state
   after_destroy :delete_duplicate_warnings
+
+
+  def slug_candidates
+    [
+        [:designer, :product_name ],
+        [:designer, :product_name, :store_name ],
+        [:designer, :product_name, :store_name, :category1 ]
+    ]
+  end
+
+
 
   # either delete doesn't work properly or problem with image transfer?
   def perform_item_management_operation

@@ -9,7 +9,7 @@ class ItemsController < ApplicationController
 
   def show
     @closets_item = ClosetsItem.new
-    @item = Item.find(params[:id])
+    @item = Item.friendly.find(params[:id])
     @like = @item.likes.build
   end
 
@@ -34,7 +34,7 @@ class ItemsController < ApplicationController
   end
 
   def item_live?
-    redirect_to(root_path) if Item.where(state:1).find_by_id(params[:id]).nil?
+    redirect_to(root_path) if Item.where(state:1).find_by_slug(params[:id]).nil?
   end
 
 end
