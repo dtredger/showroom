@@ -1,5 +1,5 @@
 /*
-* This is a manifest file that'll be compiled into application.css, which will include all the files
+* This is a manifest file that will be compiled into application.css, which will include all the files
 * listed below.
 *
 * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
@@ -8,14 +8,28 @@
 * You're free to add application-wide styles to this file and they'll appear at the top of the
 * compiled file, but it's generally better to create a new file per style scope.
 *
-*= require foundation
-*= require_self
+*= require foundation_and_overrides.css.scss
+*  /foundation is required within foundation_and_overrides
+*
+*= require_directory ./layouts
+*
+*= require_directory ./items
+*= require_directory ./closets
+*= require_directory ./users
+*
+*
+*
+*
+* tree will cause active-admin styles to be applied to everyone, don't do it: require things specifically
+* require_tree
+*
+*
+*
+*
+*
+*
 */
 
 
-//= require foundation_and_overrides
-//= require general
-//= require item
-//= require item-show
 
-// require_tree
+

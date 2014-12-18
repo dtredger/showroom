@@ -77,11 +77,8 @@ $(function() {
 //= require turbolinks
 
 $('document').ready(function() {
-
-
     $(".help").click(function() {
         $(document).foundation('joyride', 'start');
     });
-
-
 });
+

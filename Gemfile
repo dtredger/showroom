@@ -28,7 +28,7 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'money-rails'
 gem 'nokogiri'
 # http://stackoverflow.com/questions/3606190/rmagick-warning-while-running-server
-gem 'rmagick', :require => false
+gem 'rmagick', require: false
 
 gem 'figaro'
 gem 'carrierwave-aws'
