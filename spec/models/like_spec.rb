@@ -22,6 +22,10 @@ RSpec.describe Like, :type => :model do
     describe "" do
       pending("should this be polymorphic at all? what about a join table?")
     end
+
+    describe "action on delete of parent" do
+      pending('deletes like? or keeps some kind of record of former-like?')
+    end
   end
 
 end

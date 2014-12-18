@@ -19,6 +19,7 @@
 #  fb_token               :string(255)
 #  fb_token_expiration    :datetime
 #  username               :string(255)
+#  slug                   :string(255)      not null
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
@@ -43,6 +44,16 @@ FactoryGirl.define do
       password ""
     end
 
+    factory :unique_user do
+      sequence(:username) { |i| "unique-username-#{i}" }
+      sequence(:email) { |i| "unique-email-#{i}@email-#{i}.com" }
+      sequence(:password) { |i| "unique-pass-#{i}" }
+    end
+  end
+
+  factory :facebook_user do
+    fb_token 'TOKEN_OAUTH_2' # OAuth 2.0 access_token, which you may wish to store
+    fb_expires_at 1521747205 # when the access token expires (it always will)
   end
 
 

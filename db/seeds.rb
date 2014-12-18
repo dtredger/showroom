@@ -6,9 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-puts 'Creating default user: admin'
-user1 = User.find_or_create_by_email :email => "admin@example.com", :username => "admin", :password => "admin"
-user1.save(validate: false)
+puts "Creating default user user@showspace.com if doesn't exist: username: regular_user, password: regular_user"
+User.create_with(username: "regular_user", password: "regular_user").find_or_create_by(email:"user@showspace.com")
+puts "Creating admin user admin@showspace.com if doesn't exist: password: admin"
+AdminUser.create_with(password: "admin").find_or_create_by(email:"admin@showspace.com")
 
 
 IMG_PATH = Rails.root.join("public/images/doge_log.gif")
@@ -21,12 +22,13 @@ IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
       store_name: "store #{i}",
       product_name: "product_name #{i}",
       description: "some description #{i}",
-      sku: "1532s",
+      sku: "1532s#{i}52-#{i}",
       price_cents: "100#{i}".to_i,
       category1: "category1 #{i}",
-      state:1
+      state:1 # live
   )
-  item.images.create(image:open(IMG_PATH))
-  item.images.create(image:open(IMG_2_PATH))
-  puts "item #{i} and 2 images created"
+  item.images.create(source: open(IMG_PATH))
+  item.images.create(source: open(IMG_2_PATH))
+  item.images.create(source: open(IMG_PATH))
+  puts "item #{i} and #{item.images.count} images created"
 end

@@ -15,9 +15,14 @@
 
   <body id="<%= params[:controller].parameterize %>">
 
-    <%= render 'layouts/header' %>
-    <%= render 'layouts/errors' %>
+    <div class="fixed">
+      <%= render 'layouts/header' %>
+      <%= render 'layouts/errors' %>
+    </div>
+
     <%= yield %>
+
+    <%= render "layouts/help/#{params[:controller].gsub("/","_")}", page: params[:action] %>
 
   </body>
 </html>

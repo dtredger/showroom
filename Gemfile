@@ -1,27 +1,27 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+# ruby '2.0.0'
 
-gem 'rails', '~> 4.0.0'
+gem 'rails', '>= 4.1'
 
 gem 'pg'
 
 # gem 'rack-timeout'
 gem 'unicorn'
 
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier' #, '>= 1.3.0'
 gem 'coffee-rails'#, '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'sass',  '~> 3.2.0'
+gem 'sass' #,  '~> 3.2.0'
 
 # sass issue requires 2.11  https://github.com/twbs/bootstrap-sass/issues/560
-gem 'sprockets', '=2.11.0'
+gem 'sprockets' #, '=2.11.0'
 
 gem 'foundation-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
 
-gem 'devise', '3.2.4'
+gem 'devise' #, '3.2.4'
 gem 'omniauth-facebook'
 gem 'simple_form'
 gem 'activeadmin', github: 'activeadmin'
@@ -33,6 +33,8 @@ gem 'rmagick', :require => false
 
 gem 'figaro'
 gem 'carrierwave-aws'
+
+gem 'friendly_id', require: 'friendly_id'
 
 group :development, :test do
 	gem 'pry-rails'
@@ -51,6 +53,8 @@ group :test do
   gem 'rspec-collection_matchers'
   gem 'guard'
   gem 'guard-rspec'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 group :production, :staging do

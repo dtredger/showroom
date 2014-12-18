@@ -2,8 +2,9 @@
 #
 # SimpleCov.coverage_dir 'spec/coverage'
 # SimpleCov.start do
-#   add_group 'Models', 'app/models'
+#   add_group 'Models',      'app/models'
 #   add_group 'Controllers', 'app/controllers'
+#   add_group 'Tasks',       'lib/tasks'
 #
 #   add_filter 'spec'
 #   add_filter '/bin/'
@@ -45,7 +46,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  # config.use_transactional_fixtures = true
 
   # If you do not include FactoryGirl::Syntax::Methods in your test suite, then
   # all factory_girl methods will need to be prefaced with FactoryGirl.
@@ -72,10 +73,17 @@ RSpec.configure do |config|
 
 end
 
+# ---------------------------------  VCR CONFIG --------------------------------------
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/factories/vcr_cassettes'
+  c.hook_into :webmock
+end
+
 
 # ------------------------------  OMNIAUTH CONFIG ------------------------------------
 
-# instantly redirect to the callback for omniauth
+# instantly redirect to the callback for e
 OmniAuth.configure do |config|
   config.test_mode = true
   config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
@@ -88,7 +96,7 @@ OmniAuth.configure do |config|
           first_name: 'Joe',
           last_name: 'Bloggs',
           image: 'http://graph.facebook.com/1234567/picture?type=square',
-          urls: {:Facebook => 'http://www.facebook.com/jbloggs'},
+          urls: {Facebook: 'http://www.facebook.com/jbloggs'},
           location: 'Palo Alto, California',
           verified: true
       },
@@ -105,7 +113,10 @@ OmniAuth.configure do |config|
               last_name: 'Bloggs',
               link: 'http://www.facebook.com/jbloggs',
               username: 'jbloggs',
-              location: {id: '123456789', name: 'Palo Alto, California'},
+              location: {
+                  id: '123456789',
+                  name: 'Palo Alto, California'
+              },
               gender: 'male',
               email: 'joe@bloggs.com',
               timezone: -8,

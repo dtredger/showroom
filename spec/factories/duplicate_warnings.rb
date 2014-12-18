@@ -15,5 +15,7 @@
 
 FactoryGirl.define do
   factory :duplicate_warning do
+    # association :pending_item, factory: :item, pending_item_id: item.id
+    # association :existing_item, factory: :item, existing_item_id: item_2.id
   end
 end

@@ -1,0 +1,18 @@
+
+setTimeout(function(){
+    $('.close-reveal-modal').click()
+}, 400);
+
+// show flash-style warning for 2.2 seconds
+//setTimeout(function(){
+//    $(".errors").html("<div data-alert class='alert-box text-center info new-closet'>Item <%= @closets_item.item_id %> added to closet</div>");
+//}, 800);
+$(".errors").html("<div data-alert class='alert-box text-center info new-closet'>Item <%= @closets_item.item_id %> added to closet</div>")
+        .hide()
+        .show(400, function(){
+            $(".new-closet").slideDown(500);
+        });
+
+setTimeout(function(){
+    $(".new-closet").slideUp(700);
+}, 4500);

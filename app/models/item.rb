@@ -21,12 +21,21 @@
 
 class Item < ActiveRecord::Base
 
+  include FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+
   has_and_belongs_to_many :closets
   has_many :users, through: :closets
 	has_many :likes, as: :likeable, dependent: :destroy
   has_many :matches, through: :duplicate_warnings, source: :existing_item
-  has_many :duplicate_warnings, foreign_key: "pending_item_id", dependent: :destroy
+  has_many :duplicate_warnings, foreign_key: "pending_item_id"
+  # TODO does not allow bidirectional foreign_key, if uncommented will override above
+  # has_many :duplicate_warnings, foreign_key: "existing_item_id"
+  # TODO image files should be removed from s3: if they're just deleted, we lose
+  # any way of finding them (calling destroy on image alone does remove...)
   has_many :images, dependent: :destroy
+
 
   # Virtual attribute
   attr_accessor :old_item_update
@@ -45,8 +54,19 @@ class Item < ActiveRecord::Base
   # TODO - "In Rails 4.1 delete_all on associations would not fire callbacks. It means if the
   # :dependent option is :destroy then the associated records would be deleted without loading and invoking callbacks."
   after_create :check_for_duplicate
-  before_destroy :delete_duplicate_warnings
   after_save :perform_item_management_operation, :handle_state
+  after_destroy :delete_duplicate_warnings
+
+
+  def slug_candidates
+    [
+        [:designer, :product_name ],
+        [:designer, :product_name, :store_name ],
+        [:designer, :product_name, :store_name, :category1 ]
+    ]
+  end
+
+
 
   # either delete doesn't work properly or problem with image transfer?
   def perform_item_management_operation
@@ -85,32 +105,60 @@ class Item < ActiveRecord::Base
     self.destroy if state == 4
   end
 
-  def add_duplicate_warning!(other_item, match_score, warning_notes)
-    self.duplicate_warnings.create!(existing_item_id: other_item.id, match_score: match_score, warning_notes: warning_notes)
-  end
-
-  # TODO - how would this be used?
-  # def remove_duplicate_warning!(other_item)
-  #   self.duplicate_warnings.find_by(existing_item_id: other_item.id).destroy
-  # end
-
   # TODO - delete warning once one of matches is deleted
   # deletes matches where item is existing or pending item
   def delete_duplicate_warnings
-    if self.duplicate_warnings
-      self.duplicate_warnings.delete_all
-    else
-      warnings = DuplicateWarning.find_by(existing_item_id: self.id)
-      warnings.delete_all unless warnings.nil?
+    if self.duplicate_warnings.any?
+      warnings = self.duplicate_warnings
+      if self.duplicate_warnings.respond_to? :each
+        warnings.each { |warn| warn.destroy }
+      else !warnings.nil?
+        warnings.destroy
+      end
+    end
+    warnings = DuplicateWarning.find_by(existing_item_id: self.id)
+    if warnings.respond_to? :each
+      warnings.each { |warn| warn.destroy }
+    elsif !warnings.nil?
+      warnings.destroy
     end
   end
 
   def check_for_duplicate
     if self.store_name
       check_items = Item.where(store_name: self.store_name).where.not(id: self.id)
+      score = 0
+      notes = ""
       check_items.each do |check_item|
-        if self.designer == check_item.designer && self.product_name == check_item.product_name
-          self.add_duplicate_warning!(check_item, 0, "match: designer & product_name")
+        if self.sku == check_item.sku
+          score += 100
+          notes += "sku, "
+        end
+        if self.product_link == check_item.product_link
+          score += 90
+          notes += "product_link, "
+        end
+        if self.product_name == check_item.product_name
+          score += 70
+          notes += "product_name, "
+        end
+        if self.price_cents == check_item.price_cents
+          score += 35
+          notes += "price, "
+        end
+        if self.designer == check_item.designer
+          score += 20
+          notes += "designer, "
+        end
+        if self.category1 == check_item.category1
+          score += 15
+          notes += "category, "
+        end
+        if score >= 70
+          notes = notes[0..-3] if notes.last(2) == ", "
+          self.duplicate_warnings.create(existing_item_id: check_item.id,
+              match_score: score,
+              warning_notes: notes)
         end
       end
     end

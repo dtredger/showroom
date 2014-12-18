@@ -84,16 +84,23 @@ RSpec.configure do |config|
   # now true by default
   # config.treat_symbols_as_metadata_keys_with_true_values = true
 
+
   config.before :suite do
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner.strategy = :transaction
   end
 
   config.before(:each) do
-    DatabaseCleaner.start
+    DatabaseCleaner.strategy = :transaction
   end
 
-  config.after(:each) do
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+    FactoryGirl.reload
+  end
+
+  config.around(:each) do |test|
+    DatabaseCleaner.start
+    test.run
     DatabaseCleaner.clean
   end
 

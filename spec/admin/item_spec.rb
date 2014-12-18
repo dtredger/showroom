@@ -2,15 +2,12 @@ require 'rails_helper'
 
 describe Admin::ItemsController, type: :controller do
 
-  before do
-    Item.delete_all
-    DuplicateWarning.delete_all
-  end
+  let!(:item_1) { FactoryGirl.create (:unique_item) }
+  let!(:item_2) { FactoryGirl.create (:unique_item) }
+  let!(:item_3) { FactoryGirl.create (:unique_item) }
+  let!(:item_4) { FactoryGirl.create (:unique_item) }
 
-  let!(:item_1) { FactoryGirl.create (:item) }
-  let!(:item_2) { FactoryGirl.create (:item_2) }
-  let!(:item_3) { FactoryGirl.create (:item) }
-  let!(:item_4) { FactoryGirl.create (:item_2) }
+  let!(:duplicate_warning) { FactoryGirl.create(:duplicate_warning, existing_item_id: item_1.id, pending_item_id: item_2.id) }
 
   let(:user) { FactoryGirl.create (:user) }
   let(:admin_user) { FactoryGirl.create (:admin_user) }
@@ -38,11 +35,8 @@ describe Admin::ItemsController, type: :controller do
     end
 
     context "authorized" do
-      describe "set live" do
+      describe "#set live" do
         before do
-          @duplicate_warning = DuplicateWarning.create(
-              existing_item_id: item_1.id,
-              pending_item_id: item_2.id)
           sign_in admin_user
           post :batch_action, batch_action: 'set_live',
                collection_selection: [item_1.id, item_2.id, item_3.id, item_4.id]
@@ -56,7 +50,7 @@ describe Admin::ItemsController, type: :controller do
         end
 
         it "does not alter duplicate warnings" do
-          expect(@duplicate_warning).not_to be_nil
+          expect(duplicate_warning).not_to be_nil
         end
 
         it "flashes notice" do
@@ -64,17 +58,14 @@ describe Admin::ItemsController, type: :controller do
         end
       end
 
-      describe "retire" do
+      describe "#retire" do
         before do
-          @duplicate_warning = DuplicateWarning.create(
-              existing_item_id: item_1.id,
-              pending_item_id: item_2.id)
           sign_in admin_user
           post :batch_action, batch_action: 'retire',
                collection_selection: [item_1.id, item_2.id, item_3.id, item_4.id]
         end
 
-        it "retires" do
+        it "retires items" do
           expect(Item.find(item_1).state).to eq(2)
           expect(Item.find(item_2).state).to eq(2)
           expect(Item.find(item_3).state).to eq(2)
@@ -82,7 +73,7 @@ describe Admin::ItemsController, type: :controller do
         end
 
         it "does not alter duplicate warnings" do
-          expect(@duplicate_warning).not_to be_nil
+          expect(duplicate_warning).not_to be_nil
         end
 
         it "flashes notice" do

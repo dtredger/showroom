@@ -19,24 +19,24 @@
 #  fb_token               :string(255)
 #  fb_token_expiration    :datetime
 #  username               :string(255)
+#  slug                   :string(255)      not null
 #
 
 class User < ActiveRecord::Base
+
+  include FriendlyId
+  friendly_id :slug_candidates, use: :slugged
+
 
   has_many :items, through: :closets
   has_many :closets, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
 
+  # Devise has default email and password validations
   validates :username,
-            uniqueness: { case_sensitive: false }
-  # validates :email,
-  #           uniqueness: true
-  # validates_confirmation_of :password
+            uniqueness: { case_sensitive: false },
+            presence: true
 
-  after_create :make_a_closet
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :registerable,
          :recoverable,
@@ -45,9 +45,23 @@ class User < ActiveRecord::Base
          :validatable,
          :omniauthable, omniauth_providers: [:facebook]
 
+  before_validation :create_username
+  after_create :make_a_closet
+
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
+
+  
+  # http://norman.github.io/friendly_id/file.Guide.html
+  def slug_candidates
+    [ :username, :email ]
+  end
+
+  # def should_generate_new_friendly_id?
+
+  # end
+
 
   # Override Devise's password_required?
   # Check if a password is required for the registration process.
@@ -60,9 +74,9 @@ class User < ActiveRecord::Base
 
   # Update the user's record with the new Facebook info
   def update_facebook_info(auth)
-    fb_token = auth.credentials.token
-    fb_expires_at = Time.at(auth['credentials'].expires_at)
-    save
+    fb_token = auth[:credentials][:token]
+    fb_expires_at = Time.at(auth[:credentials][:expires_at])
+    update(fb_token: fb_token, fb_token_expiration: fb_expires_at)
   end
 
   # NOTE:
@@ -73,17 +87,27 @@ class User < ActiveRecord::Base
   end
 
   def make_a_closet
-    Closet.create!(user_id: self.id, title: "My Closet", summary: "My first closet")
+    self.closets.create(title: "My Closet", summary: "My first closet")
   end
 
-  # Added to allow users to signin via username or email
+  # Added to allow users to sign in via username or email
   # https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value",
+           { value: login.downcase }]
+      ).first
     else
+      # TODO - how do we get to this else block?
+      # safer to use User.none  ??
       where(conditions).first
+    end
+  end
+
+  def create_username
+    if self.username.blank?
+      self.update(username: self.email)
     end
   end
 

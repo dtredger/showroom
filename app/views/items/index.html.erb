@@ -1,30 +1,20 @@
-<% if current_user.nil? %>
-	<!-- Guest save item to closet modal -->
-	<div id="guest-closet-modal" class="reveal-modal small" data-reveal>
-	  <h2>Shop all of Showspace</h2>
-	  <a href="#" class="button expand" id="padding-join-now-btn-modal"fi>Join Now</a>
-	  Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
-	  <a class="close-reveal-modal">&#215;</a>
-	</div>
-<% end %>
 
-
-<div class="items-index">
+<div class="main-section">
 
 	<!-- search -->
 	<div class="row">
 		<div class="small-12 small-centered columns text-center">
 
-			<!-- <div class="search-bar">
-				%= form_tag items_path, class: "nothing", method: :get do %>
-					%= select_tag(:category, options_for_select([["Category", ""]] + Item.select(:category1).distinct.map {|i| [i.category1, i.category1]}.sort), class: "search-selection"  ) %>
-					%= select_tag(:designer, options_for_select([["Designer", ""]] + Item.select(:designer).distinct.map {|i| [i.designer, i.designer]}.sort), class: "search-selection"  ) %>
-					%= text_field_tag 'min_price', nil, placeholder: 'min price', class: ""  %>
-					%= text_field_tag 'max_price', nil, placeholder: 'max price', class: ""  %>
-					%= submit_tag "Search", class: "search-button" %>
-				% end %>
+			<div class="search-bar">
+				<%= form_tag items_path, class: "nothing", method: :get do %>
+					<!--%= select_tag(:category, options_for_select([["Category", ""]] + Item.select(:category1).distinct.map {|i| [i.category1, i.category1]}.sort), class: "search-selection"  ) %>-->
+					<!--%= select_tag(:designer, options_for_select([["Designer", ""]] + Item.select(:designer).distinct.map {|i| [i.designer, i.designer]}.sort), class: "search-selection"  ) %>-->
+					<%= text_field_tag 'min_price', nil, placeholder: 'min price', class: ""  %>
+					<%= text_field_tag 'max_price', nil, placeholder: 'max price', class: ""  %>
+					<%= submit_tag "Search", class: "search-button" %>
+				<% end %>
 
-			</div> -->
+			</div>
 		</div>
 	</div>
 
@@ -32,40 +22,37 @@
 	<!-- items -->
 	<div class="row">
 		<div class="medium-12 small-centered columns text-center">
-			<% @items.each_with_index do |item| %>
+			<% @items.each_with_index do |item, index| %>
+
 				<div class="medium-3 item">
-					<div class="item-picture">
-						<%= link_to image_tag(item.images.first.image), item_path(item) %>
+                    <div id="item-<%= index %>">
+                        <%= link_to item_path(item) do %>
+                            <div class="item-picture">
+                                <%= image_tag(item.images.first.source, size:"280x400") %>
+                                <% if current_user %>
+                                    <!-- ADD LINK TO CLOSET MODAL -->
+                                    <a href="#" data-reveal-id="closet-modal">
+                                      <div class="special-span closet-button">+ add to closet</div>
+                                    </a>
+                                <% else %>
+                                    <a href="#" data-reveal-id="guest-closet-modal">
+                                      <div class="special-span closet-button">+ add to closet</div>
+                                    </a>
+                                <% end %>
+                            </div>
+                        <% end %>
 
-						<% if current_user %>
-							<!-- ADD LINK TO CLOSET MODAL -->
-							<a href="#" data-reveal-id="closet-modal-<%= item.id %>"><div id="special-span">+</div></a>
-						<% else %>
-							<a href="#" data-reveal-id="guest-closet-modal"><div id="special-span">+</div></a>
-						<% end %>
-					</div>
-
-					<%= link_to item_path(item) do %>
-						<div class='item-info'>
-							<div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
-							<div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
-							<div class='item-price'><%= humanized_money_with_symbol item.price %></div>
-						</div>
-					<% end %>
-
-					<% if current_user %>
-						<div id="closet-modal-<%= item.id %>" class="reveal-modal" data-reveal>
-							<h2>Save item to closet.</h2>
-							<%= form_for @ci do |f| %>
-								<%= f.select(:closet_id, options_for_select(current_user.closets.collect { |c| [c.title, c.id]})) %>
-								<%= f.hidden_field :item_id, :value => item.id %>
-								<%= submit_tag "SAVE", class: "search-button right" %>
-							<% end %>
-						  <a class="close-reveal-modal">&#215;</a>
-						</div>
-			 		<% end %>
-
+                        <%= link_to item_path(item) do %>
+                            <div class='item-info'>
+                                <div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
+                                <div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
+                                <div class='item-price'><%= humanized_money_with_symbol item.price %></div>
+                            </div>
+                        <% end %>
+                    </div>
 				</div>
+
+                <%= render 'layouts/closets_item_create', { item: item } %>
 			<% end %>
 
 			<!-- paginate row -->
@@ -74,6 +61,8 @@
 					<%= paginate @items %>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </div>
+

@@ -10,5 +10,7 @@
 
 FactoryGirl.define do
   factory :closets_item do
+    association :closet, factory: :closet
+    association :item, factory: :item
   end
 end

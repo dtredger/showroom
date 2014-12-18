@@ -1197,7 +1197,8 @@ $topbar-bg: $topbar-bg-color;
 
 // Height and margin
 // $topbar-height: 45px;
-$topbar-margin-bottom: rem-calc(33);
+//$topbar-margin-bottom: rem-calc(33);
+$topbar-margin-bottom: 0;
 
 // Controlling the styles for the title in the top bar
 // $topbar-title-weight: $font-weight-normal;
