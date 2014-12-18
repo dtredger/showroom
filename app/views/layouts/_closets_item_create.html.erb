@@ -10,7 +10,7 @@
     </div>
 <% else %>
     <!-- Guest save item to closet modal -->
-    <div id="guest-closet-modal" class="reveal-modal small" data-reveal>
+    <div id="closet-modal" class="reveal-modal small" data-reveal>
         <h2>Shop all of Showspace</h2>
         <%= link_to "Join Now", new_user_registration_path, class: "button expand", id: "padding-join-now-btn-modal" %>
         Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
