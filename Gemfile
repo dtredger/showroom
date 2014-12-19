@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
-# ruby '2.0.0'
+
+ruby '2.0'
 
 gem 'rails', '>= 4.1'
 
 gem 'pg'
 
-# gem 'rack-timeout'
+gem 'rack-timeout'
 gem 'unicorn'
 
 gem 'uglifier'
