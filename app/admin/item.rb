@@ -14,10 +14,10 @@ ActiveAdmin.register Item do
     :state
 
   scope("Pending")  { |scope| scope.where(state: 0) }
-  scope('Live')     { |scope| scope.where(state: 1) }
-  scope('Retired')  { |scope| scope.where(state: 2) }
-  scope('Banned')   { |scope| scope.where(state: 3) }
-  scope('Deleted')  { |scope| scope.where(state: 4) }
+  scope("Live")     { |scope| scope.where(state: 1) }
+  scope("Retired")  { |scope| scope.where(state: 2) }
+  scope("Banned")   { |scope| scope.where(state: 3) }
+  scope("Deleted")  { |scope| scope.where(state: 4) }
 
   filter :product_name
   filter :designer, as: :select

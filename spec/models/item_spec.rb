@@ -42,6 +42,19 @@ RSpec.describe Item, :type => :model do
     it { is_expected.to respond_to(:sku) }
   end
 
+  describe "#enum" do
+    context "find" do
+      let(:retired_item) { FactoryGirl.create(:unique_item, state: 2) }
+      it("findable by status int") { expect(Item.where(state: 2)).to include(retired_item) }
+      it("findable by status name") { expect(Item.retired).to include(retired_item) }
+    end
+
+    context "create" do
+      let(:retired_item) { FactoryGirl.create(:unique_item, state: "retired") }
+      it("sets correct state") { expect(Item.where(state: 2)).to include(retired_item) }
+    end
+  end
+
   describe "#check_for_duplicate" do
     context "different store" do
       it "does not create warning" do
@@ -183,6 +196,11 @@ RSpec.describe Item, :type => :model do
       end
     end
   end
+
+  describe "#slug_candidates" do
+
+  end
+
 
 
   describe "#monetize" do
