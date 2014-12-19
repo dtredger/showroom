@@ -5,7 +5,7 @@ gem 'rails', '>= 4.1'
 
 gem 'pg'
 
-# gem 'rack-timeout'
+gem 'rack-timeout'
 gem 'unicorn'
 
 gem 'uglifier' #, '>= 1.3.0'
