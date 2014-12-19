@@ -8,20 +8,20 @@ gem 'pg'
 # gem 'rack-timeout'
 gem 'unicorn'
 
-gem 'uglifier' #, '>= 1.3.0'
-gem 'coffee-rails'#, '~> 4.0.0'
+gem 'uglifier'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'sass' #,  '~> 3.2.0'
+gem 'sass'
+gem 'sass-rails'
 
-# sass issue requires 2.11  https://github.com/twbs/bootstrap-sass/issues/560
-gem 'sprockets' #, '=2.11.0'
+gem 'sprockets'
 
 gem 'foundation-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
 
-gem 'devise' #, '3.2.4'
+gem 'devise'
 gem 'omniauth-facebook'
 gem 'simple_form'
 gem 'activeadmin', github: 'activeadmin'
@@ -29,7 +29,7 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'money-rails'
 gem 'nokogiri'
 # http://stackoverflow.com/questions/3606190/rmagick-warning-while-running-server
-gem 'rmagick', :require => false
+gem 'rmagick', require: false
 
 gem 'figaro'
 gem 'carrierwave-aws'
@@ -44,6 +44,9 @@ group :development, :test do
   gem 'simplecov'      #test coverage reports
   gem 'better_errors'
   gem 'binding_of_caller'
+  # gem 'rack-livereload'
+  # gem 'guard-livereload', require: false
+  # gem 'rb-fsevent', require: false
 end
 
 group :test do

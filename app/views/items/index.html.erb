@@ -1,19 +1,20 @@
+
 <div class="main-section">
 
 	<!-- search -->
 	<div class="row">
 		<div class="small-12 small-centered columns text-center">
 
-			<!-- <div class="search-bar">
-				%= form_tag items_path, class: "nothing", method: :get do %>
-					%= select_tag(:category, options_for_select([["Category", ""]] + Item.select(:category1).distinct.map {|i| [i.category1, i.category1]}.sort), class: "search-selection"  ) %>
-					%= select_tag(:designer, options_for_select([["Designer", ""]] + Item.select(:designer).distinct.map {|i| [i.designer, i.designer]}.sort), class: "search-selection"  ) %>
-					%= text_field_tag 'min_price', nil, placeholder: 'min price', class: ""  %>
-					%= text_field_tag 'max_price', nil, placeholder: 'max price', class: ""  %>
-					%= submit_tag "Search", class: "search-button" %>
-				% end %>
+			<div class="search-bar">
+				<%= form_tag items_path, class: "nothing", method: :get do %>
+					<!--%= select_tag(:category, options_for_select([["Category", ""]] + Item.select(:category1).distinct.map {|i| [i.category1, i.category1]}.sort), class: "search-selection"  ) %>-->
+					<!--%= select_tag(:designer, options_for_select([["Designer", ""]] + Item.select(:designer).distinct.map {|i| [i.designer, i.designer]}.sort), class: "search-selection"  ) %>-->
+					<%= text_field_tag 'min_price', nil, placeholder: 'min price', class: ""  %>
+					<%= text_field_tag 'max_price', nil, placeholder: 'max price', class: ""  %>
+					<%= submit_tag "Search", class: "search-button" %>
+				<% end %>
 
-			</div> -->
+			</div>
 		</div>
 	</div>
 

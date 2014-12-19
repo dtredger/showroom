@@ -13,6 +13,8 @@ Showspace::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # config.cache_store = :null_store
+
   # Raise exception if there is sending error
   config.action_mailer.raise_delivery_errors = true
 
@@ -31,6 +33,10 @@ Showspace::Application.configure do
 
   # for serving images from local
   config.serve_static_assets = true
+
+  # Automatically inject JavaScript needed for LiveReload
+  # TODO - config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
+
 end
 
 

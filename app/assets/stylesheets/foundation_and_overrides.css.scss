@@ -60,11 +60,11 @@ $body-font-weight: $font-weight-normal;
 
 // We use these as default colors throughout
 $primary-color: #39F;
-// $secondary-color: #e7e7e7;
-// $alert-color: #f04124;
-// $success-color: #43AC6A;
-// $warning-color: #f08a24;
-// $info-color: #a0d3e8;
+//$secondary-color: #e7e7e7;
+//$alert-color: #f04124;
+//$success-color: #43AC6A;
+//$warning-color: #f08a24;
+//$info-color: #a0d3e8;
 
 // We use these to make sure border radius matches unless we want it different.
 // $global-radius: 3px;
@@ -1192,7 +1192,7 @@ $sub-nav-active-cursor: default;
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-$topbar-bg-color: #333;
+$topbar-bg-color: #7527f4;
 $topbar-bg: $topbar-bg-color;
 
 // Height and margin
@@ -1320,4 +1320,7 @@ $topbar-margin-bottom: 0;
 // $range-slider-handle-bg-hover-color: scale-color($primary-color, $lightness: -12%);
 // $range-slider-handle-cursor: pointer;
 
+// TODO - this import makes compiling views in development slow, but it can't be removed
+// or foundation will not have access to these variables...
+// At least there is no reason to require foundation in application.scss, I guess...
 @import 'foundation';
