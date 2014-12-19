@@ -13,6 +13,7 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'sass'
+gem 'sass-rails'
 
 gem 'sprockets'
 

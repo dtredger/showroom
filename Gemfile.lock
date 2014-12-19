@@ -354,6 +354,7 @@ DEPENDENCIES
   rspec-rails
   ruby-debug-ide
   sass
+  sass-rails
   simple_form
   simplecov
   sprockets
