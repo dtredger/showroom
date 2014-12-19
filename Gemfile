@@ -21,6 +21,7 @@ gem 'sprockets'
 gem 'foundation-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
+# gem 'foundation-icons-sass-rails' TODO
 
 gem 'devise'
 gem 'omniauth-facebook'
