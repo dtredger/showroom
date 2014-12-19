@@ -13,7 +13,7 @@ RSpec.describe 'Basic Scraper' do
   context "#open_url" do
     describe "valid url" do
       it "fetches DOM" do
-        VCR.use_cassette('valid_url')do
+        VCR.use_cassette('valid_url') do
           site = basic_scraper.open_url(VALID_URL)
           expect(site.class).to eq(Nokogiri::HTML::Document)
         end
@@ -21,27 +21,22 @@ RSpec.describe 'Basic Scraper' do
     end
 
     describe "bad url" do
-      it "returns error" do
-        response = basic_scraper.open_url('a bad url!')
-        expect(response).to eq('Open_url Error: No such file or directory - a bad url!')
+      it "raises error" do
+        expect{
+          basic_scraper.open_url('a bad url!')
+        }.to raise_error(TypeError)
       end
     end
   end
 
 
   context "#get_image" do
-    describe "invalid url" do
-      it "returns general error" do
-        file = basic_scraper.get_image("bogus!")
-        expect(file).to eq("get_image error: No such file or directory - bogus!")
-      end
-    end
-
-    describe "url not image" do
+    describe "url not valid image" do
       it "returns ImageMagickError" do
         VCR.use_cassette('valid_url') do
-          file = basic_scraper.get_image(VALID_URL)
-          expect(file).to eq("get_image ImageMagickError: bad image format - #{VALID_URL}")
+          expect{
+            basic_scraper.get_image(VALID_URL)
+          }.to raise_error(Magick::ImageMagickError)
         end
       end
     end
@@ -59,19 +54,23 @@ RSpec.describe 'Basic Scraper' do
 
 
   context "#resize_image" do
-    describe "failure" do
-      it "returns error" do
+    describe "no img format" do
+      it "raises error" do
         magick_image = Magick::Image.new(100,100)
-        response = basic_scraper.resize_image(magick_image)
-
-        expect(response).to eq("resize_image error: undefined method `downcase' for nil:NilClass")
+        expect{
+          basic_scraper.resize_image(magick_image)
+        }.to raise_error(NoMethodError)
       end
 
       it "does not create file" do
         magick_image = Magick::Image.new(100,100)
-        response = basic_scraper.resize_image(magick_image)
-
-        expect(File.exist? response).to be_falsey
+        expect{
+          begin
+            basic_scraper.resize_image(magick_image)
+          rescue
+            nil
+          end
+        }.not_to change{ Dir[IMAGE_FILE_LOCATION].count }
       end
     end
 
@@ -84,7 +83,7 @@ RSpec.describe 'Basic Scraper' do
       end
     end
 
-    after(:all) do
+    after do
       Dir[Rails.root.join('public/img/*.*')].each { |f| File.delete f }
     end
   end
@@ -94,21 +93,21 @@ RSpec.describe 'Basic Scraper' do
     describe "failure" do
       bad_item = FactoryGirl.create(:item)
       bad_item[images: 'invalid!']
-      it "returns error" do
-        expect{Item.create(item)}.to raise_exception
-      end
+
+      it("returns error") { expect { Item.create(item) }.to raise_exception }
     end
 
     describe "success" do
       item_attributes_with_images = FactoryGirl.attributes_for(:item)
-      item_attributes_with_images[images: VALID_IMAGE_URL]
+      item_attributes_with_images[images: SAMPLE_IMAGE_PATH]
       result = basic_scraper.save_item_from_url(item_attributes_with_images)
 
-      it "returns saved item" do
-        expect(result.class).to eq(Item)
-      end
+      it("returns saved item") { expect(result.class).to eq(Item) }
     end
 
+    after do
+      Dir[Rails.root.join('public/img/*.*')].each { |f| File.delete f }
+    end
   end
 
   context "#price_to_cents" do

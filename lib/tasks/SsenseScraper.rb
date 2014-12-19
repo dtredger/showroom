@@ -31,8 +31,8 @@ class SsenseScraper < BasicScraper
           price_cents: price_to_cents(item.css(".product-price").text),
           currency: CURRENCY,
           store_name: STORE_NAME,
-          image_source: item.at_css("img")["data-src"],
-          product_link: SITE_ROOT + item.at_css("a")[:href]
+          image_source: item.at_css("img")["src"],
+          product_link: item.at_css("a")[:href]
         }
         complete_product = scrape_product_page(product_hash)
         saved = save_item_from_url(complete_product)
@@ -48,20 +48,14 @@ class SsenseScraper < BasicScraper
   end
 
   def scrape_product_page(product)
-    begin
-      product_page = open_url(product[:product_link])
+    product_page = open_url(product[:product_link])
 
-      product.store(:description, product_page.css(".product-description").css("p").text.strip)
+    product.store(:description, product_page.css(".product-description").css("p").text.strip)
 
-      image_node_array = product_page.css(".product-thumbnail").css("img")
-      image_array = []
-      image_node_array.each { |img| image_array << img[:src] }
-      product.store(:image_source_array, image_array)
-      response = product
-    rescue Exception => e
-      response = "scrape_product_page error: #{e}"
-    end
-    response
+    image_node_array = product_page.css(".product-thumbnail").css("img")
+    image_array = []
+    image_node_array.each { |img| image_array << img[:src] }
+    product.store(:image_source_array, image_array)
+    product
   end
-
 end
