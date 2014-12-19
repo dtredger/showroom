@@ -17,6 +17,7 @@
 #  created_at   :datetime
 #  updated_at   :datetime
 #  sku          :string(255)
+#  slug         :string(255)      not null
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
@@ -34,7 +35,7 @@ FactoryGirl.define do
     category1 "item_one category"
     category2 nil
     category3 nil
-    state 0
+    state "pending"
 
     factory :unique_item do
       sequence(:store_name) { |i| "unique store #{i}" }
@@ -55,7 +56,7 @@ FactoryGirl.define do
     category1 "Suits"
     category2 nil
     category3 nil
-    state 1
+    state "live"
 
     factory :item_1_store do
       store_name "item_one store"

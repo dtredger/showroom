@@ -18,6 +18,9 @@ Showspace::Application.configure do
   # Raise exception if there is sending error
   config.action_mailer.raise_delivery_errors = true
 
+  # http://brewhouse.io/blog/2013/12/17/whats-new-in-rails-4-1.html
+  # config.action_mailer.preview_path = "debug/mailers"
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
