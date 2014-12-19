@@ -102,7 +102,11 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    em-websocket (0.5.1)
+      eventmachine (>= 0.12.9)
+      http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
+    eventmachine (1.0.3)
     execjs (2.2.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -131,6 +135,10 @@ GEM
       pry (>= 0.9.12)
       thor (>= 0.18.1)
     guard-compat (1.1.0)
+    guard-livereload (2.4.0)
+      em-websocket (~> 0.5)
+      guard (~> 2.8)
+      multi_json (~> 1.8)
     guard-rspec (4.5.0)
       guard (~> 2.1)
       guard-compat (~> 1.1)
@@ -141,6 +149,7 @@ GEM
     hashie (3.3.2)
     hike (1.2.3)
     hitimes (1.2.2)
+    http_parser.rb (0.6.0)
     i18n (0.6.11)
     inherited_resources (1.5.1)
       actionpack (>= 3.2, < 4.2)
@@ -211,6 +220,8 @@ GEM
     pry-rails (0.3.2)
       pry (>= 0.9.10)
     rack (1.5.2)
+    rack-livereload (0.3.15)
+      rack
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.1.8)
@@ -338,6 +349,7 @@ DEPENDENCIES
   foundation-rails
   friendly_id
   guard
+  guard-livereload
   guard-rspec
   jquery-rails
   jquery-ui-rails
@@ -347,8 +359,10 @@ DEPENDENCIES
   omniauth-facebook
   pg
   pry-rails
+  rack-livereload
   rails (>= 4.1)
   rails_12factor
+  rb-fsevent
   rmagick
   rspec-collection_matchers
   rspec-rails

@@ -44,9 +44,9 @@ group :development, :test do
   gem 'simplecov'      #test coverage reports
   gem 'better_errors'
   gem 'binding_of_caller'
-  # gem 'rack-livereload'
-  # gem 'guard-livereload', require: false
-  # gem 'rb-fsevent', require: false
+  gem 'rack-livereload'
+  gem 'guard-livereload', require: false
+  gem 'rb-fsevent', require: false
 end
 
 group :test do
