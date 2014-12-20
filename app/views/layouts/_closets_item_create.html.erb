@@ -6,6 +6,31 @@
               <%= f.hidden_field :item_id, :value => item.id %>
               <%= submit_tag "SAVE", class: "search-button right" %>
           <% end %>
+
+
+      <!--<% current_user.closets.each do |closet| %>-->
+
+          <!--<%= form_for closet, remote: true, class:"button" do |f| %>-->
+              <!--<span><%= closet.summary %></span>-->
+              <!--<span><%= closet.items.size %></span>-->
+
+              <!--<% closet.items.each do |item| %>-->
+                  <!--<% item.images.each do |image| %>-->
+                    <!--<span><%= image_tag(image.source, size:"56x80") %><span>-->
+                  <!--<% end %>-->
+              <!--<% end %>-->
+              <!--<%= f.hidden_field :item_id, :value => item.id %>-->
+              <!--<%= submit_tag "SAVE", class: "search-button right" %>-->
+          <!--<% end %>-->
+
+
+
+
+      <!--<% end %>-->
+
+
+
+
     <% else %>
         <!-- Guest save item to closet modal -->
         <h2>Shop all of Showspace</h2>
