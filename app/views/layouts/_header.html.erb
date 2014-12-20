@@ -1,21 +1,15 @@
-<!-- header -->
-
-<!-- top bar -->
-
-  <nav class="top-bar" data-topbar>
+<nav class="top-bar" data-topbar>
     <ul class="title-area">
       <li class="name">
         <h1><a href="/">Showspace</a></h1>
       </li>
-      <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <!-- TODO Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
       <li class="toggle-topbar menu-icon">
         <a href="#"><span>Menu</span></a>
       </li>
     </ul>
 
-    <!-- Right Nav Section -->
-    <% if user_signed_in? %>
-      <section class="top-bar-section">
+    <section class="top-bar-section">
         <ul class="left">
           <!--<li>TODO breadcrumbs</li>-->
         </ul>
@@ -24,48 +18,49 @@
           <%= form_tag items_path, method: :get do %>
               <li><%= select_tag :category, options_for_select(Item.all.collect { |i| i.category1 }.uniq), include_blank: "category" %></li>
               <li><%= select_tag :designer, options_for_select( Item.all.collect { |i| i.designer }.uniq), include_blank: "designer" %></li>
-              <li><%= text_field_tag 'min_price', nil, placeholder: 'min price' %></li>
-              <li><%= text_field_tag 'max_price', nil, placeholder: 'max price' %></li>
+              <li><%= text_field_tag "min_price", nil, placeholder: "min price" %></li>
+              <li><%= text_field_tag "max_price", nil, placeholder: "max price" %></li>
               <li><%= submit_tag "Search", class: "search-button" %></li>
           <% end %>
         </ul>
 
+    <!-- Right Nav Section -->
+    <% if user_signed_in? %>
         <ul class="right">
           <li class="divider"></li>
-          <li class="help"><a>Help</a></li>
-          <li class="divider"></li>
+          <!--<li class="help"><a>Help</a></li>-->
+          <!--<li class="divider"></li>-->
           <li class="has-dropdown">
-            <%= link_to '+ Add Closet', new_closet_path, id: "add-closet" %>
+            <%= link_to "+ Add Closet", new_closet_path, id: "add-closet" %>
             <ul class="dropdown">
               <li><%= link_to "My Closets", closets_path, id: "my-closets" %></li>
               <li><%= link_to "Profile", profile_path, id: "profile" %></li>
               <li class="about"><a>About</a></li>
-              <li><%= link_to('Logout', destroy_user_session_path, :method=>'delete') %></li>
+              <li><%= link_to("Logout", destroy_user_session_path, :method=>"delete") %></li>
             </ul>
           </li>
         </ul>
-      </section>
     <% else %>
-      <section class="top-bar-section">
         <ul class="right">
           <li class="divider"></li>
-          <li class="help"><a>Help</a></li>
+          <!--<li class="help"><a>Help</a></li>-->
           <li class="divider"></li>
           <li class="active"><a data-reveal-id="signup-modal">Sign Up</a></li>
           <li class="divider"></li>
-          <li class="about"><a>About</a></li>
+          <!--<li class="about"><a>About</a></li>-->
           <li class="divider"></li>
           <li><a href="#" data-reveal-id="login-modal">Log in</a></li>
         </ul>
-      </section>
     <% end %>
-  </nav>
+
+    </section>
+</nav>
 
 
 <!-- signin modal -->
 <% if !user_signed_in? %>
   <div id="login-modal" class="reveal-modal" data-reveal>
-    <%= render 'layouts/forms/signin' %>
+    <%= render "layouts/forms/signin" %>
     <a class="close-reveal-modal">&#215;</a>
   </div>
 <% end %>
@@ -73,7 +68,7 @@
 <!-- signup modal -->
 <% if !user_signed_in? %>
     <div id="signup-modal" class="reveal-modal" data-reveal>
-      <%= render 'layouts/forms/signup' %>
+      <%= render "layouts/forms/signup" %>
       <a class="close-reveal-modal">&#215;</a>
     </div>
 <% end %>
