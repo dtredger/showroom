@@ -16,7 +16,14 @@
 					<tr>
 						<td><%= link_to closet.title, closet_path(closet) %></td>
 						<td><%= closet.summary %></td>
-						<td><%= closet.items.size %></td>						
+						<td><%= closet.items.size %></td>
+
+                        <% closet.items.each do |item| %>
+                            <% item.images.each do |image| %>
+                          <td><%= image_tag(image.source, size:"56x80") %><td>
+                            <% end %>
+                        <% end %>
+
 					</tr>
 				<% end %>
 		  </tbody>

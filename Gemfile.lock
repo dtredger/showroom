@@ -224,7 +224,6 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rack-timeout (0.1.1)
     rails (4.1.8)
       actionmailer (= 4.1.8)
       actionpack (= 4.1.8)
@@ -361,7 +360,6 @@ DEPENDENCIES
   pg
   pry-rails
   rack-livereload
-  rack-timeout
   rails (>= 4.1)
   rails_12factor
   rb-fsevent

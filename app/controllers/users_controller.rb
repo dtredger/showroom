@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       redirect_to root_path
       flash[:notice] = "Password successfully changed"
     else
-      flash_errors @user
+      flash_errors_now @user
       render :edit_password
     end
   end

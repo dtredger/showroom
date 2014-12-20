@@ -6,7 +6,7 @@ gem 'rails', '>= 4.1'
 
 gem 'pg'
 
-gem 'rack-timeout'
+# gem 'rack-timeout'
 gem 'unicorn'
 
 gem 'uglifier'
@@ -21,6 +21,7 @@ gem 'sprockets'
 gem 'foundation-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
+# gem 'foundation-icons-sass-rails' TODO
 
 gem 'devise'
 gem 'omniauth-facebook'

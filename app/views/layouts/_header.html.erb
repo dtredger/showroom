@@ -16,7 +16,22 @@
     <!-- Right Nav Section -->
     <% if user_signed_in? %>
       <section class="top-bar-section">
+        <ul class="left">
+          <!--<li>TODO breadcrumbs</li>-->
+        </ul>
+
+        <ul class="center">
+          <%= form_tag items_path, method: :get do %>
+              <li><%= select_tag :category, options_for_select(Item.all.collect { |i| i.category1 }.uniq), include_blank: "category" %></li>
+              <li><%= select_tag :designer, options_for_select( Item.all.collect { |i| i.designer }.uniq), include_blank: "designer" %></li>
+              <li><%= text_field_tag 'min_price', nil, placeholder: 'min price' %></li>
+              <li><%= text_field_tag 'max_price', nil, placeholder: 'max price' %></li>
+              <li><%= submit_tag "Search", class: "search-button" %></li>
+          <% end %>
+        </ul>
+
         <ul class="right">
+
           <li class="divider"></li>
           <li class="help"><a>Help</a></li>
           <li class="divider"></li>
