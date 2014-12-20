@@ -21,7 +21,7 @@ gem 'sprockets'
 gem 'foundation-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
-# gem 'foundation-icons-sass-rails' TODO
+gem 'foundation-icons-sass-rails'
 
 gem 'devise'
 gem 'omniauth-facebook'
@@ -37,6 +37,7 @@ gem 'figaro'
 gem 'carrierwave-aws'
 
 gem 'friendly_id', require: 'friendly_id'
+gem 'breadcrumbs_on_rails'
 
 group :development, :test do
 	gem 'pry-rails'
@@ -54,6 +55,8 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'capybara'
+  gem 'capybara-webkit'
   gem 'factory_girl_rails'
   gem 'rspec-collection_matchers'
   gem 'guard'
