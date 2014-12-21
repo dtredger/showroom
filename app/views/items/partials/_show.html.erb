@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="small-5 columns">
+    <!--- main image -->
+    <%= image_tag @item.images[0].source, size: "280x400" %>
+  </div>
+
+  <div class="small-3 columns" id="item-thumbnails">
+    <!--- image thumbnails -->
+    <% @item.images[1..-1].each do |img| %>
+        <%= image_tag img.source, size: "280x400" %>
+    <% end %>
+  </div>
+
+  <div class="small-4 columns">
+    <div class="show-designer"><%= @item.designer %></div>
+    <div class="show-product-name"><%= @item.product_name %></div>
+    <div class="show-price"><%= humanized_money_with_symbol @item.price %> <%= @item.currency %></div>
+    <div class="show-store">Available from: <%= @item.store_name %></div>
+
+
+    <%= link_to 'Buy', @item.product_link, class: "button expand", id: "buy-button" %>
+
+    <a class="button expand" id="save-button" data-reveal-id="closet-modal">Save</a>
+
+    <div class="show-product-description-header">DETAILS</div>
+    <div class="show-product-description"><%= @item.description %></div>
+  </div>
+
+</div>
