@@ -7,7 +7,7 @@
 
 				<div class="medium-3 item">
                     <div id="item-<%= index %>">
-                        <%= link_to item_path(item) do %>
+                        <%= link_to item_path(item), remote: true do %>
                             <div class="item-picture">
                                 <%= image_tag(item.images.first.source, size:"280x400") %>
                                 <% if current_user %>
@@ -47,3 +47,4 @@
 	</div>
 </div>
 
+<div id="show-modal" class="reveal-modal xlarge" data-reveal></div>

@@ -1,0 +1,19 @@
+/**
+ * Created by dtredger on 14-12-20.
+ */
+
+
+$("#show-modal").html("<%= escape_javascript(render "items/partials/show") %>");
+
+// --- It is possible to have the modal appear instantly, with:
+
+    // link_to item_path(item), {
+    //         remote: true,
+    //         "data-reveal-id" => "show-modal",
+    //         "data-target" => "#modal-window"
+    // }
+//
+// However it will show up before it is populated with the partial, so it's
+// probably better to be explicit here, and only load it after
+// rendering is complete.
+$('#show-modal').foundation('reveal', 'open');
