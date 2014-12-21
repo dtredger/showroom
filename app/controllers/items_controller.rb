@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
 
   before_filter :item_live?, only: [:show]
+  respond_to :html, :xml
 
   def index
     @closets_item = ClosetsItem.new
@@ -11,6 +12,10 @@ class ItemsController < ApplicationController
     @closets_item = ClosetsItem.new
     @item = Item.friendly.find(params[:id])
     @like = @item.likes.build
+    respond_to do |format|
+      format.html
+      format.js { render js: "$('#show-modal').html('sup dawg');"}
+    end
   end
 
 
