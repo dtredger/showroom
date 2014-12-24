@@ -32,3 +32,6 @@
 
 #all generated documentation
 /doc
+
+#secret
+.secret

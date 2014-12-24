@@ -6,7 +6,7 @@ Uses Devise for authentication, carrierwave for images (uploaded to s3), rspec +
 FactoryGirl for tests. Tests are mostly around Model and controller tests (only a
 few request specs, since we aren't really settled on the ui).
 
-- master branch is running on heroku at http://showspace-staging.herokuapp.com/
+- master branch on heroku at http://showspace-staging.herokuapp.com/
 
 ####Workflow
 Using a Git Flow (-ish) strategy: feature branches are merged into develop when they
