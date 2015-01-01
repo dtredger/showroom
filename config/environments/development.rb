@@ -11,9 +11,16 @@ Showspace::Application.configure do
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
 
-  # config.cache_store = :null_store
+  #TODO return to false when done setup
+  config.action_controller.perform_caching = true
+  config.cache_store = :dalli_store, {
+      namespace: "showspace",
+      expires_in: 1.day,
+      socket_timeout: 3,
+      compress: true # http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
+      #compress_threshold: default threshold is 16K.
+  }
 
   # Raise exception if there is sending error
   config.action_mailer.raise_delivery_errors = true

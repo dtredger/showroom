@@ -3,8 +3,8 @@
 	<!-- items -->
 	<div class="row">
 		<div class="medium-12 small-centered columns text-center">
-			<% @items.each_with_index do |item, index| %>
-
+          <% cache("all_live_products") do %>
+            <% @items.each_with_index do |item, index| %>
 				<div class="medium-3 item">
                     <div id="item-<%= index %>">
                         <%= link_to item_path(item), remote: true do %>
@@ -35,6 +35,8 @@
 
                 <%= render 'layouts/closets_item_create', { item: item } %>
 			<% end %>
+          <% end %>
+
 
 			<!-- paginate row -->
 			<div class="row">
