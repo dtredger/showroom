@@ -35,11 +35,13 @@ Showspace::Application.configure do
   config.action_mailer.default_url_options = { host: 'localhost.com:3000' }
 
   # for serving images from local
-  config.serve_static_assets = true
+  config.serve_static_files = true
 
   # Automatically inject JavaScript needed for LiveReload
  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
 
+  # queue adapter (defaults to inline)
+  # config.active_job.queue_adapter = :resque
 end
 
 

@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
-  
+
   # http://norman.github.io/friendly_id/file.Guide.html
   def slug_candidates
     [ :username, :email ]
@@ -109,6 +109,11 @@ class User < ActiveRecord::Base
     if self.username.blank?
       self.update(username: self.email)
     end
+  end
+
+  # send devise emails via active-job (async)
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 
 end
