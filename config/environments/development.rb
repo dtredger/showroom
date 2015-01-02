@@ -19,7 +19,7 @@ Showspace::Application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # http://brewhouse.io/blog/2013/12/17/whats-new-in-rails-4-1.html
-  # config.action_mailer.preview_path = "debug/mailers"
+  config.action_mailer.preview_path = "spec/mailers/previews/"
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
