@@ -77,4 +77,7 @@ Showspace::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # queue adapter (defaults to inline)
+  config.active_job.queue_adapter = :resque
 end

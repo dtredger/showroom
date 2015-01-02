@@ -41,7 +41,7 @@ Showspace::Application.configure do
  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
 
   # queue adapter (defaults to inline)
-  # config.active_job.queue_adapter = :resque
+  config.active_job.queue_adapter = :resque
 end
 
 
