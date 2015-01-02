@@ -2,9 +2,12 @@ source 'https://rubygems.org'
 
 ruby '2.1.1'
 
-gem 'rails', '>= 4.1'
+gem 'rails', '>= 4.2'
 
 gem 'pg'
+
+gem 'redis'
+gem 'resque'
 
 # gem 'rack-timeout'
 gem 'unicorn'
@@ -19,14 +22,18 @@ gem 'sass-rails'
 gem 'sprockets'
 
 gem 'foundation-rails'
+gem 'foundation-icons-sass-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
-gem 'foundation-icons-sass-rails'
 
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'simple_form'
-gem 'activeadmin', github: 'activeadmin'
+
+# activeAdmin/master is not ready for Rails 4.2, and work is slow.
+# maybe time to consider upmin, or something that doesn't use arbre
+gem 'activeadmin', github: 'activeadmin', branch: 'rails-4-2'
+gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
 
 gem 'money-rails'
 gem 'nokogiri'
