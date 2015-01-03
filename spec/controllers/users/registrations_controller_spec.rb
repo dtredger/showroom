@@ -13,7 +13,6 @@ require 'rails_helper'
 #          user_password PUT    /users/password(.:format)         {controller:"devise/passwords", action:"update"}
 #                        POST   /users/password(.:format)         {controller:"devise/passwords", action:"create"}
 #
-#
 # --------------------------------------------------------------------------------------------------------
 
 RSpec.describe Users::RegistrationsController, :type => :controller do
@@ -86,8 +85,13 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
         end
 
         it "flashes welcome" do
-          post :create, user: FactoryGirl.attributes_for(:user)
+          post :create, user: FactoryGirl.attributes_for(:unique_user)
           expect(flash[:notice]).to eq("Welcome! You have signed up successfully.")
+        end
+
+        it "sends new_user email" do
+          post :create, user: FactoryGirl.attributes_for(:unique_user, email: "an@email.co")
+          expect(ActionMailer::Base.deliveries.last.to).to eq(["an@email.co"])
         end
       end
     end
@@ -160,10 +164,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
       end
     end
 
-    context "unauthorized user" do
-      pending('is there a way to test this?')
-    end
-
     context "un-authenticated user" do
       it "redirects to login" do
         get :edit
@@ -230,37 +230,44 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
       before { sign_in user }
 
       describe "DELETE" do
-        before { delete :destroy }
+        it "reduces user count" do
+          expect{
+            delete :destroy
+          }.to change{User.count}.by(-1)
+        end
 
         it "deletes user" do
+          delete :destroy
           expect(User.find_by_id(user.id)).to be_nil
         end
 
         it "redirects to root" do
+          delete :destroy
           expect(response).to redirect_to(root_path)
         end
       end
 
       # TODO do we want GET requests to delete users?
       describe "GET" do
-        before { get :destroy }
+        it "reduces user count" do
+          expect{
+            get :destroy
+          }.to change{User.count}.by(-1)
+        end
 
         it "deletes user" do
+          get :destroy
           expect(User.find_by_id(user.id)).to be_nil
         end
 
         it "redirects to root" do
+          get :destroy
           expect(response).to redirect_to(root_path)
         end
       end
     end
 
     context "unauthenticated" do
-      before do
-        sign_in user
-        sign_out user
-      end
-
       describe "DELETE" do
         before { delete :destroy }
 
@@ -287,7 +294,17 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
     end
 
     context "unauthorized" do
-      pending("check you can't delete others")
+      it "doesn't delete target user" do
+        sign_in user
+        delete :destroy, id: user2.id
+        expect(User.find_by_id(user2.id)).not_to be_nil
+      end
+
+      it "deletes own user" do
+        sign_in user
+        delete :destroy, id: user2.id
+        expect(User.find_by_id(user.id)).to be_nil
+      end
     end
 
   end
