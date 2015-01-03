@@ -1,5 +1,7 @@
 Showspace::Application.routes.draw do
 
+  # mount Resque::Server, :at => '/resque'
+
   devise_for :admin_users, ActiveAdmin::Devise.config
     ActiveAdmin.routes(self)
 

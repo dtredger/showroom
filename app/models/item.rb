@@ -43,8 +43,9 @@ class Item < ActiveRecord::Base
   attr_accessor :old_item_update
 
   # For the money-rails gem
-  monetize :price_cents, :allow_nil => true
-  monetize :price_cents, with_model_currency: :currency
+  monetize :price_cents,
+           allow_nil: true,
+           with_model_currency: :currency
 
   default_scope -> { order('created_at DESC') }
   scope :search_min_price, -> (min_price) { where("price_cents >= ?", min_price) }

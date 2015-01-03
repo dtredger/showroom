@@ -6,5 +6,6 @@ ActionMailer::Base.smtp_settings = {
   domain:         'heroku.com',
   authentication: :plain,
 }
-ActionMailer::Base.delivery_method = :smtp
+# Currently Develop and Test are set to delivery_method :test
+# Only production has ActionMailer::Base.delivery_method = :smtp
 

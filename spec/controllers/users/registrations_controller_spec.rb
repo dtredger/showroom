@@ -13,10 +13,10 @@ require 'rails_helper'
 #          user_password PUT    /users/password(.:format)         {controller:"devise/passwords", action:"update"}
 #                        POST   /users/password(.:format)         {controller:"devise/passwords", action:"create"}
 #
-#
 # --------------------------------------------------------------------------------------------------------
 
 RSpec.describe Users::RegistrationsController, :type => :controller do
+
   # tell Devise which mapping should be used before a request. This is necessary because Devise
   # gets this information from the router, but since functional tests do not pass through the router,
   # it needs to be told explicitly. For example, if you are testing the user scope, simply do:
@@ -26,6 +26,7 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
   let(:user) { create(:user) }
   let(:user2) { create(:user_2) }
+  let(:unique_user) { create(:unique_user) }
 
 
   describe "#new" do
@@ -41,13 +42,17 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
       get :new
       expect(session).to be_empty
     end
+
+    # TODO - why does #new clear session?
   end
 
   describe "#create" do
     describe "email & p/w" do
       context "invalid attributes" do
         it "does not save user" do
-          expect{ post :create, user: FactoryGirl.attributes_for(:invalid_user) }.to change{User.count}.by(0)
+          expect{
+            post :create, user: FactoryGirl.attributes_for(:invalid_user)
+          }.to change{User.count}.by(0)
         end
 
         it "does not log in user" do
@@ -63,43 +68,48 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
 
       context "valid attributes" do
         it "saves user" do
-          expect{ post :create, user: FactoryGirl.attributes_for(:user) }.to change{User.count}.by(1)
+          expect{
+            post :create, user: FactoryGirl.attributes_for(:unique_user)
+          }.to change{User.count}.by(1)
         end
 
         it "logs user in" do
-          post :create, user: FactoryGirl.attributes_for(:user)
-          expect(subject.current_user).not_to be nil
+          post :create, user: FactoryGirl.attributes_for(:user_2, email: "some-kinda@email.co")
+          expect(subject.current_user.email).to eq("some-kinda@email.co")
         end
 
         it "redirects to root" do
-          post :create, user: FactoryGirl.attributes_for(:user)
+          post :create, user: FactoryGirl.attributes_for(:unique_user)
           # TODO alter after_sign_up_path_for to direct somewhere else
           expect(response).to redirect_to(root_path)
         end
 
         it "flashes welcome" do
-          post :create, user: FactoryGirl.attributes_for(:user)
+          post :create, user: FactoryGirl.attributes_for(:unique_user)
           expect(flash[:notice]).to eq("Welcome! You have signed up successfully.")
+        end
+
+        it "sends new_user email" do
+          post :create, user: FactoryGirl.attributes_for(:unique_user, email: "an@email.co")
+          expect(ActionMailer::Base.deliveries.last.to).to eq(["an@email.co"])
         end
       end
     end
 
-    describe "facebook" do
+    pending "facebook" do
       context "invalid oauth" do
         before(:each) do
           session[:fb_uid] = ""
           session[:fb_token] = ""
           session[:fb_token_expiration] = nil
-          post :create, user: FactoryGirl.attributes_for(:user)
+          post :create, user: FactoryGirl.attributes_for(:unique_user)
         end
 
         it "clears fb from session" do
-          pending('should this happen? could it?')
           expect(session.keys.grep(/^fb_/)).to be_empty
         end
 
         it "renders #new" do
-          pending('is this worth testing?')
           expect(response).to render_template(:new)
         end
 
@@ -154,10 +164,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
       end
     end
 
-    context "unauthorized user" do
-      pending('is there a way to test this?')
-    end
-
     context "un-authenticated user" do
       it "redirects to login" do
         get :edit
@@ -167,6 +173,37 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
   end
 
   describe "#update" do
+    context "unauthorized user" do
+      before do
+        sign_in user2
+        put :update, user: FactoryGirl.attributes_for(:user,
+          email: "something@new.co",
+          username: "something_else",
+          current_password: "user_password")
+      end
+
+      it "does not update target user" do
+        expect(user.username).to eq("username")
+      end
+
+      it "does not update own user" do
+        expect(user2.username).not_to eq("something_else")
+      end
+    end
+
+    context "un-authenticated user" do
+      before do
+        put :update, user: FactoryGirl.attributes_for(:user,
+          email: "something@new.co",
+          username: "something else",
+          current_password: "user_password")
+      end
+
+      it "does not update user" do
+        expect(user.username).to eq("username")
+      end
+    end
+
     context "authorized user" do
       before do
         sign_in user
@@ -183,23 +220,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
         expect(user.email).to eq("somethingelse@email.com")
       end
     end
-
-    context "unauthorized user" do
-      pending('how is this tested?')
-    end
-
-    context "un-authenticated user" do
-      before do
-        put :update, user: FactoryGirl.attributes_for(:user,
-          email: "something@new.co",
-          username: "something else",
-          current_password: "user_password")
-      end
-
-      it "does not update user" do
-        expect(user.username).to eq("username")
-      end
-    end
   end
 
   describe "#destroy" do
@@ -210,37 +230,44 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
       before { sign_in user }
 
       describe "DELETE" do
-        before { delete :destroy }
+        it "reduces user count" do
+          expect{
+            delete :destroy
+          }.to change{User.count}.by(-1)
+        end
 
         it "deletes user" do
+          delete :destroy
           expect(User.find_by_id(user.id)).to be_nil
         end
 
         it "redirects to root" do
+          delete :destroy
           expect(response).to redirect_to(root_path)
         end
       end
 
       # TODO do we want GET requests to delete users?
       describe "GET" do
-        before { get :destroy }
+        it "reduces user count" do
+          expect{
+            get :destroy
+          }.to change{User.count}.by(-1)
+        end
 
         it "deletes user" do
+          get :destroy
           expect(User.find_by_id(user.id)).to be_nil
         end
 
         it "redirects to root" do
+          get :destroy
           expect(response).to redirect_to(root_path)
         end
       end
     end
 
     context "unauthenticated" do
-      before do
-        sign_in user
-        sign_out user
-      end
-
       describe "DELETE" do
         before { delete :destroy }
 
@@ -267,12 +294,22 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
     end
 
     context "unauthorized" do
-      pending("check you can't delete others")
+      it "doesn't delete target user" do
+        sign_in user
+        delete :destroy, id: user2.id
+        expect(User.find_by_id(user2.id)).not_to be_nil
+      end
+
+      it "deletes own user" do
+        sign_in user
+        delete :destroy, id: user2.id
+        expect(User.find_by_id(user.id)).to be_nil
+      end
     end
 
   end
 
-  describe "facebook_confirmation" do
+  pending "facebook_confirmation" do
     #TODO test that the fb info is passed to the sign-up form correctly
     before do
       session[:fb_uid] = 12421
