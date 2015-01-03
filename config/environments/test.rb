@@ -37,4 +37,7 @@ Showspace::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # processing defaults to :inline
+  # only specified in develop and production (resque)
+  # config.active_job.queue_adapter = :inline
 end
