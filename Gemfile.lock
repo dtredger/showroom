@@ -431,7 +431,6 @@ DEPENDENCIES
   rails (>= 4.2)
   rails_12factor
   rb-fsevent
-  redis
   resque
   rmagick
   rspec-collection_matchers

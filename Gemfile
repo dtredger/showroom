@@ -6,7 +6,6 @@ gem 'rails', '>= 4.2'
 
 gem 'pg'
 
-gem 'redis'
 gem 'resque'
 
 # gem 'rack-timeout'
