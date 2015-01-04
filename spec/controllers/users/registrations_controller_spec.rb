@@ -205,9 +205,7 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
     end
 
     context "authorized user" do
-      before do
-        sign_in user
-      end
+      before { sign_in user }
 
       it "updates username" do
         put :update,

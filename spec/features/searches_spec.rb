@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Searches", :type => :request do
+RSpec.describe "Searches", :type => :feature do
   feature "nav-search" do
     scenario "price range" do
       create_full_items 10
@@ -16,7 +16,6 @@ RSpec.describe "Searches", :type => :request do
       expect(page).not_to have_content("$800")
     end
   end
-
 
 
 end
