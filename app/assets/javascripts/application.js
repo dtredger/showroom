@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require foundation
 //= require_directory ./items
+//= require_directory ./users
 
 $(function() {
   $(document).foundation({
