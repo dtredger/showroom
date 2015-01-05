@@ -77,21 +77,25 @@
  *
  */
 
+body#items {
+  background-color: #f8f8f8;
+}
 
 .item {
-	display: inline-block;
-	width: 280px;
-	margin: 20px;
+  background-color: white;
+  display: inline-block;
+  width: 280px;
+  margin: 20px;
+  -webkit-box-shadow: 5px 3px 10px;
+  -moz-box-shadow: 5px 3px 10px;
+  box-shadow: 5px 3px 10px;
 }
 
 .item-picture {
-	position: relative;
-	width: 280px;
-	height: 400px;
-    background-color: #fff;
-    -webkit-box-shadow: 5px 3px 10px;
-    -moz-box-shadow: 5px 3px 10px;
-    box-shadow: 5px 3px 10px;
+  margin: 10px 0;
+  position: relative;
+  width: 280px;
+  height: 400px;
 }
 
 .special-span {
@@ -140,7 +144,7 @@ span .spacer {
 }
 
 .item-info {
-	margin: 25px 0 50px;
+	margin: 25px 0 10px;
 	font-size: 13px;
 }
 

@@ -2,7 +2,13 @@
  * _header partial
  * see also foundation topbar styles in foundation_and_overrides, line 1189
  */
+$topbar-bg-color: #7527f4;
+
 .top-bar {
+  -webkit-box-shadow: 0 3px 10px;
+  -moz-box-shadow: 0 3px 10px;
+  box-shadow: 0 3px 10px;
+//  background-image: linear-gradient(to bottom, scale-color($topbar-bg-color, $lightness: -4%), scale-color($topbar-bg-color, $lightness: -14%) 50%, scale-color($topbar-bg-color, $lightness: -7%) 50%, $topbar-bg-color);
 
   .title-area {
     padding-right: 150px;
