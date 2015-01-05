@@ -1,67 +1,72 @@
 <div class="row">
-	<div class="medium-6 small-centered columns">
+  <br/>
+    <div class="medium-12 columns panel">
 
-      <div class="profile-box account-info">
-        <h4>My profile</h4>
-        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-            <%= f.error_notification %>
-            <div class="form-inputs">
-              <div class="row collapse">
-                <div class="large-4 columns">
-                  <span class="prefix">Username</span>
+        <!--<div class="medium-6 small-centered columns">-->
+
+          <div class="profile-box medium-4 account-info">
+            <h4>My profile</h4>
+            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                <%= f.error_notification %>
+                <div class="form-inputs">
+                  <div class="row collapse">
+                    <div class="large-4 columns">
+                      <span class="prefix">Username</span>
+                    </div>
+                    <div class="large-8 columns">
+                      <%= f.text_field :username, value: @user.username, required: true, autofocus: true, disabled: true %>
+                    </div>
+                  </div>
+
+                  <div class="row collapse">
+                    <div class="large-4 columns">
+                      <span class="prefix">Email</span>
+                    </div>
+                    <div class="large-8 columns">
+                      <%= f.text_field :email, value: @user.email, required: true, autofocus: true, disabled: true %>
+                    </div>
+                  </div>
+
+                  <br/>
+
+                  <div class="row collapse">
+                    <div class="large-6 columns">
+                      <span class="prefix">Enter Password to Update</span>
+                    </div>
+                    <div class="large-6 columns">
+                      <%= f.text_field :current_password, required: true, autofocus: true, disabled: true %>
+                    </div>
+                  </div>
                 </div>
-                <div class="large-8 columns">
-                  <%= f.text_field :username, value: @user.username, required: true, autofocus: true, disabled: true %>
+
+                <div class="row">
+                  <div class="large-6 columns">
+                    <a id="enable-update" class="button small success radius" onclick="enableUpdates()">Enable update</a>
+                  </div>
+
+                  <div class="large-6 columns form-actions">
+                    <%= f.button :submit, "Save Changes", disabled: true, class: "small profile-update" %>
+                  </div>
                 </div>
-              </div>
+            <% end %>
 
-              <div class="row collapse">
-                <div class="large-4 columns">
-                  <span class="prefix">Email</span>
-                </div>
-                <div class="large-8 columns">
-                  <%= f.text_field :email, value: @user.email, required: true, autofocus: true, disabled: true %>
-                </div>
-              </div>
+          </div>
 
-              <br/>
+          <div class="profile-box medium-4 passwords">
+            <%= render 'layouts/forms/edit_password' %>
+          </div>
 
-              <div class="row collapse">
-                <div class="large-6 columns">
-                  <span class="prefix">Enter Password to Update</span>
-                </div>
-                <div class="large-6 columns">
-                  <%= f.text_field :current_password, required: true, autofocus: true, disabled: true %>
-                </div>
-              </div>
-            </div>
+          <div class="profile-box medium-4 delete-account">
+            <h4>Delete my account</h4>
+            <%= button_to "Delete Account",
+                          user_registration_path,
+                          method: :delete,
+                          class: "button alert",
+                          data: {confirm: "Are you sure??"} %>
 
-            <div class="row">
-              <div class="large-6 columns">
-                <a id="enable-update" class="button small success radius" onclick="enableUpdates()">Enable update</a>
-              </div>
+          <!--</div>-->
+        </div>
 
-              <div class="large-6 columns form-actions">
-                <%= f.button :submit, "Save Changes", disabled: true, class: "small profile-update" %>
-              </div>
-            </div>
-        <% end %>
-
-      </div>
-
-      <div class="profile-box passwords">
-        <%= render 'layouts/forms/edit_password' %>
-      </div>
-
-      <div class="profile-box delete-account">
-        <h4>Delete my account</h4>
-        <%= button_to "Delete Account",
-                      user_registration_path,
-                      method: :delete,
-                      class: "button alert",
-                      data: {confirm: "Are you sure??"} %>
-
-      </div>
 
     </div>
 </div>
