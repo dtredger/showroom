@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Logins & Sign-ups", type: :request do
+RSpec.describe "Logins & Sign-ups", type: :feature do
 
   feature "Visitor signs up" do
     scenario "with valid email and password" do
@@ -35,5 +35,6 @@ RSpec.describe "Logins & Sign-ups", type: :request do
       expect(page).to have_content("Sign in")
     end
   end
+
 
 end

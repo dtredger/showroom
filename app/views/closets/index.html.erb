@@ -1,35 +1,23 @@
+<br/>
 <div class="row">
-	<div class="small-7 small-centered columns">
+	<div class="medium-12 small-centered columns">
 
-		<h2>My Closets</h2>
+        <% @closets.each do |closet| %>
+          <%= link_to(closet_path(closet)) do %>
+            <div class="medium-5 closet">
+              <div class="closet-description">
+                <span><%= closet.title %></span>
+                -
+                <span><%= closet.items.size %></span> items
+              </div>
 
-		<table>
-		  <thead>
-		    <tr>
-		      <th width="300">Closet Name</th>
-		      <th width="300">Closet Description</th>
-		      <th>Items</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-				<% @closets.each do |closet| %>
-					<tr>
-						<td><%= link_to closet.title, closet_path(closet) %></td>
-						<td><%= closet.summary %></td>
-						<td><%= closet.items.size %></td>
+              <% closet.items.each do |item| %>
+                  <%= image_tag(item.images.first.source, size:"126x160", class:"closet-image") %>
+              <% end %>
 
-                        <% closet.items.each do |item| %>
-                            <% item.images.each do |image| %>
-                          <td><%= image_tag(image.source, size:"56x80") %><td>
-                            <% end %>
-                        <% end %>
-
-					</tr>
-				<% end %>
-		  </tbody>
-		</table>
-
-		<%= link_to('New closet', new_closet_path, class: 'button right') %>
+            </div>
+          <% end %>
+        <% end %>
 
 	</div>
 </div>

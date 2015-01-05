@@ -2,13 +2,28 @@
  * _header partial
  * see also foundation topbar styles in foundation_and_overrides, line 1189
  */
+$topbar-bg-color: #7527f4;
+$topbar-gradient-end: #5E1FC5;
+
 .top-bar {
+  -webkit-box-shadow: 0 3px 10px;
+  -moz-box-shadow: 0 3px 10px;
+  box-shadow: 0 3px 10px;
+//  background-image: linear-gradient(to bottom, scale-color($topbar-bg-color, $lightness: -4%), scale-color($topbar-bg-color, $lightness: -14%) 50%, scale-color($topbar-bg-color, $lightness: -7%) 50%, $topbar-bg-color);
+  background: -ms-linear-gradient(top,  $topbar-bg-color,  $topbar-gradient-end);
+  background: -webkit-gradient(linear, left top, left bottom, from($topbar-bg-color), to($topbar-gradient-end));
+  background: -moz-linear-gradient(top,  $topbar-bg-color,  $topbar-gradient-end);
 
   .title-area {
     padding-right: 150px;
   }
 
   .top-bar-section{
+
+    li {
+      background: none;
+    }
+
     .center {
       top: 5px;
       li {
