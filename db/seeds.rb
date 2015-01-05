@@ -17,6 +17,7 @@ IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
 # SUIT_IMG_ROOT = Rails.root.join("public/images/suit_sample_#{i}.jpg")
 
 (1..10).each do |i|
+  calculated_state = i % 5 == 0 ? "retired" : "live"
   item = Item.create!(
       product_link: "product_link #{i}",
       designer: "designer #{i}",
@@ -27,8 +28,8 @@ IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
         significantly long block of text, for selling high-end clothing.",
       sku: "1532s#{i}52-#{i}",
       price_cents: "#{i}0000".to_i,
-      category1: "category1 #{i}",
-      state:1 # live
+      category1: "category #{i}",
+      state: calculated_state # live
   )
   item.images.create(source: open(Rails.root.join("public/images/suit_sample_#{i}.jpg")))
   item.images.create(source: open(IMG_PATH))

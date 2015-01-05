@@ -1,0 +1,38 @@
+$closet-background-color: #f8f8f8;
+$closet-description-background-color: #d0dde3;
+
+body#closets {
+  background-color: $closet-background-color;
+}
+
+.closet {
+  background-color: white;
+  display: inline-block;
+  min-height: 250px;
+  margin: 20px;
+  -webkit-box-shadow: 5px 3px 10px;
+  -moz-box-shadow: 5px 3px 10px;
+  box-shadow: 5px 3px 10px;
+}
+
+.closet:hover {
+  background-color: scale-color(white, $lightness: -2%);
+  transition: all .15s ease;
+  .closet-description {
+    background-color: scale_color($closet-description-background-color, $lightness: -8%);
+  }
+}
+
+.closet-description {
+  text-align: center;
+  background-color: $closet-description-background-color;
+
+  span {
+    padding: 0 2px;
+  }
+}
+
+.closet-image {
+  position: absolute;
+  padding: 10px;
+}

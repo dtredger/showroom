@@ -4,7 +4,12 @@ div.profile-box {
   padding: 10px;
   margin: 10px;
 
-  -webkit-box-shadow: 5px 3px 10px;
-  -moz-box-shadow: 5px 3px 10px;
-  box-shadow: 5px 3px 10px;
+  border: 1px solid #dddede;
+  border-radius: 3px;
+//
+//  -webkit-box-shadow: 5px 3px 10px;
+//  -moz-box-shadow: 5px 3px 10px;
+//  box-shadow: 5px 3px 10px;
+
+  float: left;
 }

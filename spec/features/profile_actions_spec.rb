@@ -8,7 +8,7 @@ RSpec.describe "Profile Actions", type: :feature do
       visit "/profile"
     end
 
-    scenario("is at /profile") { expect(page).to have_content("My profile") }
+    scenario("is on profile page") { expect(page).to have_content("My profile") }
     scenario("has email") { expect(page).to have_content("cooluser@email.co") }
     scenario("has username") { expect(page).to have_content("cool username") }
   end
