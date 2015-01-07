@@ -34,6 +34,7 @@ module Features
           designer: "designer #{i}",
           store_name: "store #{i}",
           product_name: "product_name #{i}",
+          category1: "category #{i}",
           state: "live"
         )
         item.images.create(source: open(Rails.root.join("public/images/suit_sample_#{i}.jpg")))
