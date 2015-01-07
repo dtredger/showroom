@@ -7,12 +7,10 @@ body#closets {
 
 .closet {
   background-color: white;
+  border: 1px solid $closet-description-background-color;
   display: inline-block;
   min-height: 250px;
   margin: 20px;
-  -webkit-box-shadow: 5px 3px 10px;
-  -moz-box-shadow: 5px 3px 10px;
-  box-shadow: 5px 3px 10px;
 }
 
 .closet:hover {
