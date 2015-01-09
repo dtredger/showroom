@@ -1,0 +1,38 @@
+<% if current_user %>
+    <h2>Choose closet to save to:</h2>
+    <div class="row">
+        <% current_user.closets.each do |closet| %>
+            <div class=" medium-6 columns new-closet-item">
+                <%= form_for @closets_item, remote: true do |f| %>
+                  <div class="panel">
+                      <div>
+                          <h4><%= closet.summary %></h4>
+                          <p><%= closet.items.size %></p>
+                      </div>
+
+                      <%= submit_tag "Add item", class: "button small add-to-closet" %>
+
+                      <div>
+                          <% closet.items[0,3].each do |item| %>
+                              <%= image_tag(item.images.first.source, size:"56x80") %>
+                          <% end %>
+                      </div>
+
+                      <%= f.hidden_field :item_id, :value => @item_id %>
+                      <%= f.hidden_field :closet_id, :value => closet.id %>
+
+                  </div>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+
+<% else %>
+    <!-- Guest save item to closet modal -->
+    <h2>Shop all of Showspace</h2>
+    <%= link_to "Join Now", new_user_registration_path, class: "button expand", id: "padding-join-now-btn-modal" %>
+    Already a member? <%= link_to('Sign in.', new_user_session_path, class: 'bold-black-link') %>
+<% end %>
+
+<a class="close-reveal-modal">&#215;</a>
+

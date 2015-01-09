@@ -4,17 +4,14 @@
 	<div class="row">
 		<div class="medium-12 small-centered columns text-center">
 			<% @items.each_with_index do |item, index| %>
-
 				<div class="medium-3 item">
                     <div id="item-<%= index %>">
                         <%= link_to item_path(item), remote: true do %>
                             <div class="item-picture">
                                 <%= image_tag(item.images.first.source, size:"280x400") %>
-
-                                  <%= link_to new_closets_item_path(item_id: item.id), remote: true, class: "special-span closet-button" do %>
-                                    <div>+ add to closet</div>
-                                  <% end %>
-                                </a>
+                                <%= link_to new_closets_item_path(item_id: item.id), remote: true, class: "special-span closet-button" do %>
+                                  <div>+ add to closet</div>
+                                <% end %>
                             </div>
                             <div class='item-info'>
                                 <div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
