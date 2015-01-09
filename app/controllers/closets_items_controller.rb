@@ -11,15 +11,20 @@ class ClosetsItemsController < ApplicationController
 
 	def create
 		@closets_item = ClosetsItem.new(closet_item_params)
-    # respond_to do |format|
       if @closets_item.save
+				respond_to do |format|
         # stays on page, and runs views/closets_items/create.js.erb
-        # format.js
-				redirect_to root_path, notice: "Item added."
-      else
+        	format.js  { render file: "closets_items/create" }
+					# format.html { redirect_to root_path, notice: "Item added." }
+				end
+			else
+				respond_to do |format|
+					# stays on page, and runs views/closets_items/create.js.erb
+					format.js  { render partial: "layouts/errors" }
+					# format.html { }
+				end
         #TODO must be updated, especially with item-uniqueness requirement
-        flash_errors @closets_item
-				redirect_to root_path
+
       end
     # end
 	end
