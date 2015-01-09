@@ -2,7 +2,12 @@
     <h2>Choose closet to save to:</h2>
     <div class="row">
         <% current_user.closets.each do |closet| %>
-            <div class=" medium-6 columns new-closet-item">
+          <% if closet.item_ids.include? @item_id.to_i %>
+            <div class="medium-6 columns new-closet-item inactive">
+              <span class="item-taken">Item already in this closet</span>
+          <% else %>
+            <div class="medium-6 columns new-closet-item">
+          <% end %>
                 <%= form_for @closets_item, remote: true do |f| %>
                   <div class="panel">
                       <div>

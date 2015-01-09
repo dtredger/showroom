@@ -1,3 +1,18 @@
 .add-to-closet {
   float: right;
 }
+
+.inactive {
+  opacity: 0.75;
+}
+
+.item-taken {
+  position: absolute;
+  right: 25px;
+  top: 100px;
+  border: 10px solid white;
+  background: white;
+  z-index: 200;
+  height: 80px;
+  max-width: 120px;
+}
