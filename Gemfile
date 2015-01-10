@@ -6,7 +6,8 @@ gem 'rails', '>= 4.2'
 
 gem 'pg'
 
-gem 'resque'
+gem 'resque', require: 'resque/server'
+gem 'resque-scheduler'
 
 # gem 'rack-timeout'
 gem 'unicorn'
