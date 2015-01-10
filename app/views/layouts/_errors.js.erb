@@ -1,0 +1,21 @@
+
+
+
+setTimeout(function(){
+    $('.close-reveal-modal').click()
+}, 400);
+
+// show flash-style warning for 2.2 seconds
+setTimeout(function(){
+    $(".errors").html("<div data-alert class='alert-box text-center alert new-closet'><%= "#{@closets_item.errors.first[0].to_s} #{@closets_item.errors.first[1].to_s}" %></div>");
+}, 800);
+
+$(".errors").html("<div data-alert class='alert-box text-center info new-closet'><%= "#{@closets_item.errors.first[0].to_s} #{@closets_item.errors.first[1].to_s}" %></div>")
+        .hide()
+        .show(400, function(){
+            $(".new-closet").slideDown(500);
+        });
+
+setTimeout(function(){
+    $(".new-closet").slideUp(700);
+}, 6500);

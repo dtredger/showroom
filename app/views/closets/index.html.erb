@@ -1,5 +1,15 @@
 <br/>
-<div class="row">
+<div class="row panel">
+  <%= link_to "Back to Index", root_path, class: "closet-back button info tiny" %>
+
+  <div class="text-center closet-header">
+    <h3>Your Closets</h3>
+    <div class="closet-buttons">
+      <%= link_to "Create a new closet", new_closet_path(modal: true), remote: true, class: "button tiny" %>
+    </div>
+  </div>
+  <hr/>
+
 	<div class="medium-12 small-centered columns">
 
         <% @closets.each do |closet| %>
@@ -8,11 +18,12 @@
               <div class="closet-description">
                 <span><%= closet.title %></span>
                 -
-                <span><%= closet.items.size %></span> items
+                <span><%= pluralize(closet.items.size, "item") %></span>
               </div>
+              <br/>
 
-              <% closet.items.each do |item| %>
-                  <%= image_tag(item.images.first.source, size:"126x160", class:"closet-image") %>
+              <% closet.items[0,3].each do |item| %>
+                  <%= image_tag(item.images.first.source, size:"114x144", class:"closet-image") %>
               <% end %>
 
             </div>
@@ -22,3 +33,4 @@
 	</div>
 </div>
 
+<div id="new-closet-modal" class="reveal-modal small" data-reveal></div>

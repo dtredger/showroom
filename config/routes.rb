@@ -57,7 +57,7 @@ Showspace::Application.routes.draw do
 
   resources :closets
 
-  resources :closets_items, only: [:create, :destroy]
+  resources :closets_items, only: [:new, :create, :destroy]
 
   #resources :duplicate_warnings
 

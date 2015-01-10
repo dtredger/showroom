@@ -15,10 +15,10 @@
 *= require foundation_and_overrides.css.scss
 *  /foundation is required within foundation_and_overrides
 *
-*= require_directory ./layouts
-*
-*= require_directory ./items
 *= require_directory ./closets
+*= require_directory ./closets_items
+*= require_directory ./items
+*= require_directory ./layouts
 *= require_directory ./users
 *
 *

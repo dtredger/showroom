@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
     @like = @item.likes.build
     respond_to do |format|
       format.html
-      format.js { render file: "items/show.js.erb" }
+      format.js { render file: "items/show" }
     end
   end
 

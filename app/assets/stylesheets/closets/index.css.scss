@@ -7,12 +7,11 @@ body#closets {
 
 .closet {
   background-color: white;
+  border: 1px solid $closet-description-background-color;
   display: inline-block;
-  min-height: 250px;
+  height: 200px;
+  overflow: hidden;
   margin: 20px;
-  -webkit-box-shadow: 5px 3px 10px;
-  -moz-box-shadow: 5px 3px 10px;
-  box-shadow: 5px 3px 10px;
 }
 
 .closet:hover {
@@ -24,15 +23,18 @@ body#closets {
 }
 
 .closet-description {
+  position: absolute;
   text-align: center;
   background-color: $closet-description-background-color;
+  width: inherit;
 
   span {
-    padding: 0 2px;
+    padding: 0 8px;
+    margin: 4px;
   }
 }
 
 .closet-image {
-  position: absolute;
+  display: inline-flex;
   padding: 10px;
 }
