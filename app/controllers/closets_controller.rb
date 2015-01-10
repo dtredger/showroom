@@ -6,7 +6,7 @@ class ClosetsController < ApplicationController
     @closets = current_user.closets
 	end
 
-	def show
+	def show(modal=false)
 		@closet = Closet.includes(:items).where(id: params[:id]).first
 	end
 

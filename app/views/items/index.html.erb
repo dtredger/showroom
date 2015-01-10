@@ -6,7 +6,7 @@
 			<% @items.each_with_index do |item, index| %>
 				<div class="medium-3 item">
                     <div id="item-<%= index %>">
-                        <%= link_to item_path(item), remote: true do %>
+                        <%= link_to item_path(item, modal: true), remote: true do %>
                             <div class="item-picture">
                                 <%= image_tag(item.images.first.source, size:"280x400") %>
                                 <%= link_to new_closets_item_path(item_id: item.id), remote: true, class: "special-span closet-button" do %>
