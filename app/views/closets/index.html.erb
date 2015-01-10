@@ -18,11 +18,12 @@
               <div class="closet-description">
                 <span><%= closet.title %></span>
                 -
-                <span><%= closet.items.size %></span> items
+                <span><%= pluralize(closet.items.size, "item") %></span>
               </div>
+              <br/>
 
-              <% closet.items.each do |item| %>
-                  <%= image_tag(item.images.first.source, size:"126x160", class:"closet-image") %>
+              <% closet.items[0,3].each do |item| %>
+                  <%= image_tag(item.images.first.source, size:"114x144", class:"closet-image") %>
               <% end %>
 
             </div>
