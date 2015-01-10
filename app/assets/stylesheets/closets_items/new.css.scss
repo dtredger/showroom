@@ -9,10 +9,18 @@
 .item-taken {
   position: absolute;
   right: 25px;
-  top: 100px;
+  top: 50px;
   border: 10px solid white;
   background: white;
   z-index: 200;
   height: 80px;
   max-width: 120px;
+}
+
+.panel-header {
+  display: inline;
+}
+
+.new-item-panel {
+  height: 160px;
 }
