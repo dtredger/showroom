@@ -1,5 +1,15 @@
 <br/>
 <div class="row panel">
+  <%= link_to "Back to Index", root_path, class: "closet-back button info tiny" %>
+
+  <div class="text-center closet-header">
+    <h3>Your Closets</h3>
+    <div class="closet-buttons">
+      <%= link_to "Create a new closet", new_closet_path(modal: true), remote: true, class: "button tiny" %>
+    </div>
+  </div>
+  <hr/>
+
 	<div class="medium-12 small-centered columns">
 
         <% @closets.each do |closet| %>
@@ -22,3 +32,4 @@
 	</div>
 </div>
 
+<div id="new-closet-modal" class="reveal-modal small" data-reveal></div>

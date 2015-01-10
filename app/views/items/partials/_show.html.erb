@@ -11,8 +11,6 @@
     <% end %>
   </div>
 
-  <%= link_to "save", new_closets_item_path(item_id: @item.id), remote: true, id:"closet-modal" %>
-
   <div class="small-4 columns">
     <div class="show-designer"><%= @item.designer %></div>
     <div class="show-product-name"><%= @item.product_name %></div>

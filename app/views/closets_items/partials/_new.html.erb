@@ -9,11 +9,13 @@
             <div class="medium-6 columns new-closet-item">
           <% end %>
                 <%= form_for @closets_item, remote: true do |f| %>
-                  <div class="panel">
-                      <div>
-                          <h4><%= closet.summary %></h4>
-                          <p><%= closet.items.size %></p>
-                      </div>
+                  <div class="panel new-item-panel">
+                      <span class="panel-header">
+                          <p>
+                            <%= closet.summary %> |
+                            <%= pluralize(closet.items.size, "Item") %>
+                          </p>
+                      </span>
 
                       <%= submit_tag "Add item", class: "button small add-to-closet" %>
 
@@ -25,7 +27,6 @@
 
                       <%= f.hidden_field :item_id, :value => @item_id %>
                       <%= f.hidden_field :closet_id, :value => closet.id %>
-
                   </div>
                 <% end %>
             </div>
