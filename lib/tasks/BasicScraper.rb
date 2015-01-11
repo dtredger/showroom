@@ -7,17 +7,12 @@ require 'fileutils'
 
 class BasicScraper
 
-  FAKE_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:13.0) Gecko/20100101 Firefox/13.0.1"
   IMAGE_FILE_LOCATION = "#{Rails.root}/public/img"
   RESIZE_WIDTH = 280
   RESIZE_HEIGHT = 400
 
   def open_url(page_url)
-    begin
-      Nokogiri::HTML(open(page_url, "User-Agent" => FAKE_UA))
-    rescue Exception => e
-      "Open_url Error: #{e}"
-    end
+    Nokogiri::HTML(open(page_url))
   end
 
   def get_image(image_url)
