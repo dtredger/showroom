@@ -18,6 +18,7 @@
 #  index_designer_selector      :string
 #  index_category_selector      :string
 #  index_item_group_selector    :string
+#  index_price_cents_selector   :string
 #
 
 FactoryGirl.define do

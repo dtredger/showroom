@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111082936) do
+ActiveRecord::Schema.define(version: 20150111095844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 20150111082936) do
     t.string   "index_designer_selector"
     t.string   "index_category_selector"
     t.string   "index_item_group_selector"
+    t.string   "index_price_cents_selector"
   end
 
   create_table "users", force: :cascade do |t|
