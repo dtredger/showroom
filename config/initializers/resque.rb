@@ -18,8 +18,8 @@ Resque.schedule = YAML.load_file(File.join(Rails.root, 'config/resque_schedule.y
 
 
 
-# Resque::Server.use(Rack::Auth::Basic) do |user, password|
-#   password == ENV["RESQUE_PASS"]
-# end
+Resque::Server.use(Rack::Auth::Basic) do |user, password|
+  password == ENV["RESQUE_PASS"] && AdminUser.all.map(&:email).include?(user)
+end
 
 
