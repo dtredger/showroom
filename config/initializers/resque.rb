@@ -13,7 +13,7 @@ Resque.redis = Redis.new(host: uri.host,
 
 # Dir["#{Rails.root}/app/workers/*.rb"].each { |file| require file }
 
-# Resque.schedule = YAML.load_file(File.join(Rails.root, 'config/resque_schedule.yml'))
+Resque.schedule = YAML.load_file(File.join(Rails.root, 'config/resque_schedule.yml'))
 
 
 
@@ -21,3 +21,5 @@ Resque.redis = Redis.new(host: uri.host,
 # Resque::Server.use(Rack::Auth::Basic) do |user, password|
 #   password == ENV["RESQUE_PASS"]
 # end
+
+

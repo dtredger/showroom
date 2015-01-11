@@ -31,7 +31,7 @@ FactoryGirl.define do
     price_cents 100
     currency "USD"
     store_name "item_one store"
-    product_link "http://item_one-link"
+    product_link "http://item_one-link.com"
     category1 "item_one category"
     category2 nil
     category3 nil
@@ -41,6 +41,7 @@ FactoryGirl.define do
       sequence(:store_name) { |i| "unique store #{i}" }
       sequence(:product_name) { |i| "unique product #{i}" }
       sequence(:designer) { |i| "unique designer #{i}" }
+      sequence(:product_link) { |i| "http://site.com/item_#{i}" }
     end
   end
 

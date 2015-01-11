@@ -1,0 +1,8 @@
+# crontab syntax http://en.wikipedia.org/wiki/Cron
+
+RealJob:
+  every: 60s
+#  class: SendAlertText
+  queue: queue_in_the_schedule
+  args: cats dogs fishsticks
+#  description: Runs the perform method in TestSchedule (naming it TestSchedule should make class implicit)
