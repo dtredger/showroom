@@ -17,6 +17,7 @@
 #  created_at   :datetime
 #  updated_at   :datetime
 #  sku          :string(255)
+#  slug         :string(255)      not null
 #
 
 require "rails_helper"

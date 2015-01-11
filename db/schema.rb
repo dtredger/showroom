@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111071845) do
+ActiveRecord::Schema.define(version: 20150111082936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,17 +111,21 @@ ActiveRecord::Schema.define(version: 20150111071845) do
   end
 
   create_table "site_scrapers", force: :cascade do |t|
-    t.string   "store_name_selector"
-    t.string   "product_name_selector"
-    t.string   "description_selector"
-    t.string   "designer_selector"
-    t.string   "price_cents_selector"
-    t.string   "currency_selector"
-    t.string   "image_source_selector"
-    t.string   "product_link_selector"
-    t.string   "category_selector"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.string   "store_name"
+    t.string   "detail_product_name_selector"
+    t.string   "detail_description_selector"
+    t.string   "detail_designer_selector"
+    t.string   "detail_price_cents_selector"
+    t.string   "detail_currency_selector"
+    t.string   "detail_image_source_selector"
+    t.string   "index_product_link_selector"
+    t.string   "detail_category_selector"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "index_product_name_selector"
+    t.string   "index_designer_selector"
+    t.string   "index_category_selector"
+    t.string   "index_item_group_selector"
   end
 
   create_table "users", force: :cascade do |t|
