@@ -27,3 +27,27 @@ task :scrape_tresbien, [:url, :category, :is_test] => :environment do |task, arg
   tresbien = TresbienScraper.new
   tresbien.begin_scrape(args.url, args.category, args.is_test)
 end
+
+
+task new_scrape_tresbien: :environment do
+  ssense = SiteScraper.new(
+      store_name: "Ssense",
+      # index page selectors
+      index_item_group_selector: "li.rect",
+        index_product_name_selector: "h2.product-name",
+        index_designer_selector: "",
+        index_category_selector: "",
+        index_product_link_selector: "a",
+        index_price_cents_selector: ".regular-price",
+      # detail page selectors
+      detail_product_name_selector: "",
+      detail_description_selector: "",
+      detail_designer_selector: ".product-designer",
+      detail_price_cents_selector: ".product-price",
+      detail_currency_selector: "",
+      detail_image_source_selector: "",
+      detail_category_selector: ""
+  )
+  ssense.scrape_index("SOME_URL", true)
+
+end
