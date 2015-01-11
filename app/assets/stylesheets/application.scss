@@ -1,18 +1,39 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require foundation
- *= require_self
- */
+* This is a manifest file that will be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+* or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+*
+*
+// run Rails.application.config.assets.paths in console to see assets path
+*
+*
+* You're free to add application-wide styles to this file and they'll appear at the top of the
+* compiled file, but it's generally better to create a new file per style scope.
+*
+*= require foundation_and_overrides.css.scss
+*  /foundation is required within foundation_and_overrides
+*
+*= require_directory ./closets
+*= require_directory ./closets_items
+*= require_directory ./items
+*= require_directory ./layouts
+*= require_directory ./users
+*
+*
+*
+*
+* tree will cause active-admin styles to be applied to everyone, don't do it: require things specifically
+* require_tree
+*
+*
+*
+*
+*
+*
+*/
 
-@import "foundation_and_overrides";
-@import "general";
-@import "item";
-@import "item-show";
+
+
+

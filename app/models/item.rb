@@ -17,6 +17,7 @@
 #  created_at   :datetime
 #  updated_at   :datetime
 #  sku          :string(255)
+#  slug         :string(255)      not null
 #
 
 class Item < ActiveRecord::Base
@@ -24,6 +25,7 @@ class Item < ActiveRecord::Base
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
+  enum state: [:pending, :live, :retired, :banned, :deleted]
 
   has_and_belongs_to_many :closets
   has_many :users, through: :closets
@@ -41,8 +43,9 @@ class Item < ActiveRecord::Base
   attr_accessor :old_item_update
 
   # For the money-rails gem
-  monetize :price_cents, :allow_nil => true
-  monetize :price_cents, with_model_currency: :currency
+  monetize :price_cents,
+           allow_nil: true,
+           with_model_currency: :currency
 
   default_scope -> { order('created_at DESC') }
   scope :search_min_price, -> (min_price) { where("price_cents >= ?", min_price) }

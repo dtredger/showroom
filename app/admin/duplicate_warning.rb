@@ -5,8 +5,13 @@ ActiveAdmin.register DuplicateWarning do
 
   permit_params :pending_item_id, :existing_item_id, :match_score, :warning_notes
 
-  scope("Identical Match")  { |scope| scope.where(match_score: 330) }
+  scope("Identical Match")  { |scope| scope.where(match_score: 330..9999) }
 
+  filter :pending_item, collection: Item.joins(:duplicate_warnings).collect { |i| "#{i.designer} - #{i.product_name} - $#{i.price_cents/100}" }
+  filter :warning_notes
+  filter :created_at
+  filter :updated_at
+  filter :match_score
 
   index do
     selectable_column
@@ -23,13 +28,13 @@ ActiveAdmin.register DuplicateWarning do
   index as: :grid, columns: 3 do |warning|
     pending = Item.find(warning.pending_item_id)
     existing = Item.find(warning.existing_item_id)
-    ul
-      li link_to image_tag(pending.images[0].source), admin_item_path(pending)
+    ul.add_class "cats"
+      li link_to image_tag(pending.images[0].source, size:"56x80"), admin_item_path(pending)
       li pending.designer
       li pending.product_name
       li pending.store_name
       br
-      li link_to image_tag(existing.images[0].source), admin_item_path(existing)
+      li link_to image_tag(existing.images[0].source, size:"56x80"), admin_item_path(existing)
       li existing.designer
       li existing.product_name
       li existing.store_name

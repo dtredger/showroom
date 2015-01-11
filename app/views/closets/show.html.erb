@@ -1,40 +1,47 @@
 <div class="row">
-	<div class="small-12 columns text-center">
-		<h2><%= @closet.title %></h2>
-	</div>
+  <br/>
 
-	<div class="small-12 columns text-center">
-		<h3><%= @closet.summary %></h3>
-	</div>
+	<div class="small-12 columns panel">
+      <%= link_to "Back to Closets list", closets_path, class: "closet-back button info tiny" %>
 
-	<div class="small-12 columns text-center panel">
-		<div><p><%= @closet.items.size %> Items</p></div>
-		<%= link_to "Edit this Closet", edit_closet_path, class: 'button tiny' %>
-	</div>
+        <div class="text-center closet-header">
+          <h3><%= @closet.title %></h3> - <%= @closet.summary %>
+          <p>(<%= pluralize(@closet.items.size, "Item") %>)</p>
+          <div class="closet-buttons">
+            <%= link_to "Edit this Closet", edit_closet_path, class: "button tiny" %>
+            <%= button_to "Delete this Closet", closet_path, method: :delete, data: {confirm: "Are you sure you want to delete this closet forever?"}, class: "button tiny alert" %>
+          </div>
+        </div>
+        <hr/>
 
-</div>
+      <div class="row closet-cards">
+        <% @closet.items.each do |item| %>
+          <%= link_to item_path(item) do %>
+            <div class="medium-12 columns item">
+              <div class="row closet-item">
+                <div class="medium-6 closet-item-row">
+                  <%=image_tag item.images[0].source, class: "closet-item-picture" %>
+                </div>
 
-<div class="row">
-	<div class="small-12 columns text-center">
-		<% @closet.items.each do |item| %>
+                <div class="medium-6 closet-item-row info-row">
+                  <div class='item-info text-center'>
+                    <div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
+                    <div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
+                    <div class='item-price'>
+                        <% if item.state == "retired" %>
+                            No longer available
+                        <% else %>
+                            <%= humanized_money_with_symbol item.price %>
+                        <% end %>
+                    </div>
+                  </div>
+                </div>
+                <%= link_to "Remove item", closets_item_path(:closet_id => @closet, :item_id => item.id), method: :delete, data: {confirm: "Are you sure?"}, class: "button alert tiny closet-item-delete" %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
 
-			<div class="item">
-				<div class="item-picture">
-					<%= link_to item_path(item) do %>
-                      <%=image_tag item.images[0].source %>
-                    <% end %>
-				</div>
-
-				<%= link_to item_path(item) do %>
-					<div class='item-info'>
-						<div class='item-designer'><%= truncate(item.designer, :length => 30) %></div>
-						<div class='item-name'><%= truncate(item.product_name, :length => 50) %></div>
-						<div class='item-price'><%= humanized_money_with_symbol item.price %></div>
-						<%= link_to "Delete item", closets_item_path(:closet_id => @closet, :item_id => item.id), method: :delete, confirm: "Are you sure?" %>
-					</div>
-				<% end %>
-			</div>
-
-		<% end %>
-	</div>
+      </div>
+    </div>
 </div>

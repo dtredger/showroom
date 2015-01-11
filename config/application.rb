@@ -31,7 +31,7 @@ module Showspace
         request_specs: true
       g.fixture_replacement :factory_girl,
         dir: "spec/factories"
-      # g.integration_tool :rspec, fixture: true, views: true
+      g.integration_tool :rspec, fixture: true, views: true
     end
 
     # Do not log passwords
@@ -43,6 +43,10 @@ module Showspace
     config.assets.precompile += %w( *-bundle.css )
 
     # https://devcenter.heroku.com/articles/rails-4-asset-pipeline
-    config.serve_static_assets = true
+    # this is set in each environment directly (dev/test=true, prod=false)
+    # config.serve_static_files = true
+
+    # squelch warning about errors raised within `after_rollback`/`after_commit` callbacks
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end

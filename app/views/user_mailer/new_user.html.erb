@@ -1,0 +1,98 @@
+<table class="container">
+  <tr>
+    <td>
+
+      <table class="row">
+        <tr>
+          <td class="wrapper last">
+
+            <table class="twelve columns">
+              <tr>
+                <td>
+                  <h1>Hi <%= @user.username %></h1>
+                  <p class="lead">Some Lead text!.</p>
+                  <p>More! Phasellus ngue quis urna.</p>
+                </td>
+                <td class="expander"></td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+
+      <table class="row callout">
+        <tr>
+          <td class="wrapper last">
+
+            <table class="twelve columns">
+              <tr>
+                <td class="panel">
+                  <p>Phas vitae. <a href="#">Click it! »</a></p>
+
+                </td>
+                <td class="expander"></td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+
+      <table class="row footer">
+        <tr>
+          <td class="wrapper">
+
+            <table class="six columns">
+              <tr>
+                <td class="left-text-pad">
+                  Fresh items: ???
+                  <% Image.last(1).each do |img| %>
+                    <%= image_tag(img.source, size:"70x100") %>
+                  <% end %>
+                </td>
+                <td class="expander"></td>
+              </tr>
+            </table>
+
+          </td>
+          <td class="wrapper last">
+
+            <table class="six columns">
+              <tr>
+                <td class="last right-text-pad">
+                  <h5>Contact Info:</h5>
+                  <p>...</p>
+                </td>
+                <td class="expander"></td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+
+
+      <table class="row">
+        <tr>
+          <td class="wrapper last">
+
+            <table class="twelve columns">
+              <tr>
+                <td align="center">
+                  <center>
+                    <p style="text-align:center;"><a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Unsubscribe</a></p>
+                  </center>
+                </td>
+                <td class="expander"></td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+
+      <!-- container end below -->
+    </td>
+  </tr>
+</table>

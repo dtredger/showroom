@@ -1,29 +1,72 @@
 <div class="row">
-	<div class="small-5 small-centered columns">
-	<h2>My profile</h2>
-    <br/>
-	<p>Email: <%= @user.email %><p>
-    <p>username: <%=@user.username %></p>
+  <br/>
+    <div class="medium-12 columns panel">
 
-    <%= link_to edit_user_registration_path do %>
-          <button>Edit my Profile</button>
-    <% end %>
+        <!--<div class="medium-6 small-centered columns">-->
 
-    <!--<p>encrypted_password: <%=@user.encrypted_password %></p>-->
+          <div class="profile-box medium-4 account-info">
+            <h4>My profile</h4>
+            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                <%= f.error_notification %>
+                <div class="form-inputs">
+                  <div class="row collapse">
+                    <div class="large-4 columns">
+                      <span class="prefix">Username</span>
+                    </div>
+                    <div class="large-8 columns">
+                      <%= f.text_field :username, value: @user.username, required: true, autofocus: true, disabled: true %>
+                    </div>
+                  </div>
 
-    <!--<p>reset_password_token: <%=@user.reset_password_token %></p>-->
-    <!--<p>reset_password_sent_at: <%=@user.reset_password_sent_at %></p>-->
-    <!--<p>remember_created_at: <%=@user.remember_created_at %></p>-->
-    <!--<p>sign_in_count: <%=@user.sign_in_count %></p>-->
-    <!--<p>current_sign_in_at: <%=@user.current_sign_in_at %></p>-->
-    <!--<p>last_sign_in_at: <%=@user.last_sign_in_at %></p>-->
-    <!--<p>current_sign_in_ip: <%=@user.current_sign_in_ip %></p>-->
-    <!--<p>last_sign_in_ip: <%=@user.last_sign_in_ip %></p>-->
-    <!--<p>created_at: <%=@user.created_at %></p>-->
-    <!--<p>updated_at: <%=@user.updated_at %></p>-->
-    <!--<p>fb_uid: <%=@user.fb_uid %></p>-->
-    <!--<p>fb_token: <%=@user.fb_token %></p>-->
-    <!--<p>fb_token_expiration: <%=@user.fb_token_expiration %></p>-->
+                  <div class="row collapse">
+                    <div class="large-4 columns">
+                      <span class="prefix">Email</span>
+                    </div>
+                    <div class="large-8 columns">
+                      <%= f.text_field :email, value: @user.email, required: true, autofocus: true, disabled: true %>
+                    </div>
+                  </div>
+
+                  <br/>
+
+                  <div class="row collapse">
+                    <div class="large-6 columns">
+                      <span class="prefix">Enter Password to Update</span>
+                    </div>
+                    <div class="large-6 columns">
+                      <%= f.text_field :current_password, required: true, autofocus: true, disabled: true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="large-6 columns">
+                    <a id="enable-update" class="button small success radius" onclick="enableUpdates()">Enable update</a>
+                  </div>
+
+                  <div class="large-6 columns form-actions">
+                    <%= f.button :submit, "Save Changes", disabled: true, class: "small profile-update" %>
+                  </div>
+                </div>
+            <% end %>
+
+          </div>
+
+          <div class="profile-box medium-4 passwords">
+            <%= render 'layouts/forms/edit_password' %>
+          </div>
+
+          <div class="profile-box medium-4 delete-account">
+            <h4>Delete my account</h4>
+            <%= button_to "Delete Account",
+                          user_registration_path,
+                          method: :delete,
+                          class: "button alert",
+                          data: {confirm: "Are you sure??"} %>
+
+          <!--</div>-->
+        </div>
+
 
     </div>
 </div>

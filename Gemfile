@@ -1,40 +1,49 @@
 source 'https://rubygems.org'
-# ruby '2.0.0'
 
-gem 'rails', '>= 4.1'
+ruby '2.1.1'
+
+gem 'rails', '>= 4.2'
 
 gem 'pg'
 
-gem 'rack-timeout'
+gem 'resque', require: 'resque/server'
+gem 'resque-scheduler'
+
 gem 'unicorn'
 
-gem 'uglifier' #, '>= 1.3.0'
-gem 'coffee-rails'#, '~> 4.0.0'
+gem 'uglifier'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'sass' #,  '~> 3.2.0'
+gem 'sass'
+gem 'sass-rails'
 
-# sass issue requires 2.11  https://github.com/twbs/bootstrap-sass/issues/560
-gem 'sprockets' #, '=2.11.0'
+gem 'sprockets'
 
 gem 'foundation-rails'
+gem 'foundation-icons-sass-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
 
-gem 'devise' #, '3.2.4'
+gem 'devise'
 gem 'omniauth-facebook'
 gem 'simple_form'
-gem 'activeadmin', github: 'activeadmin'
+
+# activeAdmin/master is not ready for Rails 4.2, and work is slow.
+# maybe time to consider upmin, or something that doesn't use arbre
+gem 'activeadmin', github: 'activeadmin', branch: 'rails-4-2'
+gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
 
 gem 'money-rails'
 gem 'nokogiri'
 # http://stackoverflow.com/questions/3606190/rmagick-warning-while-running-server
-gem 'rmagick', :require => false
+gem 'rmagick', require: false
 
 gem 'figaro'
 gem 'carrierwave-aws'
 
 gem 'friendly_id', require: 'friendly_id'
+gem 'breadcrumbs_on_rails'
 
 group :development, :test do
 	gem 'pry-rails'
@@ -44,17 +53,22 @@ group :development, :test do
   gem 'simplecov'      #test coverage reports
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'rack-livereload'
+  gem 'guard-livereload', require: false
+  gem 'rb-fsevent', require: false
 end
 
 group :test do
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'capybara'
+  gem 'capybara-webkit'
   gem 'factory_girl_rails'
   gem 'rspec-collection_matchers'
   gem 'guard'
   gem 'guard-rspec'
-  gem 'webmock'
-  gem 'vcr'
+  # gem 'webmock'
+  # gem 'vcr'
 end
 
 group :production, :staging do

@@ -10,9 +10,13 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// run Rails.application.config.assets.paths in console to see assets path
+//
 //= require jquery
 //= require jquery_ujs
 //= require foundation
+//= require_directory ./items
+//= require_directory ./users
 
 $(function() {
   $(document).foundation({
@@ -77,11 +81,8 @@ $(function() {
 //= require turbolinks
 
 $('document').ready(function() {
-
-
     $(".help").click(function() {
         $(document).foundation('joyride', 'start');
     });
-
-
 });
+

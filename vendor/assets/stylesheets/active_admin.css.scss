@@ -1,3 +1,9 @@
+// !! assets under lib/assets or vendor/assets are available for inclusion via the
+// application manifests but no longer part of the precompile array. See Precompiling
+// Assets for guidance. http://guides.rubyonrails.org/asset_pipeline.html#precompiling-assets
+
+
+
 // SASS variable overrides must be declared before loading up Active Admin's styles.
 //
 // To view the variables that Active Admin provides, take a look at

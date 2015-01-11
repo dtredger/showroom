@@ -1,0 +1,166 @@
+/*
+ * _header partial
+ * see also foundation topbar styles in foundation_and_overrides, line 1189
+ */
+$topbar-bg-color: #7527f4;
+$topbar-gradient-end: #5E1FC5;
+
+.top-bar {
+  -webkit-box-shadow: 0 3px 10px;
+  -moz-box-shadow: 0 3px 10px;
+  box-shadow: 0 3px 10px;
+//  background-image: linear-gradient(to bottom, scale-color($topbar-bg-color, $lightness: -4%), scale-color($topbar-bg-color, $lightness: -14%) 50%, scale-color($topbar-bg-color, $lightness: -7%) 50%, $topbar-bg-color);
+  background: -ms-linear-gradient(top,  $topbar-bg-color,  $topbar-gradient-end);
+  background: -webkit-gradient(linear, left top, left bottom, from($topbar-bg-color), to($topbar-gradient-end));
+  background: -moz-linear-gradient(top,  $topbar-bg-color,  $topbar-gradient-end);
+
+  .title-area {
+    padding-right: 150px;
+  }
+
+  .top-bar-section{
+
+    li {
+      background: none;
+    }
+
+    .center {
+      top: 5px;
+      li {
+        max-height: 45px;
+        padding: 0 3px;
+        * {
+          margin-top: 5px;
+          margin-bottom: 2px;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+/*
+ * Facebook button
+ *
+ */
+
+.center-facebook-button {
+ 	display: block;
+ 	margin-left: 0;
+ 	margin-right: 0;
+ 	text-align: center;
+}
+
+.facebook-login-button {
+	text-decoration: none;
+  /* text-transform: uppercase; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background: url('/images/facebook_login/facebook-icon.png') no-repeat;
+  background-size: 30px;
+  display: inline-block;
+  height: 50px;
+  padding: 0 0 0 45px;
+  margin: 0;
+  background-position: 10px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  background-color: #2a66c0;
+  color: #fff;
+}
+
+.facebook-login-button:hover {
+  opacity: 1;
+  background-color: #3172d2;
+  color: #fff;
+  text-decoration: none;
+  transition: all .15s ease;
+}
+
+.facebook-login-button span {
+  border-left: 1px solid rgba(0,0,0,0.15);
+  margin: 0;
+  display: block;
+  padding: 14px 60px;
+  /* height: 22px; */
+}
+
+/*
+ * OR divider
+ *
+ */
+
+.or-divider {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-align: center;
+    margin: 16px 0;
+}
+
+.or-divider span {
+    z-index: 1;
+    display: inline-block;
+    font-size: 16px;
+    font-style: italic;
+    /* width: 30px; */
+}
+
+.or-divider span:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    width: 50%;
+    height: 1px;
+    background: #DADADA;
+}
+
+.or-divider span:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    width: 50%;
+    height: 1px;
+    background: #DADADA;
+}
+
+/*
+ * Register header
+ *
+ */
+
+.register-header {
+	padding-top: 1.5em;
+	padding-bottom: 0.75em;
+	text-align: center;
+}
+
+
+/*
+ * Misc
+ *
+ */
+
+.bold-black-link {
+  color: #222222;
+  font-weight: bold;
+}
+
+.bold-black-link:hover {
+  color: #ff555d;
+}
+
+#padding-join-now-btn-modal {
+  margin-top: 1.2rem;
+  margin-bottom: 2rem;
+}

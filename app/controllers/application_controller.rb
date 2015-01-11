@@ -35,5 +35,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def flash_errors_now(resource)
+    resource.errors.full_messages.each do |message|
+      flash.now[:alert] = message
+    end
+  end
+
 
 end

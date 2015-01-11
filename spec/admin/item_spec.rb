@@ -43,10 +43,10 @@ describe Admin::ItemsController, type: :controller do
         end
 
         it "sets items live" do
-          expect(Item.find(item_1).state).to eq(1)
-          expect(Item.find(item_2).state).to eq(1)
-          expect(Item.find(item_3).state).to eq(1)
-          expect(Item.find(item_4).state).to eq(1)
+          expect(Item.find(item_1).state).to eq("live")
+          expect(Item.find(item_2).state).to eq("live")
+          expect(Item.find(item_3).state).to eq("live")
+          expect(Item.find(item_4).state).to eq("live")
         end
 
         it "does not alter duplicate warnings" do
@@ -66,10 +66,10 @@ describe Admin::ItemsController, type: :controller do
         end
 
         it "retires items" do
-          expect(Item.find(item_1).state).to eq(2)
-          expect(Item.find(item_2).state).to eq(2)
-          expect(Item.find(item_3).state).to eq(2)
-          expect(Item.find(item_4).state).to eq(2)
+          expect(Item.find(item_1).state).to eq("retired")
+          expect(Item.find(item_2).state).to eq("retired")
+          expect(Item.find(item_3).state).to eq("retired")
+          expect(Item.find(item_4).state).to eq("retired")
         end
 
         it "does not alter duplicate warnings" do

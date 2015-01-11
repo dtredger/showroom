@@ -1,0 +1,40 @@
+$closet-background-color: #f8f8f8;
+$closet-description-background-color: #d0dde3;
+
+body#closets {
+  background-color: $closet-background-color;
+}
+
+.closet {
+  background-color: white;
+  border: 1px solid $closet-description-background-color;
+  display: inline-block;
+  height: 200px;
+  overflow: hidden;
+  margin: 20px;
+}
+
+.closet:hover {
+  background-color: scale-color(white, $lightness: -2%);
+  transition: all .15s ease;
+  .closet-description {
+    background-color: scale_color($closet-description-background-color, $lightness: -8%);
+  }
+}
+
+.closet-description {
+  position: absolute;
+  text-align: center;
+  background-color: $closet-description-background-color;
+  width: inherit;
+
+  span {
+    padding: 0 8px;
+    margin: 4px;
+  }
+}
+
+.closet-image {
+  display: inline-flex;
+  padding: 10px;
+}

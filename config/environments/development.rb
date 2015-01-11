@@ -13,8 +13,13 @@ Showspace::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # config.cache_store = :null_store
+
   # Raise exception if there is sending error
   config.action_mailer.raise_delivery_errors = true
+
+  # http://brewhouse.io/blog/2013/12/17/whats-new-in-rails-4-1.html
+  config.action_mailer.preview_path = "spec/mailers/previews/"
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -27,10 +32,20 @@ Showspace::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # The :test delivery method accumulates sent emails in the
+  # ActionMailer::Base.deliveries array.
+  config.action_mailer.delivery_method = :test
+
   config.action_mailer.default_url_options = { host: 'localhost.com:3000' }
 
   # for serving images from local
-  config.serve_static_assets = true
+  config.serve_static_files = true
+
+  # Automatically inject JavaScript needed for LiveReload
+ config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
+
+  # queue adapter (defaults to inline)
+  config.active_job.queue_adapter = :resque
 end
 
 

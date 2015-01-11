@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
 
   before_filter :item_live?, only: [:show]
 
+
   def index
     @closets_item = ClosetsItem.new
     @items = handle_search.where(state: 1).includes(:images).page(params[:page]).per(27)
@@ -11,6 +12,10 @@ class ItemsController < ApplicationController
     @closets_item = ClosetsItem.new
     @item = Item.friendly.find(params[:id])
     @like = @item.likes.build
+    respond_to do |format|
+      format.html
+      format.js { render file: "items/show" }
+    end
   end
 
 
