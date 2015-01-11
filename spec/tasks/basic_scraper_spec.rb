@@ -13,10 +13,10 @@ RSpec.describe 'Basic Scraper' do
   context "#open_url" do
     describe "valid url" do
       it "fetches DOM" do
-        VCR.use_cassette('valid_url')do
+        # VCR.use_cassette('valid_url')do
           site = basic_scraper.open_url(VALID_URL)
           expect(site.class).to eq(Nokogiri::HTML::Document)
-        end
+        # end
       end
     end
 
@@ -39,20 +39,20 @@ RSpec.describe 'Basic Scraper' do
 
     describe "url not image" do
       it "returns ImageMagickError" do
-        VCR.use_cassette('valid_url') do
+        # VCR.use_cassette('valid_url') do
           file = basic_scraper.get_image(VALID_URL)
           expect(file).to eq("get_image ImageMagickError: bad image format - #{VALID_URL}")
-        end
+        # end
       end
     end
 
     describe "valid url" do
       it "returns file" do
         puts "TODO - cassette not compatible with image"
-        VCR.use_cassette('valid_image_url') do
+        # VCR.use_cassette('valid_image_url') do
           file = basic_scraper.get_image(VALID_IMAGE_URL)
           expect(file).to be_kind_of(Magick::Image)
-        end
+        # end
       end
     end
   end
