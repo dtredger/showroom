@@ -25,7 +25,7 @@ class Item < ActiveRecord::Base
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  enum state: [:pending, :live, :retired, :banned, :deleted]
+  enum state: [:incomplete, :pending, :live, :retired, :banned, :deleted]
 
   has_and_belongs_to_many :closets
   has_many :users, through: :closets

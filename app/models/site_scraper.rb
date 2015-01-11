@@ -43,11 +43,13 @@ class SiteScraper < ActiveRecord::Base
         # Don't need the others, but blank product_link is deal-breaker
         product_link = item.at_css(self.index_product_link_selector)[:href]
         saved = Item.create(
+            store_name: self.store_name,
             product_link: product_link,
             product_name: product_name,
             price_cents: price_to_cents(price),
             designer: designer,
-            category1: category
+            category1: category,
+            state: "incomplete"
         )
         results_log[:success] += 1
         success_log << saved.id

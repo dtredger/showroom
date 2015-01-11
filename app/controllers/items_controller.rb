@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
 
   def index
     @closets_item = ClosetsItem.new
-    @items = handle_search.where(state: 1).includes(:images).page(params[:page]).per(27)
+    @items = handle_search.where(state: 2).includes(:images).page(params[:page]).per(27)
   end
 
   def show
@@ -39,7 +39,7 @@ class ItemsController < ApplicationController
   end
 
   def item_live?
-    redirect_to(root_path) if Item.where(state:1).find_by_slug(params[:id]).nil?
+    redirect_to(root_path) if Item.where(state:2).find_by_slug(params[:id]).nil?
   end
 
 end
