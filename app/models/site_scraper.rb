@@ -37,12 +37,12 @@ class SiteScraper < ActiveRecord::Base
     items.each do |item|
       # log errors but keep going with other rows
       begin
-        product_name = self.index_product_name_selector.present? ? item.at_css(self.index_product_name_selector).text.strip : ""
-        designer = self.index_designer_selector.present? ? item.at_css(self.index_designer_selector).text.strip.upcase : ""
-        category = self.index_category_selector.present? ? item.at_css(self.index_category_selector) : ""
-        price = self.index_price_cents_selector.present? ? item.at_css(self.index_price_cents_selector).text : ""
+        product_name = self.index_product_name_selector.present? ? eval("item.#{self.index_product_name_selector}") : ""
+        designer = self.index_designer_selector.present? ? eval("item.#{self.index_designer_selector}") : ""
+        category = self.index_category_selector.present? ? eval("item.#{self.index_category_selector}") : ""
+        price = self.index_price_cents_selector.present? ? eval("item.#{self.index_price_cents_selector}") : ""
         # Don't need the others, but blank product_link is deal-breaker
-        product_link = item.at_css(self.index_product_link_selector)[:href]
+        product_link = eval("item.#{self.index_product_link_selector}")
         saved = Item.create(
             store_name: self.store_name,
             product_link: product_link,
@@ -66,10 +66,15 @@ class SiteScraper < ActiveRecord::Base
   def scrape_detail_page(product)
     page = open_url(product[:product_link])
     new_fields = { state: "pending" }
-    %w(product_name description designer price_cents currency category sku image_source).each do |field|
-      new_fields["#{field}".to_sym] = self["detail_#{field}_selector".to_sym].present? ? page.css(self["detail_#{field}_selector".to_sym]) : ""
+    %w(product_name description designer currency sku).each do |field|
+      new_fields["#{field}".to_sym] = self["detail_#{field}_selector".to_sym].present? ? eval("page.#{self["detail_#{field}_selector".to_sym]}") : ""
     end
+    # TODO - someday we will get rid of category1, category2, category3
+    new_fields[:category1] = self.index_category_selector.present? ? eval("page.#{self.detail_category_selector}") : ""
+    image_array = self.detail_image_source_selector.present? ? eval("page.#{self.detail_image_source_selector}") : ""
     product.update(new_fields)
+    save_images(product, [image_array], true)
   end
+
 
 end
