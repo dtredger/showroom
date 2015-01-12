@@ -5,7 +5,7 @@ class ProductCheckJob < ActiveJob::Base
     # state 1 is live (friendly_finder for where not set up)
     errors = []
 
-    Item.all.where(state: 1).each do |item|
+    Item.all.live.each do |item|
       begin
         item_link = Net::HTTP.get(URI.parse(item.product_link))
         if item_link
