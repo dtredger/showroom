@@ -19,6 +19,7 @@
 #  index_category_selector      :string
 #  index_item_group_selector    :string
 #  index_price_cents_selector   :string
+#  sku                          :string
 #
 
 class SiteScraper < ActiveRecord::Base
@@ -62,22 +63,13 @@ class SiteScraper < ActiveRecord::Base
     [results_log, success_log, errors_log]
   end
 
-  # def scrape_detail_page(product)
-  #   begin
-  #     product_page = open_url(product[:product_link])
-  #
-  #     product.store(:description, product_page.css(".product-description").css("p").text.strip)
-  #
-  #     image_node_array = product_page.css(".product-thumbnail").css("img")
-  #     image_array = []
-  #     image_node_array.each { |img| image_array << img[:src] }
-  #     product.store(:image_source_array, image_array)
-  #     response = product
-  #   rescue Exception => e
-  #     response = "scrape_product_page error: #{e}"
-  #   end
-  #   response
-  # end
-
+  def scrape_detail_page(product)
+    page = open_url(product[:product_link])
+    new_fields = { state: "pending" }
+    %w(product_name description designer price_cents currency category sku image_source).each do |field|
+      new_fields["#{field}".to_sym] = self["detail_#{field}_selector".to_sym].present? ? page.css(self["detail_#{field}_selector".to_sym]) : ""
+    end
+    product.update(new_fields)
+  end
 
 end
