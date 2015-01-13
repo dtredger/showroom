@@ -7,7 +7,7 @@ ActiveAdmin.register DuplicateWarning do
 
   scope("Identical Match")  { |scope| scope.where(match_score: 330..9999) }
 
-  filter :pending_item, collection: Item.joins(:duplicate_warnings).collect { |i| "#{i.designer} - #{i.product_name} - $#{i.price_cents/100}" }
+  filter :pending_item, collection: Item.joins(:duplicate_warnings).collect { |i| "#{i.designer} - #{i.product_name} - $#{i.price_cents}" }
   filter :warning_notes
   filter :created_at
   filter :updated_at

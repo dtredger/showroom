@@ -1,25 +1,32 @@
 class ProductCheckJob < ActiveJob::Base
   queue_as :daily_live_product_check
 
-  def perform(*args)
-    # state 1 is live (friendly_finder for where not set up)
+  def perform(store_name)
+    price_changed = []
+    unchanged = []
     errors = []
 
-    Item.all.live.each do |item|
-      begin
-        item_link = Net::HTTP.get(URI.parse(item.product_link))
-        if item_link
-          item.update(updated_at: Time.now)
-        else
-          item.update(state: "retired")
-        end
-      rescue Exception => e
-        errors << e
-        item.update(state: "retired")
+    scraper = SiteScraper.where(store_name: store_name).order('updated_at DESC').first
+    selector = scraper[:detail_price_cents_selector]
+    items = Item.where(store_name: store_name).where(state: "live")
+
+    items.each do |item|
+      result = item.check_price(selector)
+      if result.first == :price_change
+        price_changed << results.last
+      elsif result.first == :unchanged
+        unchanged << results.last
+      else
+        errors << results.last
       end
     end
-    errors
+
+    [ price_changed, unchanged, errors ]
+
   end
+
+
+
 
 
 end
