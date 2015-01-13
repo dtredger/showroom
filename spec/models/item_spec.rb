@@ -212,6 +212,10 @@ RSpec.describe Item, :type => :model do
     pending
   end
 
+  describe "#check_price" do
+    pending
+  end
+
 
 
 end

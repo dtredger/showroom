@@ -58,7 +58,9 @@ task scrape_tresbien: :environment do
         detail_product_name_selector: "",
         detail_description_selector: "",
         detail_designer_selector: "at_css('.product-designer')",
-        detail_price_cents_selector: "at_css('.product-price')",
+          # TODO - should be new- and old-price selectors
+          detail_price_cents_selector: "at_css('.special-price .price')",
+          old_price: "at_css('.old-price .price')"
         detail_currency_selector: "",
         detail_image_source_selector: "css('img').first['data-src']",
         detail_category_selector: ""

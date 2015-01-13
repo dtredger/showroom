@@ -22,6 +22,8 @@
 
 class Item < ActiveRecord::Base
 
+  include PriceCheckable
+
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 

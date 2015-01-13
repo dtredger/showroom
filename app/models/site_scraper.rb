@@ -72,6 +72,8 @@ class SiteScraper < ActiveRecord::Base
     # TODO - someday we will get rid of category1, category2, category3
     new_fields[:category1] = self.index_category_selector.present? ? eval("page.#{self.detail_category_selector}") : ""
     image_array = self.detail_image_source_selector.present? ? eval("page.#{self.detail_image_source_selector}") : ""
+    # TODO - having items created in initial scrape means check_for_duplicate runs then,
+    # not now, when it would actually be useful
     product.update(new_fields)
     save_images(product, [image_array], true)
   end
