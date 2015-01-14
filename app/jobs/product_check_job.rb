@@ -1,32 +1,35 @@
-class ProductCheckJob < ActiveJob::Base
-  queue_as :daily_live_product_check
+class ProductCheckJob
 
-  def perform(store_name)
-    price_changed = []
-    unchanged = []
-    errors = []
+  LOG = Logger.new 'log/resque.log'
 
-    scraper = SiteScraper.where(store_name: store_name).order('updated_at DESC').first
-    selector = scraper[:detail_price_cents_selector]
-    items = Item.where(store_name: store_name).where(state: "live")
+  def self.perform(store_name)
+    LOG.debug "SELF"
+    begin
+      price_changed = []
+      unchanged = []
+      errors = []
 
-    items.each do |item|
-      result = item.check_price(selector)
-      if result.first == :price_change
-        price_changed << results.last
-      elsif result.first == :unchanged
-        unchanged << results.last
-      else
-        errors << results.last
+      scraper = SiteScraper.where(store_name: store_name).order('updated_at DESC').first
+      selector = scraper[:detail_price_cents_selector]
+      items = Item.live.where(store_name: store_name)
+
+      items.each do |item|
+        result = item.check_price(selector)
+        if result.first == :price_change
+          price_changed << result.last
+        elsif result.first == :unchanged
+          unchanged << result.last
+        else
+          errors << result.last
+        end
       end
+      LOG.debug "seems to work..."
+      LOG.debug [ price_changed, unchanged, errors ]
+      [ price_changed, unchanged, errors ]
+    rescue Exception => e
+      LOG.debug e
     end
-
-    [ price_changed, unchanged, errors ]
-
   end
-
-
-
 
 
 end
