@@ -1,9 +1,9 @@
 class ProductCheckJob
 
-  LOG = Logger.new 'log/resque.log'
+  PRODUCT_CHECK_LOGGER = Logger.new 'log/product_check.log'
 
   def self.perform(store_name)
-    LOG.debug "SELF"
+    PRODUCT_CHECK_LOGGER.debug "ran at #{Time.now}"
     begin
       price_changed = []
       unchanged = []
@@ -23,11 +23,17 @@ class ProductCheckJob
           errors << result.last
         end
       end
-      LOG.debug "seems to work..."
-      LOG.debug [ price_changed, unchanged, errors ]
+
+      PRODUCT_CHECK_LOGGER.debug "price_changed:"
+      PRODUCT_CHECK_LOGGER.debug price_changed
+      PRODUCT_CHECK_LOGGER.debug "unchanged:"
+      PRODUCT_CHECK_LOGGER.debug unchanged
+      PRODUCT_CHECK_LOGGER.debug "errors:"
+      PRODUCT_CHECK_LOGGER.debug errors
+
       [ price_changed, unchanged, errors ]
     rescue Exception => e
-      LOG.debug e
+      PRODUCT_CHECK_LOGGER.debug e
     end
   end
 

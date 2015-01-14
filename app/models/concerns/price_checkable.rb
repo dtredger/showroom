@@ -1,9 +1,11 @@
 module PriceCheckable
   extend ActiveSupport::Concern
 
-  # include Scrapeable
+  include Scrapeable
 
   def check_price(selector)
+
+    log = Logger.new 'log/product_check.log'
     item = self
     begin
       page = open_url(item[:product_link])
@@ -17,6 +19,7 @@ module PriceCheckable
         result = [:unchanged, item.id]
       end
     rescue Exception => e
+      log.debug "price_check error: #{e}"
       item.update(state: "retired")
       result = [:error, item.id]
     end
