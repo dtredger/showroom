@@ -7,3 +7,8 @@ ProductCheckJob:
   args: tresbien
   description: product_check job, with the store_name hardcoded
                # to tresbien, and must be manually queued
+
+StoreScrapeJob:
+  every: 100s
+  queue: daily_store_scrape
+  args: tresbien

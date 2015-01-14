@@ -26,8 +26,9 @@ class SiteScraper < ActiveRecord::Base
 
   include Scrapeable
 
-  def scrape_index(html_dom, is_test=false)
-    items = html_dom.css(self.index_item_group_selector)
+  def scrape_index(page_url, is_test=false)
+    html_dom = open_url(page_url)
+    items = eval("html_dom.#{self.index_item_group_selector}")
     items = items[-3..-1] if is_test
 
     results_log = { success: 0, failure: 0 }
@@ -43,6 +44,12 @@ class SiteScraper < ActiveRecord::Base
         price = self.index_price_cents_selector.present? ? eval("item.#{self.index_price_cents_selector}") : ""
         # Don't need the others, but blank product_link is deal-breaker
         product_link = eval("item.#{self.index_product_link_selector}")
+        if product_link[0..3] != "http"
+          if self.store_name == "tresbien"
+            product_link = "http://tres-bien.com#{product_link}"
+          end
+        end
+
         saved = Item.create(
             store_name: self.store_name,
             product_link: product_link,

@@ -47,13 +47,14 @@ task scrape_tresbien: :environment do
   if scraper.blank?
     scraper = SiteScraper.new(
         store_name: "tresbien",
+        # TODO - add site root, ie http://tresbien.com
         # index page selectors
-        index_item_group_selector: "at_css('li.rect')",
-        index_product_name_selector: "at_css('h2.product-name').text.strip",
-        index_designer_selector: "",
-        index_category_selector: "",
-        index_product_link_selector: ".at_css('a')[:href]",
-        index_price_cents_selector: "at_css('.regular-price').text",
+        index_item_group_selector: "css('li.rect')",
+          index_product_name_selector: "at_css('h2.product-name').text.strip",
+          index_designer_selector: "",
+          index_category_selector: "",
+          index_product_link_selector: "at_css('a')[:href]",
+          index_price_cents_selector: "css('span').text.strip.split(' ').last",
         # detail page selectors
         detail_product_name_selector: "",
         detail_description_selector: "",
