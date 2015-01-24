@@ -55,15 +55,23 @@ module Scrapeable
     complete_file_path
   end
 
-  def save_images(parent, image_urls, skip_resize=false)
+  def save_images(image_urls, skip_resize=false)
+    success = []
+    errors = []
     image_urls.each do |img|
-      unless skip_resize
-        magick_img = get_image(img)
-        img = resize_image(magick_img)
+      begin
+        unless skip_resize
+          magick_img = get_image(img)
+          img = resize_image(magick_img)
+        end
+        response = Image.create(item_id: self.id, source: open(img))
+        success << response.id
+        File.delete(img_path) if File.exist?(img_path) unless skip_resize
+      rescue Exception => e
+        errors << e
       end
-      parent.images.create(source: open(img))
-      File.delete(img_path) if File.exist?(img_path) unless skip_resize
     end
+    [success, errors]
   end
 
 
