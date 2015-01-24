@@ -15,7 +15,8 @@ ActiveAdmin.register SiteScraper do
     :detail_price_cents_selector,
     :detail_currency_selector,
     :detail_image_source_selector,
-    :detail_category_selector
+    :detail_category_selector,
+    :page_urls
 
   index do
     selectable_column

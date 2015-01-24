@@ -20,6 +20,7 @@
 #  index_item_group_selector    :string
 #  index_price_cents_selector   :string
 #  sku                          :string
+#  page_urls                    :text
 #
 
 FactoryGirl.define do

@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150112012022) do
+ActiveRecord::Schema.define(version: 20150124210908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -127,6 +128,7 @@ ActiveRecord::Schema.define(version: 20150112012022) do
     t.string   "index_item_group_selector"
     t.string   "index_price_cents_selector"
     t.string   "sku"
+    t.text     "page_urls"
   end
 
   create_table "users", force: :cascade do |t|

@@ -32,3 +32,6 @@
 
 #all generated documentation
 /doc
+
+# pipe down in there, redis
+stdout

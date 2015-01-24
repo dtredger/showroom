@@ -63,7 +63,7 @@ task scrape_tresbien: :environment do
           detail_price_cents_selector: "at_css('.special-price .price').text.strip",
           # old_price: "at_css('.old-price .price')",
         detail_currency_selector: "",
-        detail_image_source_selector: "css('img').first['data-src']",
+        detail_image_source_selector: "at_css('.action-image-active')[:src]",
         detail_category_selector: ""
     )
   end
