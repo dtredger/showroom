@@ -19,7 +19,7 @@ module PriceCheckable
         result = [:unchanged, item.id]
       end
     rescue Exception => e
-      log.debug "price_check error: #{e}"
+      log.error "price_check error: #{e}"
       item.update(state: "retired")
       result = [:error, item.id]
     end

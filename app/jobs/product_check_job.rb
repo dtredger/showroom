@@ -24,16 +24,16 @@ class ProductCheckJob
         end
       end
 
-      PRODUCT_CHECK_LOGGER.debug "price_changed:"
-      PRODUCT_CHECK_LOGGER.debug price_changed
-      PRODUCT_CHECK_LOGGER.debug "unchanged:"
-      PRODUCT_CHECK_LOGGER.debug unchanged
-      PRODUCT_CHECK_LOGGER.debug "errors:"
-      PRODUCT_CHECK_LOGGER.debug errors
+      PRODUCT_CHECK_LOGGER.info "price_changed:"
+      PRODUCT_CHECK_LOGGER.info price_changed
+      PRODUCT_CHECK_LOGGER.info "unchanged:"
+      PRODUCT_CHECK_LOGGER.info unchanged
+      PRODUCT_CHECK_LOGGER.error "errors:"
+      PRODUCT_CHECK_LOGGER.error errors
 
       [ price_changed, unchanged, errors ]
     rescue Exception => e
-      PRODUCT_CHECK_LOGGER.debug e
+      PRODUCT_CHECK_LOGGER.error e
     end
   end
 
