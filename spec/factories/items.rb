@@ -64,4 +64,18 @@ FactoryGirl.define do
     end
   end
 
+  factory :incomplete_item, class: Item do
+    product_name "Aspesi Vodka Coat Anthracite"
+    description nil
+    designer ""
+    price_cents 62000
+    currency nil
+    store_name "tresbien"
+    product_link Rails.root.join("spec/factories/store_scrapes/tres_bien_detail/aspesi\ -\ vodka\ coat\ anthracite\ \ \ tres\ bien.html")
+    category1 ""
+    state "incomplete"
+    sku nil
+    slug "aspesi-vodka-coat-anthracite-9ba2023f-046b-41c6-9fb9-489616046157"
+  end
+
 end

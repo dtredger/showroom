@@ -72,6 +72,7 @@ class SiteScraper < ActiveRecord::Base
   end
 
   def self.scrape_detail_page(scraper, product)
+    new_fields = {}
     page = product.open_url(product[:product_link])
     %w(product_name description designer currency sku).each do |field|
       new_fields["#{field}".to_sym] = scraper["detail_#{field}_selector".to_sym].present? ? eval("page.#{scraper["detail_#{field}_selector".to_sym]}") : ""
