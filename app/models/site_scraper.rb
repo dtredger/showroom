@@ -75,26 +75,41 @@ class SiteScraper < ActiveRecord::Base
     new_fields = {}
     page = product.open_url(product[:product_link])
     %w(product_name description designer currency sku).each do |field|
-      new_fields["#{field}".to_sym] = scraper["detail_#{field}_selector".to_sym].present? ? eval("page.#{scraper["detail_#{field}_selector".to_sym]}") : ""
+      new_fields["#{field}".to_sym] = if scraper["detail_#{field}_selector".to_sym].present? then
+                                        eval("page.#{scraper["detail_#{field}_selector".to_sym]}")
+                                      else
+                                        ""
+                                      end
     end
 
     # TODO - someday we will get rid of category1, category2, category3
-    new_fields[:category1] = scraper.index_category_selector.present? ? eval("page.#{scraper.detail_category_selector}") : ""
-    image_array = scraper.detail_image_source_selector.present? ? eval("page.#{scraper.detail_image_source_selector}") : ""
+    new_fields[:category1] = if scraper.index_category_selector.present? then
+                               eval("page.#{scraper.detail_category_selector}")
+                             else
+                               ""
+                             end
+
+    image_array = if scraper.detail_image_source_selector.present? then
+                    eval("page.#{scraper.detail_image_source_selector}")
+                  else
+                    ""
+                  end
+
     # TODO - having items created in initial scrape means check_for_duplicate runs then,
     # not now, when it would actually be useful
-    result = product.update(new_fields)
-
-    # TODO scraper should return array
-    image_array = [image_array] unless image_array.is_a?(Array)
-    image_results = product.save_images(image_array, true)
-    unless product[:price_cents].blank? or product.images.count == 0
-      # TODO check more than this, before setting live
-      product.update(state:"pending")
+    if product.update(new_fields)
+      image_array = [image_array] unless image_array.is_a?(Array)
+      image_results = product.save_images(image_array, true)
+      unless product[:price_cents].blank? or product.images.count == 0
+        # TODO check more than this, before setting live
+        product.update(state:"pending")
+        return [:success, product.id]
+      end
+      [:no_image, product.id]
+    else
+      [:not_updated, product.id]
     end
-    [result, image_results]
-    # TODO - above is returning
-    # [[true, [[nil], []]], [true, [[nil], []]],...
+
   end
 
   def page_urls
