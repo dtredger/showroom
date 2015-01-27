@@ -41,6 +41,7 @@ class Item < ActiveRecord::Base
   # any way of finding them (calling destroy on image alone does remove...)
   has_many :images, dependent: :destroy
 
+  validates_uniqueness_of :product_link
 
   # Virtual attribute
   attr_accessor :old_item_update
@@ -56,11 +57,8 @@ class Item < ActiveRecord::Base
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
+  # before_create :check_existing_product_urls
 
-  # TODO - "In Rails 4.1 delete_all on associations would not fire callbacks. It means if the
-  # :dependent option is :destroy then the associated records would be deleted without loading and invoking callbacks."
-  after_create :check_for_duplicate
-  after_save :perform_item_management_operation, :handle_state
   after_destroy :delete_duplicate_warnings
 
 
@@ -73,43 +71,14 @@ class Item < ActiveRecord::Base
   end
 
 
-
-  # either delete doesn't work properly or problem with image transfer?
-  def perform_item_management_operation
-    if old_item_update.present?
-
-      # update the older item with the attributes of the newer item (duplicate)
-      other_item = Item.find(old_item_update)
-      other_item_image_path = 'public' + other_item.image_source
-
-
-      # http://stackoverflow.com/questions/10112946/nice-way-to-merge-copy-attributes-between-two-activerecord-classes
-      # no :without_protection => true in rails 4 for assign?
-      # http://stackoverflow.com/questions/6770350/rails-update-attributes-without-save
-      # update_attributes = assign_attributes + save
-      # SIMPLY UPDATE EACH ATTRIBUTE DIRECTLY
-      # a.attrib = b.attrib
-      # a.save
-      forbidden_attributes = ["id", "state", "created_at", "category1", "category2", "category3", "image_source"]
-
-      self.attributes.select do |attrib, val|
-        if !forbidden_attributes.include?(attrib) && Item.column_names.include?(attrib)
-          # http://www.davidverhasselt.com/set-attributes-in-activerecord/
-          other_item.update_attribute(attrib, val)
-        end
-      end
-
-
-      # copy the image too
-      newer_item_image_path = 'public' + self.image_source
-      FileUtils.move newer_item_image_path, other_item_image_path if File.exist?(newer_item_image_path)
-      self.destroy
+  def check_existing_product_urls
+    store_urls = Item.where(store_name: self.store_name).all.map(&:product_link)
+    if store_urls.include? self.product_link
+      self.errors.add(:base, "product with this link already exists.")
+      false
     end
   end
 
-  def handle_state
-    self.destroy if state == 4
-  end
 
   # TODO - delete warning once one of matches is deleted
   # deletes matches where item is existing or pending item

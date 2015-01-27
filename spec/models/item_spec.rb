@@ -56,6 +56,27 @@ RSpec.describe Item, :type => :model do
     end
   end
 
+  describe "validations" do
+    describe "product_link" do
+      let!(:incomplete_item) { create(:incomplete_item) }
+
+      context "new url" do
+        it "saves product" do
+          different = FactoryGirl.build(:incomplete_item,
+                                         product_link: "something invalid but different")
+          expect(different.valid?).to eq true
+        end
+      end
+
+      context "duplicate url" do
+        it "does not save product" do
+          duplicate = FactoryGirl.build(:incomplete_item)
+          expect(duplicate.valid?).to eq false
+        end
+      end
+    end
+  end
+
   describe "#check_for_duplicate" do
     context "different store" do
       it "does not create warning" do
@@ -199,24 +220,8 @@ RSpec.describe Item, :type => :model do
   end
 
   describe "#slug_candidates" do
-
-  end
-
-
-
-  describe "#monetize" do
     pending
   end
-
-  describe "#perform_item_management_operation" do
-    pending
-  end
-
-  describe "#check_price" do
-    pending
-  end
-
-
 
 end
 
