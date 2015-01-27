@@ -12,8 +12,12 @@ module Scrapeable
   RESIZE_HEIGHT = 400
 
 
-  def open_url(page_url)
-    Nokogiri::HTML(open(page_url))
+  def open_url(page_url=nil)
+    if self.respond_to? :product_link
+      Nokogiri::HTML(open(self.product_link))
+    else
+      Nokogiri::HTML(open(page_url))
+    end
   end
 
 

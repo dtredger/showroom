@@ -7,7 +7,7 @@ module PriceCheckable
 
     item = self
     begin
-      page = open_url(item[:product_link])
+      page = item.open_url
       new_price = eval("page.#{selector}")
       new_price_cents = price_to_cents(new_price)
       if item[:price_cents] != new_price_cents

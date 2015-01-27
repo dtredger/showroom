@@ -12,7 +12,6 @@ class ProductCheckJob
       scraper = SiteScraper.where(store_name: store_name).order('updated_at DESC').first
       selector = scraper[:detail_price_cents_selector]
       items = Item.live.where(store_name: store_name)
-
       items.each do |item|
         result = item.check_price(selector)
         if result.first == :price_change
