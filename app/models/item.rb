@@ -22,10 +22,13 @@
 
 class Item < ActiveRecord::Base
 
+  include PriceCheckable
+
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  enum state: [:pending, :live, :retired, :banned, :deleted]
+  enum state: {incomplete: 0, pending: 1, live: 2, retired: 3,
+               banned: 4, deleted: 5}
 
   has_and_belongs_to_many :closets
   has_many :users, through: :closets
@@ -166,5 +169,6 @@ class Item < ActiveRecord::Base
       end
     end
   end
+
 
 end

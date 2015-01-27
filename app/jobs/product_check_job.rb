@@ -1,24 +1,39 @@
-class ProductCheckJob < ActiveJob::Base
-  queue_as :daily_live_product_check
+class ProductCheckJob
 
-  def perform(*args)
-    # state 1 is live (friendly_finder for where not set up)
-    errors = []
+  PRODUCT_CHECK_LOGGER = Logger.new 'log/product_check.log'
 
-    Item.all.where(state: 1).each do |item|
-      begin
-        item_link = Net::HTTP.get(URI.parse(item.product_link))
-        if item_link
-          item.update(updated_at: Time.now)
+  def self.perform(store_name)
+    PRODUCT_CHECK_LOGGER.debug "ran at #{Time.now}"
+    begin
+      price_changed = []
+      unchanged = []
+      errors = []
+
+      scraper = SiteScraper.where(store_name: store_name).order('updated_at DESC').first
+      selector = scraper[:detail_price_cents_selector]
+      items = Item.live.where(store_name: store_name)
+      items.each do |item|
+        result = item.check_price(selector)
+        if result.first == :price_change
+          price_changed << result.last
+        elsif result.first == :unchanged
+          unchanged << result.last
         else
-          item.update(state: "retired")
+          errors << result.last
         end
-      rescue Exception => e
-        errors << e
-        item.update(state: "retired")
       end
+
+      PRODUCT_CHECK_LOGGER.info "price_changed:"
+      PRODUCT_CHECK_LOGGER.info price_changed
+      PRODUCT_CHECK_LOGGER.info "unchanged:"
+      PRODUCT_CHECK_LOGGER.info unchanged
+      PRODUCT_CHECK_LOGGER.error "errors:"
+      PRODUCT_CHECK_LOGGER.error errors
+
+      [ price_changed, unchanged, errors ]
+    rescue Exception => e
+      PRODUCT_CHECK_LOGGER.error e
     end
-    errors
   end
 
 

@@ -1,8 +1,28 @@
 # crontab syntax http://en.wikipedia.org/wiki/Cron
 
-RealJob:
-  every: 60s
-#  class: SendAlertText
-  queue: queue_in_the_schedule
-  args: cats dogs fishsticks
-#  description: Runs the perform method in TestSchedule (naming it TestSchedule should make class implicit)
+ProductCheckJob:
+  every: 100s
+  class: ProductCheckJob
+  queue: live_product_check
+  args: tresbien
+  description: product_check job, with the store_name hardcoded
+               # to tresbien, and must be manually queued
+
+IndexScrapeJob:
+  every: 100s
+  queue: index_store_scrape
+  args: tresbien
+
+DetailScrapeJob:
+  every: 100s
+  queue: detail_store_scrape
+  args: tresbien
+
+
+TestIndexScrapeJob:
+  every: 100y
+  class: IndexScrapeJob
+  queue: test_index_store_scrape
+  args: test
+  description: test index_store_scrape with local file
+               # to tresbien, and must be manually queued
