@@ -126,6 +126,7 @@ class SiteScraper < ActiveRecord::Base
     if product.update(new_fields)
       image_array = [image_array] unless image_array.is_a?(Array)
       image_results = product.save_images(image_array, true)
+
       unless product[:price_cents].blank? or product.images.count == 0
         # TODO check more than this, before setting live
         product.update(state:"pending")
