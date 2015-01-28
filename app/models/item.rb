@@ -41,8 +41,6 @@ class Item < ActiveRecord::Base
   # any way of finding them (calling destroy on image alone does remove...)
   has_many :images, dependent: :destroy
 
-  validates_uniqueness_of :product_link
-
   # Virtual attribute
   attr_accessor :old_item_update
 
@@ -57,6 +55,11 @@ class Item < ActiveRecord::Base
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
+
+  validates_uniqueness_of :product_link
+
+  after_update :check_for_duplicate
+
   after_destroy :delete_duplicate_warnings
 
 
@@ -67,7 +70,6 @@ class Item < ActiveRecord::Base
         [:designer, :product_name, :store_name, :category1 ]
     ]
   end
-
 
 
   # TODO - delete warning once one of matches is deleted
@@ -98,10 +100,6 @@ class Item < ActiveRecord::Base
         if self.sku == check_item.sku
           score += 100
           notes += "sku, "
-        end
-        if self.product_link == check_item.product_link
-          score += 90
-          notes += "product_link, "
         end
         if self.product_name == check_item.product_name
           score += 70

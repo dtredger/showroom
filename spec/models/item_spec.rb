@@ -45,7 +45,7 @@ RSpec.describe Item, :type => :model do
 
   describe "#enum" do
     context "find" do
-      let(:retired_item) { FactoryGirl.create(:unique_item, state: 2) }
+      let(:retired_item) { FactoryGirl.create(:unique_item, state: 3) }
       it("findable by status int") { expect(Item.where(state: 3)).to include(retired_item) }
       it("findable by status name") { expect(Item.retired).to include(retired_item) }
     end
@@ -80,45 +80,46 @@ RSpec.describe Item, :type => :model do
   describe "#check_for_duplicate" do
     context "different store" do
       it "does not create warning" do
-        new_item = FactoryGirl.create(:item, store_name: "something else")
+        new_item = FactoryGirl.create(:unique_item, store_name: "something else")
+        new_item.update(description: 'changed')
         expect(new_item.duplicate_warnings).to be_empty
       end
     end
 
     context "same store" do
-      describe "identical items" do
-        let!(:new_item) { FactoryGirl.create(:item) }
+      describe "identical items except for product_link" do
+        let!(:new_item) { FactoryGirl.create(:item, product_link: "has to be different") }
+        before { new_item.update(description: 'changed') }
+
         it("creates duplicate_warning") { expect(new_item.duplicate_warnings.length).to eq(1) }
-        it("assigns match_score 330") { expect(new_item.duplicate_warnings.first[:match_score]).to eq(330) }
+        it("assigns match_score 240") { expect(new_item.duplicate_warnings.first[:match_score]).to eq(240) }
         it "warning_notes reference fields" do
-          expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("sku, product_link, product_name, price, designer, category")
+          expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("sku, product_name, price, designer, category")
         end
       end
 
       describe "unique items" do
         it "does not create warning" do
-          new_item = FactoryGirl.create(:item_1_store)
+          new_item = FactoryGirl.create(:unique_item)
+          new_item.update(description: 'changed')
           expect(new_item.duplicate_warnings).to be_empty
         end
       end
 
       context "major match criteria" do
         describe "sku match" do
-          let(:new_item) { FactoryGirl.create(:item_1_store, sku: "item_one sku") }
+          let(:new_item) { FactoryGirl.create(:unique_item) }
+          before { new_item.update(store_name: "item_one store", sku: "item_one sku") }
+
           it { expect(new_item.duplicate_warnings.length).to eq(1) }
           it { expect(new_item.duplicate_warnings.first[:match_score]).to eq(100) }
           it { expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("sku") }
         end
 
-        describe "product_link match" do
-          let(:new_item) { FactoryGirl.create(:item_1_store, product_link: "http://item_one-link") }
-          it { expect(new_item.duplicate_warnings.length).to eq(1) }
-          it { expect(new_item.duplicate_warnings.first[:match_score]).to eq(90) }
-          it { expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("product_link") }
-        end
-
         describe "product_name match" do
-          let(:new_item) { FactoryGirl.create(:item_1_store, product_name: "item_one product name") }
+          let(:new_item) { FactoryGirl.create(:unique_item) }
+          before { new_item.update(store_name: "item_one store", product_name: "item_one product name") }
+
           it { expect(new_item.duplicate_warnings.length).to eq(1) }
           it { expect(new_item.duplicate_warnings.first[:match_score]).to eq(70) }
           it { expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("product_name") }
@@ -128,21 +129,27 @@ RSpec.describe Item, :type => :model do
       context "minor match criteria" do
         describe "designer match" do
           it "does not create warning" do
-            new_item = FactoryGirl.create(:item_1_store, designer: "item_one designer")
+            new_item = FactoryGirl.create(:unique_item, designer: "item_one designer")
+            new_item.update(description: 'changed')
+
             expect(new_item.duplicate_warnings).to be_empty
           end
         end
 
         describe "price match" do
           it "does not create warning" do
-            new_item = FactoryGirl.create(:item_1_store, price_cents: 100)
+            new_item = FactoryGirl.create(:unique_item, price_cents: 100)
+            new_item.update(description: 'changed')
+
             expect(new_item.duplicate_warnings).to be_empty
           end
         end
 
         describe "category match" do
           it "does not create warning" do
-            new_item = FactoryGirl.create(:item_1_store, category1: "item_one category")
+            new_item = FactoryGirl.create(:unique_item, category1: "item_one category")
+            new_item.update(description: 'changed')
+
             expect(new_item.duplicate_warnings).to be_empty
           end
         end
@@ -150,11 +157,14 @@ RSpec.describe Item, :type => :model do
         context "multiple matches" do
           describe "designer, price, and category match" do
             let(:new_item) do
-              FactoryGirl.create(:item_1_store,
+              FactoryGirl.create(:unique_item,
+                  store_name: "item_one store",
                   designer: "item_one designer",
                   price_cents: 100,
                   category1: "item_one category")
             end
+            before { new_item.update(description: 'changed') }
+
             it { expect(new_item.duplicate_warnings.length).to eq(1) }
             it("sums match score") { expect(new_item.duplicate_warnings.first[:match_score]).to eq(70) }
             it { expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("price, designer, category") }
@@ -191,7 +201,9 @@ RSpec.describe Item, :type => :model do
     context "multiple warnings" do
       before do
         new_item = FactoryGirl.create(:item)
+        new_item.update(description: "updated one!")
         new_item_2 = FactoryGirl.create(:item)
+        new_item_2.update(description: "updated two!")
         # new_item_2 will create two new warnings:
         # new_item_2 will be pending_item for both;
         # existing_item will be original_item (1) and new_item (1)

@@ -31,17 +31,19 @@ FactoryGirl.define do
     price_cents 100
     currency "USD"
     store_name "item_one store"
-    product_link "http://item_one-link.com"
+    sequence(:product_link) { |i| "http://site.com/item_#{i}" }
     category1 "item_one category"
     category2 nil
     category3 nil
     state "pending"
 
     factory :unique_item do
+      sequence(:category1) { |i| "cat #{i}" }
+      sequence(:price_cents) { |i| "{10#i}".to_i }
       sequence(:store_name) { |i| "unique store #{i}" }
       sequence(:product_name) { |i| "unique product #{i}" }
       sequence(:designer) { |i| "unique designer #{i}" }
-      sequence(:product_link) { |i| "http://site.com/item_#{i}" }
+      sequence(:sku) { |i| "some sku #{i}" }
     end
   end
 
