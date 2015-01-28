@@ -6,12 +6,16 @@ class ClosetsController < ApplicationController
     @closets = current_user.closets
 	end
 
-	def show
+	def show(modal=false)
 		@closet = Closet.includes(:items).where(id: params[:id]).first
 	end
 
-	def new
+	def new(modal=false)
 		@closet = Closet.new
+		respond_to do |format|
+			format.html
+			format.js { render 'closets/new' }
+		end
 	end
 
 	def create

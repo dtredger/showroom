@@ -1,6 +1,6 @@
 Showspace::Application.routes.draw do
 
-  # mount Resque::Server, :at => '/resque'
+  mount Resque::Server, :at => '/resque'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
     ActiveAdmin.routes(self)
@@ -57,7 +57,7 @@ Showspace::Application.routes.draw do
 
   resources :closets
 
-  resources :closets_items, only: [:create, :destroy]
+  resources :closets_items, only: [:new, :create, :destroy]
 
   #resources :duplicate_warnings
 

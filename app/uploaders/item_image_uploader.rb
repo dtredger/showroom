@@ -9,6 +9,8 @@ class ItemImageUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   ## set in initializers/carrierwave.rb
 
+  # process :resize_to_fit => [200, 200]
+
   # Override the directory where uploaded files will be stored.
   def store_dir
     store_name = model.item.store_name.blank? ? "NA" : model.item.store_name
@@ -19,7 +21,7 @@ class ItemImageUploader < CarrierWave::Uploader::Base
     # sanitize and truncate strings
     store_name = store_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(10, omission:"")
     designer = designer.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_')
-    product_name = product_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(10, omission:"")
+    product_name = product_name.gsub(' ', '_').gsub('%20', '_').gsub(/[^\.0-9a-z_-]/i, '_').truncate(20, omission:"")
 
     "items/#{store_name}/#{designer}/#{product_name}"
   end
@@ -46,9 +48,9 @@ class ItemImageUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
-  def extension_white_list
-    %w(jpg jpeg gif png)
-  end
+  # def extension_white_list
+  #   %w(jpg jpeg gif png)
+  # end
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.

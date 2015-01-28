@@ -31,16 +31,19 @@ FactoryGirl.define do
     price_cents 100
     currency "USD"
     store_name "item_one store"
-    product_link "http://item_one-link"
+    sequence(:product_link) { |i| "http://site.com/item_#{i}" }
     category1 "item_one category"
     category2 nil
     category3 nil
     state "pending"
 
     factory :unique_item do
+      sequence(:category1) { |i| "cat #{i}" }
+      sequence(:price_cents) { |i| "{10#i}".to_i }
       sequence(:store_name) { |i| "unique store #{i}" }
       sequence(:product_name) { |i| "unique product #{i}" }
       sequence(:designer) { |i| "unique designer #{i}" }
+      sequence(:sku) { |i| "some sku #{i}" }
     end
   end
 
@@ -61,6 +64,20 @@ FactoryGirl.define do
     factory :item_1_store do
       store_name "item_one store"
     end
+  end
+
+  factory :incomplete_item, class: Item do
+    product_name "Aspesi Vodka Coat Anthracite"
+    description nil
+    designer ""
+    price_cents 62000
+    currency nil
+    store_name "tresbien"
+    product_link Rails.root.join("spec/factories/store_scrapes/tres_bien_detail/aspesi\ -\ vodka\ coat\ anthracite\ \ \ tres\ bien.html")
+    category1 ""
+    state "incomplete"
+    sku nil
+    slug "aspesi-vodka-coat-anthracite-9ba2023f-046b-41c6-9fb9-489616046157"
   end
 
 end

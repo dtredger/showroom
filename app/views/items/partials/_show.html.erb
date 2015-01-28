@@ -17,13 +17,19 @@
     <div class="show-price"><%= humanized_money_with_symbol @item.price %> <%= @item.currency %></div>
     <div class="show-store">Available from: <%= @item.store_name %></div>
 
+    <!--TODO sharing-link, but remove modal=true, maybe add user-id?-->
+    <!--<input type="text" value=" %= request.url %>" name="share"/>-->
 
     <%= link_to 'Buy', @item.product_link, class: "button expand", id: "buy-button" %>
 
+    <!--TODO - this needs to be the same link as from the index page, causes-->
+    <!--bugginess and opens empty modal if modal hasn't been opened from index-->
     <a class="button expand" id="save-button" data-reveal-id="closet-modal">Save</a>
 
     <div class="show-product-description-header">DETAILS</div>
     <div class="show-product-description"><%= @item.description %></div>
   </div>
-  <a class="close-reveal-modal">&#215;</a>
+  <% if params[:modal] == "true" %>
+      <a class="close-reveal-modal">&#215;</a>
+  <% end %>
 </div>

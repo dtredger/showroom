@@ -1,0 +1,17 @@
+<div class="panel">
+  <h2>Create Closet</h2>
+
+  <%= form_for @closet do |f| %>
+      <%= f.label "Closet Name" %>
+      <%= f.text_field :title %>
+
+      <%= f.label "Description" %>
+      <%= f.text_area :summary %>
+
+      <%= f.submit "Create Closet", class: "button" %>
+  <% end %>
+</div>
+
+<% if params[:modal] == "true" %>
+    <a class="close-reveal-modal">&#215;</a>
+<% end %>

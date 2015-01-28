@@ -35,3 +35,6 @@
 
 #secret
 .secret
+
+# pipe down in there, redis
+stdout

@@ -22,10 +22,13 @@
 
 class Item < ActiveRecord::Base
 
+  include PriceCheckable
+
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  enum state: [:pending, :live, :retired, :banned, :deleted]
+  enum state: {incomplete: 0, pending: 1, live: 2, retired: 3,
+               banned: 4, deleted: 5}
 
   has_and_belongs_to_many :closets
   has_many :users, through: :closets
@@ -37,7 +40,6 @@ class Item < ActiveRecord::Base
   # TODO image files should be removed from s3: if they're just deleted, we lose
   # any way of finding them (calling destroy on image alone does remove...)
   has_many :images, dependent: :destroy
-
 
   # Virtual attribute
   attr_accessor :old_item_update
@@ -54,10 +56,10 @@ class Item < ActiveRecord::Base
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
 
-  # TODO - "In Rails 4.1 delete_all on associations would not fire callbacks. It means if the
-  # :dependent option is :destroy then the associated records would be deleted without loading and invoking callbacks."
-  after_create :check_for_duplicate
-  after_save :perform_item_management_operation, :handle_state
+  validates_uniqueness_of :product_link
+
+  after_update :check_for_duplicate
+
   after_destroy :delete_duplicate_warnings
 
 
@@ -69,44 +71,6 @@ class Item < ActiveRecord::Base
     ]
   end
 
-
-
-  # either delete doesn't work properly or problem with image transfer?
-  def perform_item_management_operation
-    if old_item_update.present?
-
-      # update the older item with the attributes of the newer item (duplicate)
-      other_item = Item.find(old_item_update)
-      other_item_image_path = 'public' + other_item.image_source
-
-
-      # http://stackoverflow.com/questions/10112946/nice-way-to-merge-copy-attributes-between-two-activerecord-classes
-      # no :without_protection => true in rails 4 for assign?
-      # http://stackoverflow.com/questions/6770350/rails-update-attributes-without-save
-      # update_attributes = assign_attributes + save
-      # SIMPLY UPDATE EACH ATTRIBUTE DIRECTLY
-      # a.attrib = b.attrib
-      # a.save
-      forbidden_attributes = ["id", "state", "created_at", "category1", "category2", "category3", "image_source"]
-
-      self.attributes.select do |attrib, val|
-        if !forbidden_attributes.include?(attrib) && Item.column_names.include?(attrib)
-          # http://www.davidverhasselt.com/set-attributes-in-activerecord/
-          other_item.update_attribute(attrib, val)
-        end
-      end
-
-
-      # copy the image too
-      newer_item_image_path = 'public' + self.image_source
-      FileUtils.move newer_item_image_path, other_item_image_path if File.exist?(newer_item_image_path)
-      self.destroy
-    end
-  end
-
-  def handle_state
-    self.destroy if state == 4
-  end
 
   # TODO - delete warning once one of matches is deleted
   # deletes matches where item is existing or pending item
@@ -137,10 +101,6 @@ class Item < ActiveRecord::Base
           score += 100
           notes += "sku, "
         end
-        if self.product_link == check_item.product_link
-          score += 90
-          notes += "product_link, "
-        end
         if self.product_name == check_item.product_name
           score += 70
           notes += "product_name, "
@@ -166,5 +126,6 @@ class Item < ActiveRecord::Base
       end
     end
   end
+
 
 end

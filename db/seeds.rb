@@ -19,7 +19,7 @@ IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
 (1..10).each do |i|
   calculated_state = i % 5 == 0 ? "retired" : "live"
   item = Item.create!(
-      product_link: "product_link #{i}",
+      product_link: "http://product_link.com/item_#{i}",
       designer: "designer #{i}",
       store_name: "store #{i}",
       product_name: "product_name #{i}",

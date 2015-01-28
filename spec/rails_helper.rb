@@ -75,10 +75,17 @@ end
 
 # ---------------------------------  VCR CONFIG --------------------------------------
 
-VCR.configure do |c|
-  c.cassette_library_dir = 'spec/factories/vcr_cassettes'
-  c.hook_into :webmock
-end
+# VCR.configure do |c|
+#   c.cassette_library_dir = 'spec/factories/vcr_cassettes'
+#   c.hook_into :webmock
+#   # c.allow_http_connections_when_no_cassette = true  ##kills everything :(
+# end
+
+
+# ---------------------------------  CAPYBARA CONFIG --------------------------------------
+
+
+Capybara.javascript_driver = :webkit
 
 
 # ------------------------------  OMNIAUTH CONFIG ------------------------------------
