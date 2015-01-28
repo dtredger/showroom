@@ -57,8 +57,6 @@ class Item < ActiveRecord::Base
   scope :search_designer, -> (designer) { where("designer LIKE ?", "#{designer}%") }
   scope :search_category1, -> (category1) { where("category1 LIKE ?", "#{category1}%") }
 
-  # before_create :check_existing_product_urls
-
   after_destroy :delete_duplicate_warnings
 
 
@@ -70,14 +68,6 @@ class Item < ActiveRecord::Base
     ]
   end
 
-
-  def check_existing_product_urls
-    store_urls = Item.where(store_name: self.store_name).all.map(&:product_link)
-    if store_urls.include? self.product_link
-      self.errors.add(:base, "product with this link already exists.")
-      false
-    end
-  end
 
 
   # TODO - delete warning once one of matches is deleted

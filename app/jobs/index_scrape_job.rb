@@ -12,12 +12,9 @@ class IndexScrapeJob
         INDEX_SCRAPE_LOGGER.info "scraping #{page_url}"
         result = scraper.scrape_index(page_url)
 
-        INDEX_SCRAPE_LOGGER.info "results_log:"
-        INDEX_SCRAPE_LOGGER.info result[0]
-        INDEX_SCRAPE_LOGGER.info "success_log:"
-        INDEX_SCRAPE_LOGGER.info result[1]
-        INDEX_SCRAPE_LOGGER.error "errors_log:"
-        INDEX_SCRAPE_LOGGER.error result[2]
+        result.each do |key, val|
+          INDEX_SCRAPE_LOGGER.info "#{key} - #{val}"
+        end
       end
 
     rescue Exception => e
