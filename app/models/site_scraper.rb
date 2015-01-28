@@ -32,26 +32,45 @@ class SiteScraper < ActiveRecord::Base
     items = eval("html_dom.#{self.index_item_group_selector}")
     items = items[-3..-1] if is_test
 
-    results_log = { success: 0, failure: 0 }
-    errors_log = []
+    results_log = { success: 0, not_saved: 0, failure: 0 }
     success_log = []
+    not_saved_log = []
+    errors_log = []
 
     items.each do |item|
-      # log errors but keep going with other rows
       begin
-        product_name = self.index_product_name_selector.present? ? eval("item.#{self.index_product_name_selector}") : ""
-        designer = self.index_designer_selector.present? ? eval("item.#{self.index_designer_selector}") : ""
-        category = self.index_category_selector.present? ? eval("item.#{self.index_category_selector}") : ""
-        price = self.index_price_cents_selector.present? ? eval("item.#{self.index_price_cents_selector}") : ""
+        product_name = if self.index_product_name_selector.present? then
+                         eval("item.#{self.index_product_name_selector}")
+                       else
+                         ""
+                       end
+        designer = if self.index_designer_selector.present? then
+                     eval("item.#{self.index_designer_selector}")
+                   else
+                     ""
+                   end
+        category = if self.index_category_selector.present? then
+                     eval("item.#{self.index_category_selector}")
+                   else
+                     ""
+                   end
+        price = if self.index_price_cents_selector.present? then
+                  eval("item.#{self.index_price_cents_selector}")
+                else
+                  ""
+                end
+
         # Don't need the others, but blank product_link is deal-breaker
         product_link = eval("item.#{self.index_product_link_selector}")
+
+        # TODO remove temporary tresbien hack
         if product_link[0..3] != "http"
           if self.store_name == "tresbien"
             product_link = "http://tres-bien.com#{product_link}"
           end
         end
 
-        saved = Item.create(
+        new_item = Item.create(
             store_name: self.store_name,
             product_link: product_link,
             product_name: product_name,
@@ -60,15 +79,22 @@ class SiteScraper < ActiveRecord::Base
             category1: category,
             state: "incomplete"
         )
-        results_log[:success] += 1
-        success_log << saved.id
+        if new_item.persisted?
+          results_log[:saved] += 1
+          success_log << new_item.id
+        elsif new_item.errors.any?
+          new_item.errors.messages.each do |key, val|
+            results_log[:not_saved] += 1
+            not_saved_log << "#{key} - #{val}"
+          end
+        end
       rescue Exception => e
         results_log[:failure] += 1
         errors_log << e
         next
       end
     end
-    [results_log, success_log, errors_log]
+    { results: results_log, success: success_log, not_saved: not_saved_log, errors: errors_log }
   end
 
   def self.scrape_detail_page(scraper, product)
@@ -100,6 +126,7 @@ class SiteScraper < ActiveRecord::Base
     if product.update(new_fields)
       image_array = [image_array] unless image_array.is_a?(Array)
       image_results = product.save_images(image_array, true)
+
       unless product[:price_cents].blank? or product.images.count == 0
         # TODO check more than this, before setting live
         product.update(state:"pending")
