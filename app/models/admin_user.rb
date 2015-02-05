@@ -43,5 +43,21 @@ class AdminUser < ActiveRecord::Base
     where(conditions).where(["lower(email) = :value", {value: login.strip.downcase}]).first
   end
 
+  def find_sms_gateway_email
+    case carrier
+      when "Bell"
+        "@txt.bell.ca"
+      when "Fido"
+        "@sms.fido.ca"
+      when "Koodo"
+        "@msg.telus.com"
+      when "Wind"
+        "@txt.windmobile.ca"
+      when "Telus"
+        "@msg.telus.com"
+      when "Rogers"
+        "@sms.rogers.com"
+    end
+  end
 
 end

@@ -45,5 +45,12 @@ RSpec.describe AdminUser, :type => :model do
     end
   end
 
+  describe "#find_sms_gateway_email" do
+    it "creates correct gateway" do
+      pending("need SMS and carrier data")
+      expect()
+    end
+  end
+
 
 end
