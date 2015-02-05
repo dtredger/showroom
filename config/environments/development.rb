@@ -40,6 +40,8 @@ Showspace::Application.configure do
 
   # for serving images from local
   config.serve_static_files = true
+  # config.static_cache_control = "public, max-age=3600"
+
 
   # Automatically inject JavaScript needed for LiveReload
  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
