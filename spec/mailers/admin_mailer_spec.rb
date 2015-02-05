@@ -1,9 +1,8 @@
 require "rails_helper"
 
-RSpec.describe UserMailer, :type => :mailer do
-
-  let(:user) { create(:user) }
-  let(:email) { UserMailer.new_user(user) }
+RSpec.describe AdminMailer, :type => :mailer do
+  let(:admin_user) { create(:admin_user) }
+  let(:email) { AdminMailer.new_user(user) }
 
   describe "#new_user" do
     it "sends to user email" do
@@ -18,6 +17,5 @@ RSpec.describe UserMailer, :type => :mailer do
 
     end
   end
-
 
 end
