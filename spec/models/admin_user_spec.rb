@@ -15,6 +15,9 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
+#  phone_number           :integer
+#  carrier                :string
+#  sms_gateway            :string
 #
 
 require 'rails_helper'
@@ -45,10 +48,10 @@ RSpec.describe AdminUser, :type => :model do
     end
   end
 
-  describe "#find_sms_gateway_email" do
+  describe "#build_sms_gateway" do
     it "creates correct gateway" do
-      pending("need SMS and carrier data")
-      expect()
+      user = create(:admin_user_2, phone_number: 1234, carrier: "Bell")
+      expect(user.sms_gateway).to eq("1234@txt.bell.ca")
     end
   end
 

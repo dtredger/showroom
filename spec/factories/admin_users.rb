@@ -15,16 +15,21 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
+#  phone_number           :integer
+#  carrier                :string
+#  sms_gateway            :string
 #
 
 FactoryGirl.define do
   factory :admin_user do
     email 'admin@show.co'
     password 'admin_password'
+
+
+    factory :admin_user_2 do
+      email 'admin-2@email.com'
+      password 'admin-2-password'
+    end
   end
 
-  factory :admin_user_2 do
-    email 'admin-2@email.com'
-    password 'admin-2-password'
-  end
 end
