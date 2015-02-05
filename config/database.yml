@@ -11,6 +11,13 @@ test:
   database: showspace_test
   host: localhost
 
+# Re-use the development database (for now), 'cause it's already full of stuff
+staging:
+  adapter: postgresql
+  database: showspace
+  encoding: unicode
+  pool: 5
+
 production:
   adapter: postgresql
   database: showspace_dev

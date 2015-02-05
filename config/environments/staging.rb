@@ -17,10 +17,18 @@ Showspace::Application.configure do
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
-  # config.action_dispatch.rack_cache = true
+
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_files = false
+  # set true so rack:cache will work
+  config.serve_static_files = true
+
+  config.action_dispatch.rack_cache = {
+      :metastore    => Dalli::Client.new,
+      :entitystore  => 'file:tmp/cache/rack/body',
+      :allow_reload => false }
+  config.static_cache_control = "public, max-age=2592000"
+
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -52,7 +60,7 @@ Showspace::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
