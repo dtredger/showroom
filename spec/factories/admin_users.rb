@@ -30,6 +30,13 @@ FactoryGirl.define do
       email 'admin-2@email.com'
       password 'admin-2-password'
     end
+
+    factory :admin_with_SMS do
+      email 'admin-sms@email.com'
+      password 'admin-2-password'
+      phone_number 1234567890
+      carrier "Bell"
+    end
   end
 
 end
