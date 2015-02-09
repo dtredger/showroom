@@ -1,6 +1,10 @@
 class ProductCheckJob
 
-  PRODUCT_CHECK_LOGGER = Logger.new 'log/product_check.log'
+  PRODUCT_CHECK_LOGGER = if ENV["PRODUCT_CHECK_LOGGER"].present? then
+                           Logger.new(ENV["PRODUCT_CHECK_LOGGER"])
+                         else
+                           Logger.new(STDOUT)
+                         end
 
   def self.perform(store_name)
     PRODUCT_CHECK_LOGGER.debug "ran at #{Time.now}"

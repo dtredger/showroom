@@ -1,10 +1,14 @@
 class DetailScrapeJob
 
-  DETAIL_SCRAPE_LOGGER = Logger.new 'log/detail_scrape.log'
+  DETAIL_SCRAPE_LOGGER = if ENV["DETAIL_SCRAPE_LOGGER"].present?
+                           Logger.new(ENV["DETAIL_SCRAPE_LOGGER"])
+                         else
+                           Logger.new(STDOUT)
+                         end
 
   def self.perform(store_name)
     DETAIL_SCRAPE_LOGGER.info "ran at #{Time.now}"
-    DETAIL_SCRAPE_LOGGER.info "store_name: #{store_name}"
+    DETAIL_SCRAPE_LOGGER.info "store_name:  #{store_name}"
 
     items = Item.incomplete.where(store_name: store_name)
     scraper = SiteScraper.where(store_name: store_name).order('updated_at DESC').first

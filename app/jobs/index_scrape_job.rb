@@ -1,6 +1,10 @@
 class IndexScrapeJob
 
-  INDEX_SCRAPE_LOGGER = Logger.new 'log/index_scrape.log'
+  INDEX_SCRAPE_LOGGER = if ENV["INDEX_SCRAPE_LOGGER"].present?
+                          Logger.new(ENV["INDEX_SCRAPE_LOGGER"])
+                        else
+                          Logger.new(STDOUT)
+                        end
 
   def self.perform(store_name)
     INDEX_SCRAPE_LOGGER.info "ran at #{Time.now}"
