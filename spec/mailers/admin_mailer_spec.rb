@@ -11,6 +11,7 @@ RSpec.describe AdminMailer, type: :mailer do
   let(:error_message) { "Error: something went wrong!" }
   let(:error_mail) { AdminMailer.error_notifier(admin_with_SMS, error_message) }
   let(:no_sms_error_mail) { AdminMailer.error_notifier(admin_user, error_message) }
+  let(:multiple_admin_error_mail) { AdminMailer.error_notifier([admin_user, admin_with_SMS], error_message) }
 
   describe "#jobs_notifier" do
     it "sends to admin email" do
@@ -19,17 +20,30 @@ RSpec.describe AdminMailer, type: :mailer do
   end
 
   describe "#error_notifier" do
-    it "default send to user SMS" do
-      expect(error_mail.to).to eq([admin_with_SMS.sms_gateway])
+    context "single admin" do
+      it "default send to user SMS" do
+        expect(error_mail.to).to eq([admin_with_SMS.sms_gateway])
+      end
+
+      it "sends to user email if no SMS" do
+        expect(no_sms_error_mail.to).to eq([admin_user.email])
+      end
+
+      it "contains error message" do
+        expect(error_mail.body.encoded).to match error_message
+      end
     end
 
-    it "sends to user email if no SMS" do
-      expect(no_sms_error_mail.to).to eq([admin_user.email])
+    context "multiple admins" do
+      it "default send to user SMS" do
+        expect(error_mail.to).to eq([admin_with_SMS.sms_gateway])
+      end
+
+      it "sends to SMS email and email, depending" do
+        expect(multiple_admin_error_mail.to).to match_array([admin_user.email, admin_with_SMS.sms_gateway])
+      end
     end
 
-    it "contains error message" do
-      expect(error_mail.body.encoded).to match error_message
-    end
   end
 
 end

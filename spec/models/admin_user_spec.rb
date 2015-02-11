@@ -15,9 +15,10 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
-#  phone_number           :integer
 #  carrier                :string
 #  sms_gateway            :string
+#  phone_number           :string
+#  send_notifications     :boolean
 #
 
 require 'rails_helper'

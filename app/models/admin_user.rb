@@ -15,9 +15,10 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
-#  phone_number           :integer
 #  carrier                :string
 #  sms_gateway            :string
+#  phone_number           :string
+#  send_notifications     :boolean
 #
 
 class AdminUser < ActiveRecord::Base
@@ -32,6 +33,9 @@ class AdminUser < ActiveRecord::Base
          :validatable
 
   before_create :build_sms_gateway
+
+  scope :on_notification_list, -> { where(send_notifications: true) }
+
 
 
   def login=(login)

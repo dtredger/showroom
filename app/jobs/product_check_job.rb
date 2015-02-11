@@ -34,9 +34,11 @@ class ProductCheckJob
       PRODUCT_CHECK_LOGGER.error "errors:"
       PRODUCT_CHECK_LOGGER.error errors
 
-      [ price_changed, unchanged, errors ]
+      result = [ price_changed, unchanged, errors ]
+      AdminMailer.jobs_notifier(AdminUser.on_notification_list, result)
     rescue Exception => e
       PRODUCT_CHECK_LOGGER.error e
+      AdminMailer.error_notifier(AdminUser.on_notification_list, e)
     end
   end
 

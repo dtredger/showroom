@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206094513) do
+ActiveRecord::Schema.define(version: 20150211025207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -47,6 +48,7 @@ ActiveRecord::Schema.define(version: 20150206094513) do
     t.string   "carrier"
     t.string   "sms_gateway"
     t.string   "phone_number"
+    t.boolean  "send_notifications"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree

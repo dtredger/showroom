@@ -25,6 +25,9 @@ class IndexScrapeJob
       INDEX_SCRAPE_LOGGER.error e
     end
 
+    total_job_info = [successes, no_image, not_updated, errors]
+    AdminMailer.jobs_notifier(AdminUser.on_notification_list, total_job_info).deliver_later
+
   end
 
 end
