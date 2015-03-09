@@ -34,7 +34,7 @@ class AdminUser < ActiveRecord::Base
 
   before_create :build_sms_gateway
 
-  scope :on_notification_list, -> { where(send_notifications: true) }
+  scope :on_notification_list, -> { where(send_notifications: true).to_a }
 
 
 
