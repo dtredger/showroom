@@ -1,6 +1,10 @@
 class ProductCheckJob
 
-  PRODUCT_CHECK_LOGGER = Logger.new 'log/product_check.log'
+  PRODUCT_CHECK_LOGGER = if ENV["PRODUCT_CHECK_LOGGER"].present? then
+                           Logger.new(ENV["PRODUCT_CHECK_LOGGER"])
+                         else
+                           Logger.new(STDOUT)
+                         end
 
   def self.perform(store_name)
     PRODUCT_CHECK_LOGGER.debug "ran at #{Time.now}"
@@ -30,9 +34,11 @@ class ProductCheckJob
       PRODUCT_CHECK_LOGGER.error "errors:"
       PRODUCT_CHECK_LOGGER.error errors
 
-      [ price_changed, unchanged, errors ]
+      result = [ price_changed, unchanged, errors ]
+      AdminMailer.jobs_notifier(AdminUser.on_notification_list, result)
     rescue Exception => e
       PRODUCT_CHECK_LOGGER.error e
+      AdminMailer.error_notifier(AdminUser.on_notification_list, e)
     end
   end
 

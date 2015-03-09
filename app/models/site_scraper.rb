@@ -39,26 +39,31 @@ class SiteScraper < ActiveRecord::Base
 
     items.each do |item|
       begin
-        product_name = if self.index_product_name_selector.present? then
+        product_name = if self.index_product_name_selector.present?
                          eval("item.#{self.index_product_name_selector}")
                        else
                          ""
                        end
-        designer = if self.index_designer_selector.present? then
+        designer = if self.index_designer_selector.present?
                      eval("item.#{self.index_designer_selector}")
                    else
                      ""
                    end
-        category = if self.index_category_selector.present? then
+        category = if self.index_category_selector.present?
                      eval("item.#{self.index_category_selector}")
                    else
                      ""
                    end
-        price = if self.index_price_cents_selector.present? then
-                  eval("item.#{self.index_price_cents_selector}")
-                else
-                  ""
-                end
+        if self.index_price_cents_selector.present?
+          price_text = eval("item.#{self.index_price_cents_selector}")
+          product_currency = price_currency(price_text)
+          price = price_to_cents(price_text)
+        else
+          price = nil
+          product_currency = nil
+        end
+
+
 
         # Don't need the others, but blank product_link is deal-breaker
         product_link = eval("item.#{self.index_product_link_selector}")
@@ -74,7 +79,8 @@ class SiteScraper < ActiveRecord::Base
             store_name: self.store_name,
             product_link: product_link,
             product_name: product_name,
-            price_cents: price_to_cents(price),
+            price_cents: price,
+            currency: product_currency,
             designer: designer,
             category1: category,
             state: "incomplete"
@@ -90,7 +96,7 @@ class SiteScraper < ActiveRecord::Base
         end
       rescue Exception => e
         results_log[:failure] += 1
-        errors_log << e
+        errors_log << e.backtrace[0].split(":")[-2..-1]
         next
       end
     end
@@ -101,7 +107,7 @@ class SiteScraper < ActiveRecord::Base
     new_fields = {}
     page = product.open_url(product[:product_link])
     %w(product_name description designer currency sku).each do |field|
-      new_fields["#{field}".to_sym] = if scraper["detail_#{field}_selector".to_sym].present? then
+      new_fields["#{field}".to_sym] = if scraper["detail_#{field}_selector".to_sym].present?
                                         eval("page.#{scraper["detail_#{field}_selector".to_sym]}")
                                       else
                                         ""
@@ -109,13 +115,13 @@ class SiteScraper < ActiveRecord::Base
     end
 
     # TODO - someday we will get rid of category1, category2, category3
-    new_fields[:category1] = if scraper.index_category_selector.present? then
+    new_fields[:category1] = if scraper.index_category_selector.present?
                                eval("page.#{scraper.detail_category_selector}")
                              else
                                ""
                              end
 
-    image_array = if scraper.detail_image_source_selector.present? then
+    image_array = if scraper.detail_image_source_selector.present?
                     eval("page.#{scraper.detail_image_source_selector}")
                   else
                     ""
