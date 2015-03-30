@@ -2,6 +2,8 @@ development:
   adapter: postgresql
   database: showspace
   host: localhost
+  username: vagrant
+  password: vagrant
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -10,6 +12,8 @@ test:
   adapter: postgresql
   database: showspace_test
   host: localhost
+  username: vagrant
+  password: vagrant
 
 # Re-use the development database (for now), 'cause it's already full of stuff
 staging:

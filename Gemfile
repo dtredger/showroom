@@ -18,6 +18,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'sass'
 gem 'sass-rails'
+gem 'therubyracer'
 
 gem 'sprockets'
 
