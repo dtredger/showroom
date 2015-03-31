@@ -65,24 +65,27 @@ Vagrant.configure(2) do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<SHELL
+  config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
     sudo apt-get install -y git libqt4-dev libpq-dev imagemagick libmagickwand-dev
     sudo apt-get install -y postgresql postgresql-contrib redis-server
     sudo -u postgres psql -c "CREATE ROLE vagrant PASSWORD 'vagrant' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;"
     curl -sSL https://get.rvm.io | bash
-    source /home/vagrant/.rvm/scripts/rvm
+    cd /vagrant
+    source /usr/local/rvm/scripts/rvm
     rvm install ruby-2.1.1
     rvm --default use 2.1.1
     sudo gem install bundler
     gem install capybara-webkit -v '1.3.1'
-    cd /vagrant
+    rvm --default use 2.1.1
+    gem install bundler
     bundle
     mv app/admin admin_temp
     rake db:create
     rake db:schema:load
     mv admin_temp app/admin
     rake db:seed
+    gem install foreman
     foreman start
   SHELL
 end

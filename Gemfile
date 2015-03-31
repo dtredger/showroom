@@ -33,8 +33,9 @@ gem 'simple_form'
 
 # activeAdmin/master is not ready for Rails 4.2, and work is slow.
 # maybe time to consider upmin, or something that doesn't use arbre
-gem 'activeadmin', github: 'activeadmin', branch: 'rails-4-2'
-gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
+gem 'activeadmin', github: 'activeadmin'
+# gem 'activeadmin', github: 'gregbell/active_admin'
+# gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
 
 gem 'money-rails'
 gem 'nokogiri'
@@ -50,8 +51,8 @@ gem 'breadcrumbs_on_rails'
 group :development, :test do
 	gem 'pry-rails'
   gem 'annotate'
-  gem 'ruby-debug-ide' #for Rubymine
-  gem 'debase'         #for Rubymine
+  # gem 'ruby-debug-ide' #for Rubymine
+  # gem 'debase'         #for Rubymine
   gem 'simplecov'      #test coverage reports
   gem 'better_errors'
   gem 'binding_of_caller'

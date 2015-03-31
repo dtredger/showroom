@@ -106,8 +106,8 @@ module Scrapeable
     cents_price
   end
 
-  def price_currency(price)
-    "EURO" if price.match("€").present?
+  def price_currency(price=nil)
+    "EURO" if price and price.match("€").present?
   end
 
 end
