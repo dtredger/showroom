@@ -35,3 +35,6 @@
 
 # pipe down in there, redis
 stdout
+
+# not vagrant too!
+/.vagrant
