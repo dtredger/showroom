@@ -1,7 +1,7 @@
 # crontab syntax http://en.wikipedia.org/wiki/Cron
 
 ProductCheckJob:
-  every: 100s
+  every: 100y
   class: ProductCheckJob
   queue: live_product_check
   args: tresbien
@@ -9,12 +9,12 @@ ProductCheckJob:
                # to tresbien, and must be manually queued
 
 IndexScrapeJob:
-  every: 100s
+  every: 100y
   queue: index_store_scrape
   args: tresbien
 
 DetailScrapeJob:
-  every: 100s
+  every: 100y
   queue: detail_store_scrape
   args: tresbien
 
