@@ -7,5 +7,4 @@ ActionMailer::Base.smtp_settings = {
   authentication: :plain,
 }
 # Currently Develop and Test are set to delivery_method :test
-# Only production has ActionMailer::Base.delivery_method = :smtp
 

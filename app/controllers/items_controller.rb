@@ -6,6 +6,8 @@ class ItemsController < ApplicationController
   def index
     @closets_item = ClosetsItem.new
     @items = handle_search.live.includes(:images).page(params[:page]).per(27)
+    # To use html caching, we'll have to give up the header with username
+    # expires_in 12.hours, :public => false, 'max-stale' => 0
   end
 
   def show
