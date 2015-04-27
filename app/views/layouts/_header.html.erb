@@ -1,32 +1,31 @@
-<nav class="top-bar" data-topbar>
-    <ul class="title-area">
-      <li class="name">
-        <h1><a href="/">Showspace</a></h1>
-      </li>
-        <!-- TODO Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-      <li class="toggle-topbar menu-icon">
-        <a href="#"><span>Menu</span></a>
-      </li>
-    </ul>
+<div class="row">
+  <div class="small-12 columns">
+<nav class="globalNav fixed" data-topbar>
 
     <section class="top-bar-section">
         <ul class="left">
           <!--<li>TODO breadcrumbs</li>-->
         </ul>
 
-        <ul class="center">
+        <ul>
+          <li>
+        <h1><a href="/">SHOWSPACE</a></h1>
+      </li>
           <%= form_tag items_path, method: :get do %>
               <li><%= select_tag :category, options_for_select(Item.all.collect { |i| i.category1 }.uniq), include_blank: "category" %></li>
               <li><%= select_tag :designer, options_for_select( Item.all.collect { |i| i.designer }.uniq), include_blank: "designer" %></li>
               <li><%= text_field_tag "min_price", nil, placeholder: "min price" %></li>
               <li><%= text_field_tag "max_price", nil, placeholder: "max price" %></li>
-              <li><%= submit_tag "Search", class: "button info" %></li>
+              <li><%= button_tag(type: "submit", class: "btn btn-default") do %>
+                  <i class="fa fa-search"></i> Search
+                <% end %>
+              </li>
           <% end %>
         </ul>
 
     <!-- Right Nav Section -->
     <% if user_signed_in? %>
-        <ul class="right">
+        <ul class="right inline-list">
           <li class="divider"></li>
           <!--<li class="help"><a>Help</a></li>-->
           <!--<li class="divider"></li>-->
@@ -42,20 +41,16 @@
         </ul>
     <% else %>
         <ul class="right">
-          <li class="divider"></li>
           <!--<li class="help"><a>Help</a></li>-->
-          <li class="divider"></li>
-          <li class="active"><a data-reveal-id="signup-modal">Sign Up</a></li>
-          <li class="divider"></li>
+          <li class="active"><button data-reveal-id="signup-modal">Sign Up</button></li>
           <!--<li class="about"><a>About</a></li>-->
-          <li class="divider"></li>
           <li><a href="#" data-reveal-id="login-modal">Log in</a></li>
         </ul>
     <% end %>
 
     </section>
-</nav>
 
+</nav>
 
 <!-- signin modal -->
 <% if !user_signed_in? %>
@@ -72,3 +67,5 @@
       <a class="close-reveal-modal">&#215;</a>
     </div>
 <% end %>
+</div>
+</div>

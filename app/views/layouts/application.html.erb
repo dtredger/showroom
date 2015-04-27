@@ -7,16 +7,16 @@
         <title>Showspace</title>
 
         <%= stylesheet_link_tag    "application" %>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700' rel='stylesheet' type='text/css'>
         <%= javascript_include_tag "vendor/modernizr" %>
         <%= csrf_meta_tags %>
     </head>
 
     <body id="<%= params[:controller].parameterize %>">
 
-        <div class="fixed">
-          <%= render "layouts/header" %>
-          <%= render "layouts/errors" %>
-        </div>
+              <%= render "layouts/header" %>
+              <%= render "layouts/errors" %>
 
         <%= yield %>
 
