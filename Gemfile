@@ -49,8 +49,8 @@ gem 'breadcrumbs_on_rails'
 group :development, :test do
 	gem 'pry-rails'
   gem 'annotate'
-  gem 'ruby-debug-ide' #for Rubymine
-  gem 'debase'         #for Rubymine
+  # gem 'ruby-debug-ide' #for Rubymine
+  # gem 'debase'         #for Rubymine
   gem 'simplecov'      #test coverage reports
   gem 'better_errors'
   gem 'binding_of_caller'
