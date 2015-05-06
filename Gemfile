@@ -20,6 +20,7 @@ gem 'sass'
 gem 'sass-rails'
 
 gem 'sprockets'
+gem 'therubyracer'
 
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
@@ -32,8 +33,9 @@ gem 'simple_form'
 
 # activeAdmin/master is not ready for Rails 4.2, and work is slow.
 # maybe time to consider upmin, or something that doesn't use arbre
-gem 'activeadmin', github: 'activeadmin', branch: 'rails-4-2'
-gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
+# gem 'activeadmin', github: 'activeadmin', branch: 'rails-4-2'
+gem 'activeadmin', '~> 1.0.0.pre1'
+# gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
 
 gem 'money-rails'
 gem 'nokogiri'

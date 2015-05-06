@@ -1,7 +1,7 @@
 # require 'nokogiri'
 # require 'open-uri'
 # require 'time'
-# require 'RMagick'
+# require 'rmagick'
 # require 'fileutils'
 #
 # class BasicScraper
