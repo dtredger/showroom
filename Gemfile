@@ -44,7 +44,7 @@ gem 'rmagick', require: false
 
 gem 'figaro'
 gem 'carrierwave-aws'
-gem 'newrelic-rpm'
+gem 'newrelic_rpm'
 
 gem 'friendly_id', require: 'friendly_id'
 gem 'breadcrumbs_on_rails'
