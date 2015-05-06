@@ -5,6 +5,7 @@ describe Admin::AdminUsersController, type: :controller do
   let(:user) { FactoryGirl.create (:user) }
   let(:admin_user) { FactoryGirl.create (:admin_user) }
   let(:admin_user_2) { FactoryGirl.create (:admin_user_2) }
+  let(:admin_with_SMS) { FactoryGirl.create(:admin_with_SMS) }
 
   let(:all_resources)  { ActiveAdmin.application.namespaces[:admin].resources }
   let(:resource)       { all_resources[AdminUser] }
@@ -55,8 +56,6 @@ describe Admin::AdminUsersController, type: :controller do
     end
   end
 
-
-
   context "#create" do
     it "raises error" do
       sign_in admin_user
@@ -81,7 +80,41 @@ describe Admin::AdminUsersController, type: :controller do
     end
   end
 
+  describe "notifiers" do
+    before { sign_in admin_user }
 
+    context "#test_error_notifier" do
+      it "adds mail to queue" do
+        expect{
+          post :test_error_notifier
+        }.to change { ActionMailer::Base.deliveries.count }.by 1
+      end
+
+      context "admin with SMS" do
+        it "sends to SMS" do
+          sign_in admin_with_SMS
+          post :test_error_notifier
+          expect(ActionMailer::Base.deliveries.last.to).to eq [admin_with_SMS.sms_gateway]
+        end
+      end
+
+      context "admin with email only" do
+        it "sends to email" do
+          post :test_error_notifier
+          expect(ActionMailer::Base.deliveries.last.to).to eq [admin_user.email]
+        end
+      end
+    end
+
+    context "#test_job_notifier" do
+      it "adds mail to queue" do
+        expect{
+          post :test_job_notifier
+        }.to change { ActionMailer::Base.deliveries.count }.by 1
+      end
+    end
+
+  end
 
 end
 

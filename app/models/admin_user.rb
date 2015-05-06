@@ -15,6 +15,10 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
+#  carrier                :string
+#  sms_gateway            :string
+#  phone_number           :string
+#  send_notifications     :boolean
 #
 
 class AdminUser < ActiveRecord::Base
@@ -27,6 +31,11 @@ class AdminUser < ActiveRecord::Base
          :rememberable,
          :trackable,
          :validatable
+
+  before_create :build_sms_gateway
+
+  scope :on_notification_list, -> { where(send_notifications: true).to_a }
+
 
 
   def login=(login)
@@ -41,6 +50,30 @@ class AdminUser < ActiveRecord::Base
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
     where(conditions).where(["lower(email) = :value", {value: login.strip.downcase}]).first
+  end
+
+  def build_sms_gateway
+    self.sms_gateway = "#{phone_number}#{sms_gateway_email}"
+  end
+
+
+  private
+
+  def sms_gateway_email
+    case self.carrier
+      when "Bell"
+        "@txt.bell.ca"
+      when "Fido"
+        "@sms.fido.ca"
+      when "Koodo"
+        "@msg.telus.com"
+      when "Wind"
+        "@txt.windmobile.ca"
+      when "Telus"
+        "@msg.telus.com"
+      when "Rogers"
+        "@sms.rogers.com"
+    end
   end
 
 

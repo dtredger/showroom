@@ -15,6 +15,10 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
+#  carrier                :string
+#  sms_gateway            :string
+#  phone_number           :string
+#  send_notifications     :boolean
 #
 
 require 'rails_helper'
@@ -42,6 +46,13 @@ RSpec.describe AdminUser, :type => :model do
         duplicate = AdminUser.new(email: "something_new@email.co", password: "123")
         expect(duplicate).to have(1).errors_on(:password)
       end
+    end
+  end
+
+  describe "#build_sms_gateway" do
+    it "creates correct gateway" do
+      user = create(:admin_user_2, phone_number: 1234, carrier: "Bell")
+      expect(user.sms_gateway).to eq("1234@txt.bell.ca")
     end
   end
 
