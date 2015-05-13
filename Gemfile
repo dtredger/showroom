@@ -45,6 +45,7 @@ gem 'rmagick', require: false
 gem 'figaro'
 gem 'carrierwave-aws'
 gem 'newrelic_rpm'
+gem 'rollbar'
 
 gem 'friendly_id', require: 'friendly_id'
 gem 'breadcrumbs_on_rails'
