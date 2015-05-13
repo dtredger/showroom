@@ -9,6 +9,7 @@ preload_app true
 @resque_pid = nil
 
 before_fork do |server, worker|
+
   @resque_pid ||= spawn("bundle exec rake environment resque:work QUEUES=*")
 
   Signal.trap 'TERM' do

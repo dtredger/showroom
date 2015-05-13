@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Vagrantfile
+/.vagrant
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -33,8 +36,8 @@
 #all generated documentation
 /doc
 
+#secret
+.secret
+
 # pipe down in there, redis
 stdout
-
-# not vagrant too!
-/.vagrant
