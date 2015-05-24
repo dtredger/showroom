@@ -1,0 +1,389 @@
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+// $reset  ( + normalize )
+* { 
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box; 
+}
+
+
+// $clear floats on special divs
+.inner-w:before,
+.inner-w:after {
+    content: " ";
+    display: table;
+}
+.inner-w:after {
+    clear: both;
+}
+
+
+// $variables
+$black: #111;
+$white: #fff;
+$gray: #666;
+$gray-light: lighten($gray,30%);
+$gray-dark: darken($gray, 50%);
+$color: #22ddbe;
+/*$color: #666;*/
+$color-light: lighten($color, 28%);
+$color-dark: darken($color, 10%);
+$shadow: rgba(0,0,0,.03);
+
+$highlight: #fbac1b;
+$highlight-light: adjust-hue( $highlight, 22% );
+$highlight-hue: lighten( $highlight-light, 35% );
+$highlight-dark: darken( $highlight, 10% );
+/*$highlight-light: lighten($color, 15%);*/
+
+
+
+
+// $type
+a {
+  text-decoration: none;  
+}
+
+p > a { // maybe ?
+  text-decoration: underline;  
+}
+
+h1, h2, h3, h4, h5, h6, p, a, li {
+  padding: 0;
+  margin: 0;
+  font-size: 1em;
+}
+
+/* fontawesome */
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+
+// $global variables
+@mixin bp($point) {
+  @if $point == m {
+    @media (min-width: 34em) { @content; }
+  }
+  @else if $point == m-plus {
+    @media (min-width: 63em) { @content; }
+  }
+  @else if $point == l {
+    @media (min-width: 70em)  { @content; }
+  }
+}
+
+
+// $global
+.image-w {
+  img {
+    width: 100%;
+    float: left;
+    display: block;
+    /*border: 1px solid $shadow;*/
+  } 
+}
+
+
+// $structure
+html, body {
+  min-height: 100%;
+  padding: 0; margin: 0;
+}
+
+body {
+  height: 100%;
+  font-family: arial;
+  letter-spacing: .1em;
+}
+
+.master-container {
+  overflow: hidden; // shame
+  margin: 0 auto;
+  min-height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  float: left;
+  padding: .5em;
+}
+
+.inner-w {
+  position: relative;
+/*  border: .1em solid $shadow;*/
+}
+
+$trim-width: 70em;
+.trim-width {
+  width: 93%;
+  max-width: $trim-width;
+  margin: 0 auto;
+}
+
+.full-width {
+  width: 100%;
+  margin: 0 auto;
+}
+
+
+
+
+// $sections
+.global-header {
+  position: relative;
+  /*height: $header-height;*/
+  padding: .7em 0;
+  a {
+/*    display: block;
+    background-color: orange;
+    height: 100%;*/
+  }
+  @include bp(m-plus) {
+    padding: 2.2em 0;
+  }
+  a {
+    color: $gray-light;
+  }
+  .logo {
+
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+    
+    height: 1.6em;
+    width: 1.6em;
+    
+    background-color: $color;
+    text-align: center;
+    line-height: 1.6em;
+    font-weight: bold;
+    color: $white;
+    font-size: 2rem;
+    padding: 0;
+    
+    display: inline-block;
+    vertical-align: middle;
+    
+    margin-right: 1rem;
+    @include bp(m-plus) {
+      font-size: 2.5rem;
+    }
+  }
+  h1 {
+    display: none;
+    font-size: 2em;
+    color: $gray;
+    vertical-align: middle;
+    @include bp(m) {
+      display: inline-block;  
+    }
+  }
+
+}
+
+.sign-in {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-top: 1em;
+  &:hover {
+  text-decoration: underline;
+  }
+}
+  
+
+.about {
+  background-color: $color-light;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  a {
+    color: $color-dark;
+    font-size: .9em;
+    margin-left: 1em;
+  }
+}
+
+
+// $grid
+.grid {
+  background-color: rgba(0,0,0,.05);
+  padding-top: 2em;
+}
+
+.grid-list {
+  list-style: none;
+  margin: 0; padding: 0; 
+}
+
+.block {
+  display: block;
+  width: 100%;
+  float: left;
+  background-color: $white;
+  margin-bottom: 1.5em;
+  overflow: hidden;
+  @include bp(m) {
+    width: 48%;
+    margin-right: 4%;
+    &:nth-of-type(2n+2) {
+      margin-right: 0;
+    }
+  }
+  @include bp(m-plus) {
+    width: 31.333333%;
+    margin-right: 3%;
+    &:nth-of-type(2n+2) {
+      margin-right: 3%;
+    }
+    &:nth-of-type(3n+3) {
+      margin-right: 0;
+    }
+  }
+} // .block
+
+.block .top {
+  width: 100%;
+  float: left;
+  .price {
+    display: block;
+    position: relative;
+    float: right;
+    padding: .5em;
+    background-color: $color;
+    font-size: 1.2em;
+    padding: .7em 1em;
+    color: white;
+    &:hover {
+      background-color: $color-dark;
+    }
+    .number {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .fontawesome-arrow-right {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: .5em;
+      font-size: 0;
+    }
+    &:hover .fontawesome-arrow-right {
+      font-size: .9em;
+    }
+  }
+}
+
+.image-w {
+  position: relative;
+  width: 100%;
+  float: left;
+  padding: 0 1em;
+  box-shadow: 0em .3em .5em 0 $shadow;
+  z-index: 1;
+  img {
+    padding: 0 2em;
+  }
+}
+
+.block .bottom {
+  position: relative;
+  width: 100%;
+  float: left;
+  background-color: $highlight-hue;
+}
+
+$ok-size: 2.2em;
+$ok-background-color: $highlight;
+$ok-color: $white;
+.ok {
+  display: block;
+  float: left;
+  width: $ok-size; 
+  height: $ok-size;
+  background-color: $ok-background-color;
+  color: $ok-color;
+  font-size: 1.4em;
+  text-align: center;
+  line-height: $ok-size;
+  span {
+    width: 100%;
+  }
+}
+
+.ok:hover {
+  background-color: $highlight-dark;
+  cursor: pointer;
+}
+
+.fontawesome-comment {
+  color: $gray-light;
+  padding: .5em 0;
+  font-size: 1.5em;
+}
+
+.gravitar {
+  float: left;
+  width: $ok-size;
+  height: $ok-size;
+  font-size: 1.4em;
+}
+
+
+
+.load-more {
+  display: inline-block;
+  width: 100%;
+  float: left;
+  background-color: lighten($gray-light, 15%);;
+  border: 0;
+  color: $gray-light;
+  padding: 1em;
+}
+
+
+
+
+
+.section02 .block {
+  width: 100%;
+  float: left;
+  border: 1px solid red;
+  @include bp(m) {
+    width: 50%;  
+  }
+  @include bp(l) {
+    width: 25%;  
+  }
+}
+
+
+
+// $toolbox
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.big-only {
+  // $shame - only because this is just in codepen
+  // would normally conditionally load things like this
+  display: none;
+  @include bp(m-plus) {
+    display: block;
+  }
+}
+
+.trans {
+  -webkit-transition: all 0.15s ease-out; 
+     -moz-transition: all 0.15s ease-out; 
+       -o-transition: all 0.15s ease-out; 
+          transition: all 0.15s ease-out;
+}
+
+
+
+

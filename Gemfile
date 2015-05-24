@@ -18,9 +18,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'sass'
 gem 'sass-rails'
-gem 'therubyracer'
 
 gem 'sprockets'
+gem 'therubyracer'
 
 gem 'foundation-rails'
 gem 'foundation-icons-sass-rails'
@@ -33,8 +33,8 @@ gem 'simple_form'
 
 # activeAdmin/master is not ready for Rails 4.2, and work is slow.
 # maybe time to consider upmin, or something that doesn't use arbre
-gem 'activeadmin', github: 'activeadmin'
-# gem 'activeadmin', github: 'gregbell/active_admin'
+# gem 'activeadmin', github: 'activeadmin', branch: 'rails-4-2'
+gem 'activeadmin', '~> 1.0.0.pre1'
 # gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
 
 gem 'money-rails'
@@ -44,6 +44,8 @@ gem 'rmagick', require: false
 
 gem 'figaro'
 gem 'carrierwave-aws'
+gem 'newrelic_rpm'
+gem 'rollbar'
 
 gem 'friendly_id', require: 'friendly_id'
 gem 'breadcrumbs_on_rails'
@@ -76,7 +78,6 @@ end
 
 group :production, :staging do
   gem 'rails_12factor'
-  gem 'rack-cache'
-  gem 'dalli'
-	gem 'newrelic_rpm'
 end
+
+
