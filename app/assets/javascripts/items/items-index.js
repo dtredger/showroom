@@ -1,3 +1,7 @@
+$('.item').hover(
+  function(){ $(this).find('.item-info').fadeIn(200); }, 
+  function() { $(this).find('.item-info').fadeOut(200); } 
+  );
 //
 //// For the price-range slider
 //$( document ).ready(function() {
