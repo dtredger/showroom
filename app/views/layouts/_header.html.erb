@@ -1,57 +1,56 @@
-<div class="row">
-  <div class="small-12 columns">
-<nav class="globalNav fixed" data-topbar>
-
-    <section class="top-bar-section">
-        <ul class="left">
-          <!--<li>TODO breadcrumbs</li>-->
-        </ul>
-
-        <ul>
-          <li>
+<div class="fixed">
+  <nav class="globalNav top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+      <li class="name">
         <h1><a href="/">SHOWSPACE</a></h1>
       </li>
-          <%= form_tag items_path, method: :get do %>
-              <li><%= select_tag :category, options_for_select(Item.all.collect { |i| i.category1 }.uniq), include_blank: "category" %></li>
-              <li><%= select_tag :designer, options_for_select( Item.all.collect { |i| i.designer }.uniq), include_blank: "designer" %></li>
-              <li><%= text_field_tag "min_price", nil, placeholder: "min price" %></li>
-              <li><%= text_field_tag "max_price", nil, placeholder: "max price" %></li>
-              <li><%= button_tag(type: "submit", class: "btn btn-default") do %>
-                  <i class="fa fa-search"></i> Search
-                <% end %>
-              </li>
-          <% end %>
-        </ul>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
 
-    <!-- Right Nav Section -->
-    <% if user_signed_in? %>
-        <ul class="right inline-list">
-          <li class="divider"></li>
-          <!--<li class="help"><a>Help</a></li>-->
-          <!--<li class="divider"></li>-->
-          <li class="has-dropdown">
-            <a><%= current_user.username %></a>
-            <ul class="dropdown">
-              <li><%= link_to "My Closets", closets_path, id: "my-closets" %></li>
-              <li><%= link_to "My Profile", profile_path, id: "profile" %></li>
-              <!--<li class="About"><a>About</a></li>-->
-              <li><%= link_to("Logout", destroy_user_session_path, :method => "delete") %></li>
-            </ul>
-          </li>
-        </ul>
-    <% else %>
-        <ul class="right">
-          <!--<li class="help"><a>Help</a></li>-->
-          <li class="active"><button data-reveal-id="signup-modal">Sign Up</button></li>
-          <!--<li class="about"><a>About</a></li>-->
-          <li><a href="#" data-reveal-id="login-modal">Log in</a></li>
-        </ul>
-    <% end %>
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+          <ul class="left">
+            <%= form_tag items_path, method: :get do %>
+                <li><%= select_tag :category, options_for_select(Item.all.collect { |i| i.category1 }.uniq), include_blank: "category" %></li>
+                <li><%= select_tag :designer, options_for_select( Item.all.collect { |i| i.designer }.uniq), include_blank: "designer" %></li>
+                <li><%= text_field_tag "min_price", nil, placeholder: "min price" %></li>
+                <li><%= text_field_tag "max_price", nil, placeholder: "max price" %></li>
+                <li><%= button_tag(type: "submit", class: "btn btn-default") do %>
+                    <i class="fa fa-search"></i> Search
+                  <% end %>
+                </li>
+            <% end %>
+          </ul>
 
-    </section>
+      
+      <% if user_signed_in? %>
+          <ul class="right user-menu">
 
-</nav>
+            <!--<li class="help"><a>Help</a></li>-->
+            <!--<li class="divider"></li>-->
+            <li class="has-dropdown">
+              <a><%= current_user.username %></a>
+              <ul class="dropdown">
+                <li><%= link_to "My Closets", closets_path, id: "my-closets" %></li>
+                <li><%= link_to "My Profile", profile_path, id: "profile" %></li>
+                <!--<li class="About"><a>About</a></li>-->
+                <li><%= link_to("Logout", destroy_user_session_path, :method => "delete") %></li>
+              </ul>
+            </li>
+          </ul>
+      <% else %>
+          <ul class="right">
+            <!--<li class="help"><a>Help</a></li>-->
+            <li class="active"><button data-reveal-id="signup-modal">Sign Up</button></li>
+            <!--<li class="about"><a>About</a></li>-->
+            <li><a href="#" data-reveal-id="login-modal">Log in</a></li>
+          </ul>
+      <% end %>
 
+      </section>
+
+  </nav>
+</div>
 <!-- signin modal -->
 <% if !user_signed_in? %>
   <div id="login-modal" class="reveal-modal" data-reveal>
@@ -67,5 +66,3 @@
       <a class="close-reveal-modal">&#215;</a>
     </div>
 <% end %>
-</div>
-</div>
