@@ -101,23 +101,23 @@ class Item < ActiveRecord::Base
         score = 0
         notes = ""
 
-        if self.sku == check_item.sku && !self.sku.blank?
+        if !self.sku.blank? && self.sku == check_item.sku
           score += 100
           notes += "sku, "
         end
-        if self.product_name == check_item.product_name && !self.product_name.blank?
+        if !self.product_name.blank? && self.product_name == check_item.product_name
           score += 70
           notes += "product_name, "
         end
-        if self.price_cents == check_item.price_cents && !self.price_cents.blank?
+        if !self.price_cents.blank? && self.price_cents == check_item.price_cents
           score += 35
           notes += "price, "
         end
-        if self.designer == check_item.designer && !self.designer.blank?
+        if !self.designer.blank? && self.designer == check_item.designer
           score += 20
           notes += "designer, "
         end
-        if self.category1 == check_item.category1  && !self.category1.blank?
+        if !self.category1.blank? && self.category1 == check_item.category1
           score += 15
           notes += "category, "
         end

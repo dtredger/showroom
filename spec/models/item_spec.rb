@@ -115,18 +115,16 @@ RSpec.describe Item, :type => :model do
           it { expect(new_item.duplicate_warnings.first[:match_score]).to eq(100) }
           it { expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("sku") }
         end
+      end
 
+      context "minor match criteria" do
         describe "product_name match" do
           let(:new_item) { FactoryGirl.create(:unique_item) }
           before { new_item.update(store_name: "item_one store", product_name: "item_one product name") }
 
-          it { expect(new_item.duplicate_warnings.length).to eq(1) }
-          it { expect(new_item.duplicate_warnings.first[:match_score]).to eq(70) }
-          it { expect(new_item.duplicate_warnings.first[:warning_notes]).to eq("product_name") }
+          it("does not create warning") { expect(new_item.duplicate_warnings.length).to eq(1) }
         end
-      end
 
-      context "minor match criteria" do
         describe "designer match" do
           it "does not create warning" do
             new_item = FactoryGirl.create(:unique_item, designer: "item_one designer")
