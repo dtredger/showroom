@@ -6,10 +6,10 @@
             <div class="medium-6 columns new-closet-item inactive">
               <span class="item-taken">Item already in this closet</span>
           <% else %>
-            <div class="medium-6 columns new-closet-item">
+            <div class="medium-6 columns new-closet-item" data-equalizer>
           <% end %>
                 <%= form_for @closets_item, remote: true do |f| %>
-                  <div class="panel new-item-panel">
+                  <div class="panel new-item-panel" data-equalizer-watch>
                       <span class="panel-header">
                           <p>
                             <%= closet.summary %> |

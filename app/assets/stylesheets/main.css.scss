@@ -1,6 +1,7 @@
 .top-bar .name h1 a {
   color: #333;
   padding-top: 15px;
+  font-weight: 100;
 }
 
 .globalNav {
@@ -21,7 +22,6 @@
     margin-top: 15px;
   }
   h1 {
-    font-weight: 100;
     font-size: 24pt;
     font-family: 'Josefin Sans', sans-serif;
     margin-top: 1px;
@@ -52,13 +52,16 @@
 }
 
 h1, h2 {
-  font-weight: lighter;
+  font-weight: 100;
+}
+
+.main-section {
+  margin-top: 40px;
 }
 
 .top-bar-section ul li > button {
   background-color: #3F3F3F;
   padding-bottom: 10px;
-  padding-top: 10px;
 }
 
 .top-bar-section ul li > a {
@@ -75,6 +78,10 @@ h1, h2 {
 
 .top-bar-section li:not(.has-form) a:not(.button) {
   line-height: 1.9125rem;
+}
+
+.top-bar .toggle-topbar.menu-icon {
+  margin-top: -7px;
 }
 
 #items {
