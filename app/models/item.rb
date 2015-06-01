@@ -93,35 +93,41 @@ class Item < ActiveRecord::Base
 
   def check_for_duplicate
     if self.store_name
-      check_items = Item.where(store_name: self.store_name).where.not(id: self.id)
-      score = 0
-      notes = ""
+      check_items = Item.where(store_name: self.store_name)
+                        .where.not(id: self.id)
+
+      warning_count = 0
       check_items.each do |check_item|
-        if self.sku == check_item.sku
+        score = 0
+        notes = ""
+
+        if self.sku == check_item.sku && !self.sku.blank?
           score += 100
           notes += "sku, "
         end
-        if self.product_name == check_item.product_name
+        if self.product_name == check_item.product_name && !self.product_name.blank?
           score += 70
           notes += "product_name, "
         end
-        if self.price_cents == check_item.price_cents
+        if self.price_cents == check_item.price_cents && !self.price_cents.blank?
           score += 35
           notes += "price, "
         end
-        if self.designer == check_item.designer
+        if self.designer == check_item.designer && !self.designer.blank?
           score += 20
           notes += "designer, "
         end
-        if self.category1 == check_item.category1
+        if self.category1 == check_item.category1  && !self.category1.blank?
           score += 15
           notes += "category, "
         end
-        if score >= 70
+        if score >= 100
           notes = notes[0..-3] if notes.last(2) == ", "
           self.duplicate_warnings.create(existing_item_id: check_item.id,
               match_score: score,
               warning_notes: notes)
+          warning_count += 1
+          break if warning_count > 2
         end
       end
     end
