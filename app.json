@@ -1,0 +1,6 @@
+{
+  "name": "Showspace",
+  "description": "Product saving dashboard",
+  "image": "heroku/ruby",
+  "addons": [ "heroku-postgresql" ]
+}

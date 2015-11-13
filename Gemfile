@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.1'
+# ruby '2.1.1'
 
 gem 'rails', '>= 4.2'
 
@@ -49,6 +49,8 @@ gem 'newrelic_rpm'
 gem 'friendly_id', require: 'friendly_id'
 gem 'breadcrumbs_on_rails'
 
+gem 'active_model_serializers'
+
 group :development, :test do
 	gem 'pry-rails'
   gem 'annotate'
@@ -65,8 +67,8 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'rspec-rails'
-  gem 'capybara'
-  gem 'capybara-webkit'
+  # gem 'capybara'
+  # gem 'capybara-webkit'
   gem 'factory_girl_rails'
   gem 'rspec-collection_matchers'
   gem 'guard'

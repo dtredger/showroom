@@ -1,0 +1,44 @@
+web:
+  build: .
+  command: bundle exec rails s -b '0.0.0.0'
+  # command: 'bash -c ''bundle exec unicorn -p $PORT -c ./config/unicorn.rb'''
+  volumes:
+    - .:/myapp
+  environment:
+    DB_PASSWORD: s3cr1t
+    DB_HOST_ADDR: 192.168.99.100
+    DB_PORT: 5432
+    # PORT: 8080
+    # DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/postgres'
+  ports:
+    - '3000:3000'
+  links:
+    - postgresql
+
+redis:
+  image: redis
+  command: 'bash -c ''redis-server'''
+  working_dir: /app/user
+  environment:
+    DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/postgres'
+  links:
+    - postgresql
+#
+# shell:
+#   build: .
+#   command: bash
+#   working_dir: /app/user
+#   environment:
+#     PORT: 8080
+#     DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/postgres'
+#   ports:
+#     - '8080:8080'
+#   links:
+#     - herokuPostgresql
+#   volumes:
+#     - '.:/app/user'
+
+postgresql:
+  image: postgres
+  ports:
+    - '5432:5432'
