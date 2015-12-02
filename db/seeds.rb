@@ -16,7 +16,7 @@ IMG_PATH = Rails.root.join("public/images/doge_log.gif")
 IMG_2_PATH = Rails.root.join("public/images/lemongrab2.png")
 # SUIT_IMG_ROOT = Rails.root.join("public/images/suit_sample_#{i}.jpg")
 
-(1..10).each do |i|
+(10..20).each do |i|
   calculated_state = i % 5 == 0 ? "retired" : "live"
   item = Item.create!(
       product_link: "http://product_link.com/item_#{i}",
