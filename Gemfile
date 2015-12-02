@@ -49,7 +49,9 @@ gem 'newrelic_rpm'
 gem 'friendly_id', require: 'friendly_id'
 gem 'breadcrumbs_on_rails'
 
-gem 'active_model_serializers'
+gem 'active_model_serializers' #, '>= 0.10'
+
+gem 'rack-cors'
 
 group :development, :test do
 	gem 'pry-rails'
@@ -80,5 +82,3 @@ end
 group :production, :staging do
   gem 'rails_12factor'
 end
-
-
