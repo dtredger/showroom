@@ -38,6 +38,7 @@
 
 #secret
 .secret
+.env
 
 # pipe down in there, redis
 stdout

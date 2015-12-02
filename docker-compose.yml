@@ -4,6 +4,7 @@ web:
   # command: 'bash -c ''bundle exec unicorn -p $PORT -c ./config/unicorn.rb'''
   volumes:
     - .:/myapp
+  env_file: .env
   environment:
     DB_PASSWORD: s3cr1t
     DB_HOST_ADDR: 192.168.99.100
